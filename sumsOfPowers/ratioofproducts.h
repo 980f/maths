@@ -124,7 +124,6 @@ public:
   /** handy for creating const ratioes */
   RatioOfProducts(int n,int d);
 
-
   /** try to reduce number of terms by 'cancelling' terms common to num and denom. */
   void reduce(int howhardtotry=0);
 

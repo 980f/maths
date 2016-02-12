@@ -3,14 +3,13 @@
 /** number of powers for which the polynomial is builtin*/
 static const int intrinsicCoeffs=2;
 
-SumPowersPoly::SumPowersPoly(int power):
+SumPowersPoly::SumPowersPoly(unsigned power):
   power(power),
   firsterm(1,power+1),
   numCoeffs((power-2)/2)
 {
   coeffs.reserve(numCoeffs);
   //we will call the factory and as such with recurse into this constructor.
-  //for ease of debug we make the core of the construction a seperate function that can be called by a unit tester.
   if(power>1){
 
   } else {
@@ -19,7 +18,7 @@ SumPowersPoly::SumPowersPoly(int power):
   }
 }
 
-const SumPowersPoly &SumPowersPoly::factory(int power)
+const SumPowersPoly &SumPowersPoly::factory(unsigned power)
 {
   //if we already have constructed one return it
   if(power< cache.size()){
@@ -65,12 +64,12 @@ int SumPowersPoly::sum(int n, int *higherpower) const
         return (n+nsquared)>>1;//ignoring firsterm as we know it is == 1/2.
     }
 
-    double summer=0;
+    Rational summer;
     int poweredup=(power&1)?nsquared:n;//odd powers have a higher power of n in each term than their sibling even one
-    // if we have
+//     if we have
     for(int x=numCoeffs;x-->0;){
 
-        summer+=coeffs[x]*poweredup;;
+        //summer+=coeffs[x]*poweredup;;
         if(x){//all but last iteration boost the power
             poweredup*=nsquared;
         }

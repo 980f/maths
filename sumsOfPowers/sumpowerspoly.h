@@ -20,13 +20,13 @@ class SumPowersPoly
     const int numCoeffs;
     /** the non-trivial coefficients, i.e. those that are not embedded inline */
     vector<const Rational> coeffs;
-    /** the constructor is very non-trivial, it may create many other objects of this class before creating the requested one.
-        if @param power is negative the constructed object always returns -1 for its sum. Hopefully that will blow your code badly enough for you to find your error */
-    SumPowersPoly(int power);
+private: //only the factory knows when one should be created.
+    /** the constructor is very non-trivial, it may create many other objects of this class before creating the requested one.*/
+    SumPowersPoly(unsigned power);
 public:
     /** because all methods are const and we cache all created objects we don't offer a constructor, just a factory that returns references to shared objects.
     This may cause many constructions and reallocations so you might want to get a factory object for the largest power that you might use early in your application's execution.*/
-    static const SumPowersPoly& factory(int power);
+    static const SumPowersPoly& factory(unsigned power);
   /** @returns sum of integers raised to the constructed power @param n highest integer.
       using int instead of unsigned to detect erroneous use, instead of computing a number that would overflow. For negative values the sum will be 0, a fairly silent failure.
       return int instead of long because we will likely have internal overflows before we get close to a sum that requires it, unless we use longs througout which we won't
