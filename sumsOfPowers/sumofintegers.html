@@ -166,6 +166,7 @@
     equations for the coefficient of&nbsp;<math><!--n^k--><mstyle  displaystyle="true"><msup><mi>n</mi><mi>k</mi></msup></mstyle></math>
     where k=0..r+1 <br>
     <br>
+    <b> </b>
     <table  style="text-align:left;"  vertical-align:=""  middle;=""  cellpadding="2"
        cellspacing="2">
       <tbody>
@@ -477,9 +478,9 @@
           <td>12b</td>
           <td><br>
           </td>
-          <td><math><!--b_(r-1)--><mstyle  displaystyle="true"><msub><mi>b</mi><mrow><mi>r,r</mi><mo>-</mo><mn>1</mn></mrow></msub></mstyle></math></td>
-          <td>=</td>
-          <td><math><!--r/12--><mstyle  displaystyle="true"><mfrac><mi>r</mi><mn>12</mn></mfrac></mstyle></math></td>
+          <td><span  style="font-weight: bold;"><math><!--b_(r-1)--><mstyle  displaystyle="true"><msub><mi>b</mi><mrow><mi>r,r</mi><mo>-</mo><mn>1</mn></mrow></msub></mstyle></math></span></td>
+          <td><span  style="font-weight: bold;">=</span></td>
+          <td><span  style="font-weight: bold;"><math><!--r/12--><mstyle  displaystyle="true"><mfrac><mi><b>r</b></mi><mn>12</mn></mfrac></mstyle></math></span></td>
           <td><br>
           </td>
         </tr>
@@ -528,9 +529,8 @@
       <tbody>
         <tr>
           <td>13</td>
-          <td><math><mstyle  displaystyle="true"><mrow><munderover><mo></mo><mrow><mi></mi><mo></mo><mi></mi><mo></mo><mn></mn></mrow><mrow><mi></mi><mo></mo><mn></mn></mrow></munderover></mrow><msub><mi></mi><mi></mi></msub><mo></mo><mfrac><mrow><mi>j</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow><mrow><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math></td>
-          <td><span  style="font-family: MathJax_Main,STIXGeneral,Cambria,Cambria Math,XITS,Latin Modern Math,DejaVu Serif,DejaVu Sans,Times,Lucida Sans Unicode,OpenSymbol,Standard Symbols L,serif;">=</span><math><mstyle
-                 displaystyle="true"><mo></mo></mstyle></math></td>
+          <td><math><mstyle  displaystyle="true"><mfrac><mrow><mi>j</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow><mrow><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math></td>
+          <td>=</td>
           <td>
             <math><mstyle  displaystyle="true"><mo></mo><mfrac><mrow><mi></mi><mo>(r+1-q)!</mo><mi>q</mi><mo>!</mo></mrow><mrow><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>q</mi><mo>)</mo></mrow><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>q</mi><mo>)</mo></mrow><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math></td>
           <td>replace p with r-q<br>
@@ -1000,8 +1000,126 @@
     </table>
     <br>
     <br>
-    That 'expression' also is zero for even values of our 'q' index. Which
-    means, that<sub> </sub>b<sub>R-2k </sub>= 0 for k&gt;=1.
+    <table  border="0">
+      <tbody>
+        <tr>
+          <td>20a</td>
+          <td><math><!--b_[r,r-p]--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><msub><mi>b</mi><mrow><mi>r</mi><mo>,</mo><mi>r</mi><mo>-</mo><mi>p</mi></mrow></msub></mstyle></math></td>
+          <td><math><!---=--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
+                 mathsize=""><mo>≡</mo></mstyle></math></td>
+          <td><math><!--C_[r,p] / F_[r,p]--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><mfrac><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>p</mi></mrow></msub><msub><mi>F</mi><mrow><mi></mi><mo></mo><mi>p</mi></mrow></msub></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td>where&nbsp;<math><!--F_[r,p]--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><msub><mi>F</mi><mrow><mi></mi><mo></mo><mi>p</mi></mrow></msub></mstyle></math>
+            is some integer</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>20b</td>
+          <td><math><!--b_[r+1,(r+1)-p]--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><msub><mi>b</mi><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>,</mo><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mo>-</mo><mi>p</mi></mrow></msub></mstyle></math></td>
+          <td>=</td>
+          <td><math><!--C_[r+1,p] / F_[r+1,p]--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><mfrac><msub><mi>C</mi><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>p</mi></mrow></msub><msub><mi>F</mi><mrow><mi></mi><mo></mo><mn></mn><mo></mo><mi>p</mi></mrow></msub></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>20c</td>
+          <td><math><!--b_[r+1,(r+1)-p] / b_[r,r-p]--><mstyle  displaystyle="true"
+                 fontfamily=""  mathcolor=""  mathsize=""><mfrac><msub><mi>b</mi><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>,</mo><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mo>-</mo><mi>p</mi></mrow></msub><msub><mi>b</mi><mrow><mi>r</mi><mo>,</mo><mi>r</mi><mo>-</mo><mi>p</mi></mrow></msub></mfrac></mstyle></math>&nbsp;</td>
+          <td>=</td>
+          <td><math><!--[C_[r+1,p] / F_[r+1,p] ]/[C_[r,p] / F_[r,p]]--><mstyle  displaystyle="true"
+                 fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mfrac><msub><mi>C</mi><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>p</mi></mrow></msub><msub><mi></mi><mrow><mi></mi><mo></mo><mn></mn><mo></mo><mi>p</mi></mrow></msub></mfrac></mrow><mrow><mfrac><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>p</mi></mrow></msub><msub><mi></mi><mrow><mi></mi><mo></mo><mi>p</mi></mrow></msub></mfrac></mrow></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td>20b/20a</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><!--C_[r+1,p] /C_[r,p] --><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><mfrac><msub><mi>C</mi><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>,</mo><mi>p</mi></mrow></msub><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>p</mi></mrow></msub></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><!--[(r+1)!(r-p)!]/[r!(r+1-p)!]--><mstyle  displaystyle="true"
+                 fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow><mrow><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td>expand C in terms of factorials, p! from each cancel out</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><!--[(r+1)*r!(r-p)!]/[r!(r+1-p)*(r-p)!]--><mstyle  displaystyle="true"
+                 fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mo>⋅</mo><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow><mrow><mi>r</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>⋅</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>p</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td>extract highest term from some of the factorials</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><!--(r+1)/(r+1-p)--><mstyle  displaystyle="true"  fontfamily=""
+                 mathcolor=""  mathsize=""><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>p</mi></mrow></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>b_[r+1,(r+1)-p] </td>
+          <td>=</td>
+          <td><math><!--b_[r,r-p] * (r+1)/(r+1-p)--><mstyle  displaystyle="true"
+                 fontfamily=""  mathcolor=""  mathsize=""><msub><mi>b</mi><mrow><mi>r</mi><mo>,</mo><mi>r</mi><mo>-</mo><mi>p</mi></mrow></msub><mo>⋅</mo><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>r</mi><mo>+</mo><mn>1</mn><mo>-</mo><mi>p</mi></mrow></mfrac></mstyle></math></td>
+          <td><br>
+          </td>
+          <td>recursive formula for computing the coefficients.</td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
     <hr>
     <h4>Checking the formulae</h4>
     The column headers are derived from the algebra, the inline comments at the
@@ -1021,19 +1139,19 @@
           </td>
         </tr>
         <tr>
-          <td>0</td>
+          <td  style="text-align: right;">0</td>
           <td>n</td>
           <td  colspan="6"  rowspan="1"><br>
           </td>
         </tr>
         <tr>
-          <td>1</td>
+          <td  style="text-align: right;">1</td>
           <td  style="font-family:monospace;">1/2n<sup>2</sup></td>
           <td  style="font-family:monospace;">+1/2n</td>
           <td  style="font-family:monospace;"  colspan="5">1-1/2 = 1/2</td>
         </tr>
         <tr>
-          <td>2</td>
+          <td  style="text-align: right;">2</td>
           <td  style="font-family:monospace;">1/3n<sup>3</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>2</sup></td>
           <td  style="font-family:monospace;">+ 1/6n</td>
@@ -1043,13 +1161,13 @@
                  mathcolor=""  mathsize=""><mrow><mo>(</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>)</mo></mrow><mo>⋅</mo><mfrac><mn>1</mn><mn>6</mn></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle></math></td>
         </tr>
         <tr>
-          <td>3</td>
+          <td  style="text-align: right;">3</td>
           <td  style="font-family:monospace;">1/4n<sup>4</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>3</sup></td>
           <td  style="font-family:monospace;">+ 1/4n<sup>2</sup></td>
         </tr>
         <tr>
-          <td>4</td>
+          <td  style="text-align: right;">4</td>
           <td  style="font-family:monospace;">1/5n<sup>5</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>4</sup></td>
           <td  style="font-family:monospace;">+ 1/3n<sup>3</sup></td>
@@ -1060,14 +1178,14 @@
                  mathcolor=""  mathsize=""><mrow><mo>(</mo><mfrac><mn>5</mn><mrow><mn>5</mn><mo>-</mo><mn>3</mn></mrow></mfrac><mo>)</mo></mrow><mo>⋅</mo><mrow><mo>(</mo><mfrac><mn>1</mn><mn>30</mn></mfrac><mo>)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>12</mn></mfrac></mstyle></math></td>
         </tr>
         <tr>
-          <td>5</td>
+          <td  style="text-align: right;">5</td>
           <td  style="font-family:monospace;">1/6n<sup>6</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>5</sup></td>
           <td  style="font-family:monospace;">+ 5/12n<sup>4</sup></td>
           <td  style="font-family:monospace;">− 1/12n<sup>2</sup></td>
         </tr>
         <tr>
-          <td>6</td>
+          <td  style="text-align: right;">6</td>
           <td  style="font-family:monospace;">1/7n<sup>7</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>6</sup></td>
           <td  style="font-family:monospace;">+ 1/2n<sup>5</sup></td>
@@ -1079,7 +1197,7 @@
                  mathcolor=""  mathsize=""><mrow><mo>(</mo><mfrac><mn>7</mn><mrow><mn>7</mn><mo>-</mo><mn>5</mn></mrow></mfrac><mo>)</mo></mrow><mo>⋅</mo><mfrac><mn>1</mn><mn>42</mn></mfrac><mo>=</mo><mfrac><mn>1</mn><mn>12</mn></mfrac></mstyle></math></td>
         </tr>
         <tr>
-          <td>7</td>
+          <td  style="text-align: right;">7</td>
           <td  style="font-family:monospace;">1/8n<sup>8</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>7</sup></td>
           <td  style="font-family:monospace;">+ 7/12n<sup>6</sup></td>
@@ -1087,7 +1205,7 @@
           <td  style="font-family:monospace;">+ 1/12 n<sup>2</sup></td>
         </tr>
         <tr>
-          <td>8</td>
+          <td  style="text-align: right;">8</td>
           <td  style="font-family:monospace;">1/9n<sup>9</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>8</sup></td>
           <td  style="font-family:monospace;">+ 2/3n<sup>7</sup></td>
@@ -1098,7 +1216,7 @@
                  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mn>1</mn><mo>-</mo><mrow><mo>(</mo><mfrac><mn>1</mn><mn>9</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>-</mo><mfrac><mn>7</mn><mn>15</mn></mfrac><mo>+</mo><mfrac><mn>2</mn><mn>9</mn></mfrac><mo>)</mo></mrow><mo>=</mo><mfrac><mrow><mn>90</mn><mo>-</mo><mn>10</mn><mo>-</mo><mn>45</mn><mo>-</mo><mn>60</mn><mo>+</mo><mn>42</mn><mo>-</mo><mn>20</mn></mrow><mn>90</mn></mfrac><mo>=</mo><mo>-</mo><mfrac><mn>3</mn><mn>90</mn></mfrac><mo>=</mo><mo>-</mo><mfrac><mn>1</mn><mn>30</mn></mfrac></mstyle></math></td>
         </tr>
         <tr>
-          <td>9</td>
+          <td  style="text-align: right;">9</td>
           <td  style="font-family:monospace;">1/10n<sup>10</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>9</sup></td>
           <td  style="font-family:monospace;">+ 3/4n<sup>8</sup></td>
@@ -1108,7 +1226,7 @@
           <td  style="font-family:monospace;">- 3/20n<sup>2</sup></td>
         </tr>
         <tr>
-          <td>10</td>
+          <td  style="text-align: right;">10</td>
           <td  style="font-family:monospace;">1/11n<sup>11</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>10</sup></td>
           <td  style="font-family:monospace;">+ 5/6n<sup>9</sup></td>
@@ -1118,7 +1236,7 @@
           <td  style="font-family:monospace;">+ 5/66n</td>
         </tr>
         <tr>
-          <td>11</td>
+          <td  style="text-align: right;">11</td>
           <td  style="font-family:monospace;">1/12n<sup>12</sup></td>
           <td  style="font-family:monospace;">+1/2n<sup>11</sup></td>
           <td  style="font-family:monospace;">+11/12n<sup>10</sup></td>
@@ -1152,7 +1270,8 @@
         (= Bournoulli number (row) )</li>
     </ol>
     <hr>
-    <h3>Direct computation of coefficients, without computing those of lower orders</h3>
+    <h3>Direct computation of coefficients, without computing those of lower
+      orders</h3>
     If you don't need all the lower order Sk's then use this method, derived by
     T.J. Pfaff from combinatorial reasoning. <br>
     Pfaff's method counts combinations via two different approaches and shows
@@ -1591,187 +1710,6 @@ coefficient(row,row-1)=1/2-1/(row+1)-sum(col=1..row-3){coefficient(row,col)}</li
     <hr> If you don't need all the lower order Sk's then use this method,
     derived by T.J. Pfaff from combinatorial reasoning. Pfaff's method counts
     combinations via two different approaches and shows that they are equal.
-    <table  style="text-align:left;"  cellpadding="2"  cellspacing="2">
-      <tbody>
-        <tr>
-          <td><br>
-          </td>
-          <td>S<sub>k</sub>(n)</td>
-          <td>=</td>
-          <td>Sum [j=1 .. k]{ Sum[i=0..j] {(-1)<sup>j-i</sup> i<sup>k</sup>Cj,iC<sub>n+1,j+1</sub>}}</td>
-          <td><br>
-          </td>
-          <td>TJ Pfaff</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>if k&gt;0</td>
-          <td>=</td>
-          <td>Sum [j=1 .. k]{ C<sub>n+1,j+1 * </sub>Sum[i=1..j] {(-1)<sup>j-i</sup>
-            i<sup>k</sup>Cj,i}}</td>
-          <td><br>
-          </td>
-          <td>can drop useless 0 term of inner sumand move term that doesn't
-            depend upon sum outside of the sum</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>S<sub>1</sub>(n)</td>
-          <td>=</td>
-          <td>Sum [j=1 .. 1]{ C<sub>n+1,j+1 * </sub>Sum[i=1..j] {(-1)<sup>j-i</sup>
-            i<sup>1</sup>Cj,i}}</td>
-          <td><br>
-          </td>
-          <td>k-&gt;1</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>C<sub>n+1,1+1 * </sub>Sum[i=1..1] {(-1)<sup>1-i</sup> i<sup>1</sup>C1,i}</td>
-          <td><br>
-          </td>
-          <td>expand sum over j</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>C<sub>n+1,2 * </sub>(-1)<sup>1-1</sup> 1C<sub>1,1</sub></td>
-          <td><br>
-          </td>
-          <td>expand sums over i</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>C<sub>n+1,2</sub> = (n+1)(n)/2</td>
-          <td><br>
-          </td>
-          <td>correct!</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>S<sub>2</sub>(n)</td>
-          <td>=</td>
-          <td>Sum [j=1 .. 2]{ Sum[i=1..j] {(-1)<sup>j-i</sup> i<sup>2</sup>Cj,iC<sub>n+1,j+1</sub>}}</td>
-          <td><br>
-          </td>
-          <td>R-&gt;2</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>C<sub>n+1,1+1 </sub>* Sum[i=1..1] {(-1)<sup>1-i</sup> i<sup>2</sup>C<sub>1</sub>,i}+C<sub>n+1,2+1
-              </sub>* Sum[i=1..2] {(-1)<sup>2-i</sup> i<sup>2</sup>C2,i}</td>
-          <td><br>
-          </td>
-          <td>expand sum over j</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>Cn+1,2* (-1)<sup>1-1</sup> 1<sup>2</sup>C<sub>1</sub>,<sub>1</sub><sub>
-            </sub>+C<sub>n+1,3</sub> * ((-1)<sup>2-1</sup> 1<sup>2</sup>C<sub>2,1</sub>
-            +(-1)<sup>2-2</sup> 2<sup>2</sup>C<sub>2,2</sub> )</td>
-          <td><br>
-          </td>
-          <td>expand sums over i</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>C<sub>n+1,2 </sub>+ C<sub>n+1,3 </sub>*(-2+ 4)</td>
-          <td><br>
-          </td>
-          <td>simple reductions</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>C<sub>n+1,2 </sub>+2*C<sub>n+1,2</sub> * (n-1)/3<span  style="text-decoration:line-through;">
-            </span></td>
-          <td><br>
-          </td>
-          <td>Cx,r+1 = Cx,r (x-r)/(r+1)</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>C<sub>n+1,2 </sub>*(1+(2*(n-1)/3)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>C<sub>n+1,2 </sub>*(3+2n-2)/3)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>C<sub>n+1,2 </sub>*(2n+1)/3</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>n(n+1)*(2n+1)/(2*3)</td>
-          <td><br>
-          </td>
-          <td>correct!</td>
-        </tr>
-      </tbody>
-    </table>
     <hr> Pfaff's approach readily generates the expressions factored.
     <table  style="text-align:left;"  border="1"  cellpadding="2"  cellspacing="2">
       <tbody>
@@ -1853,10 +1791,8 @@ coefficient(row,row-1)=1/2-1/(row+1)-sum(col=1..row-3){coefficient(row,col)}</li
       <li>all sums for R&gt;0 are also divisible by (n+1).</li>
       <li>all sums for Even R&gt;0 are divisible by S<sub>2</sub>: S<sub>2k</sub>(n)=S<sub>2</sub>(n)R<sub>k</sub>(n)
         where R<sub>k</sub>(n) is a polynomial of degree 2*(k-1).</li>
-      <li>all sums for Odd R&gt;3 are divisible by S<sub>3</sub>: S<sub>2k+1</sub>(n)=S<sub>3</sub>(n)*T<sub><span
-             style="text-decoration:line-through;">k</span></sub>(n) where T<sub><span
-             style="text-decoration:line-through;">k</span></sub>(n) is a
-        polynomial of degree 2*k.</li>
+      <li>all sums for Odd R&gt;3 are divisible by S<sub>3</sub>: S<sub>2k+1</sub>(n)=S<sub>3</sub>(n)*T<sub>k</sub>(n)
+        where T<sub>k</sub>(n) is a polynomial of degree 2*k.</li>
     </ul>
     <hr>
   </body>
