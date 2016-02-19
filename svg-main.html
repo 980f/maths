@@ -1,0 +1,1272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta  content="text/html; charset=iso-8859-1"  http-equiv="content-type">
+    <meta  name="GENERATOR"  content="Mozilla/4.03 [en] (Win95; I) [Netscape]">
+    <meta  name="AUTHOR"  content="Andy Heilveil">
+    <title>SVG filtering</title>
+  </head>
+  <body>
+    <h2><span  style="font-weight: bold;"></span>SAVITSKY-GOLAY FILTERING</h2>
+    <hr><a  href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a>
+    FILTERING is a moving least squares fit of a set of integer indexed data to
+    a polynomial of that integer index.
+    <p>Define y[i] as the data to be fitted over a range of -<i>h</i> to + <i>h</i>
+      around each 'i'. "<span  style="font-style: italic;">h</span>" is mnemonic
+      for "Halfwidth". Use of an odd length range yields significant numerical
+      benefits. Given that reasonable use will have many more points in its <span
+         style="font-style: italic;">±</span><i>h</i> range than polynomial
+      coefficients, the exact value of the range should not be important,
+      allowing us our choice of always having an odd length range. </p>
+    <p>We seek coefficients at each point in the range of y of a polynomial of
+      degree r, positive r's only please! This is a reasonable restriction if
+      the function being modeled by the polynomial is differentiable at least r
+      times. In that case it has a Taylor's series, and the fitted polynomial is
+      the best guess to the Taylor series' coefficients. </p>
+    <p>We will limit ourselves to finding coefficients in the reduced range of
+      y[] made by skipping the first and last <i>h</i> points. The actual
+      distribution of missing points can be modified at great intellectual
+      expense, and minor benefit. Let us not diverge into the equivalent of
+      analytical continuation as is done in discrete Fourier analysis. </p>
+    <p>Denote polynomial terms: </p>
+    <div  style="margin-left: 40px;"> A(i): = a<sub>0</sub>+i*a<sub>1</sub>+i<sup>2</sup>*a<sub>2</sub>+...&nbsp;<math><!--= sum_[k=0]^r [i^k a_k]--><mstyle
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><mrow><mo>[</mo><msup><mi>i</mi><mi>k</mi></msup><msub><mi>a</mi><mi>k</mi></msub><mo>]</mo></mrow></mstyle></math>
+    </div>
+    <p>Least Squares fitting assigns the various derivatives of the square of a
+      difference by the terms to be fitted to zero, then simultaneously solves
+      all of these equations. The sum to minimize&nbsp; is: </p>
+    <div  style="margin-left: 40px;">
+      <math><!--sum_[i=-h]^h (A(i)-y_i)^2--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></div>
+    <br>
+    The derivative of a square is the term times 2 times its derivative. We can
+    ignore the factor of 2 as we will be solving for where the derivative equals
+    0. Note that the derivatives we speak of are with respect to a<sub>k</sub>,
+    not i. Each of these is simply a power of i: <tt><br>
+    </tt>
+    <div  style="margin-left: 40px;">EQN(p;p=0 to r):=&nbsp;
+      <math><!--sum_[i=-h]^[+h] (A(i)-y_i)i^p =0--><mstyle  displaystyle="true"
+           fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mn>0</mn></mstyle></math></div>
+    Rearrange that to be: <br>
+    <div  style="margin-left: 40px;"> EQN(p;p=0 to r):=&nbsp;<math><!--sum_[i=-h]^h A(i) * i^p = sum_[i=-h]^h y_i * i^p--><mstyle
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msub><mi>y</mi><mi>i</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
+    <br>
+    Here is the matrix for the solution of simultaneous linear equations (shown
+    for degree of 3), leaving out the symbol for summation over i from -h to h:<br>
+    <br>
+    <table  style="margin-left: 40px;"  border="3">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top; font-weight: bold;">Eqn<br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <th>a<sub>0</sub></th>
+          <th>a<sub>1</sub></th>
+          <th>a<sub>2</sub></th>
+          <th>a<sub>3</sub></th>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <th>y</th>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top; font-weight: bold;">0<br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td>i<sup>0</sup>*i<sup>0</sup></td>
+          <td>i<sup>0</sup>*i<sup>1</sup></td>
+          <td>i<sup>0</sup>*i<sup>2</sup></td>
+          <td>i<sup>0</sup>*i<sup>3</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>0</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top; font-weight: bold;">1<br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td>i<sup>1</sup>*i<sup>0</sup></td>
+          <td>i<sup>1</sup>*i<sup>1</sup></td>
+          <td>i<sup>1</sup>*i<sup>2</sup></td>
+          <td>i<sup>1</sup>*i<sup>3</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>1</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top; font-weight: bold;">2<br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td>i<sup>2</sup>*i<sup>0</sup></td>
+          <td>i<sup>2</sup>*i<sup>1</sup></td>
+          <td>i<sup>2</sup>*i<sup>2</sup></td>
+          <td>i<sup>2</sup>*i<sup>3</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>2</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top; font-weight: bold;">3<br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td>i<sup>3</sup>*i<sup>0</sup></td>
+          <td>i<sup>3</sup>*i<sup>1</sup></td>
+          <td>i<sup>3</sup>*i<sup>2</sup></td>
+          <td>i<sup>3</sup>*i<sup>3</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>3</sup>*y<sub>i</sub></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Merging powers of i that are due to the polynomial with those that are due
+    to the differentiation we get a diagonally symmetrical matrix of the powers
+    of i, where the power = row+column, starting each index at zero (very
+    convenient for 'C' programmers!).<br>
+    <br>
+    <table  style="margin-left: 40px;"  border="3">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+          </td>
+          <th>a<sub>0</sub></th>
+          <th>a<sub>1</sub></th>
+          <th>a<sub>2</sub></th>
+          <th>a<sub>3</sub></th>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <th>y</th>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+          </td>
+          <td>i<sup>0</sup></td>
+          <td>i<sup>1</sup></td>
+          <td>i<sup>2</sup></td>
+          <td>i<sup>3</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>0</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+          </td>
+          <td>i<sup>1</sup></td>
+          <td>i<sup>2</sup></td>
+          <td>i<sup>3</sup></td>
+          <td>i<sup>4</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>1</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+          </td>
+          <td>i<sup>2</sup></td>
+          <td>i<sup>3</sup></td>
+          <td>i<sup>4</sup></td>
+          <td>i<sup>5</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>2</sup>*y<sub>i</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+          </td>
+          <td>i<sup>3</sup></td>
+          <td>i<sup>4</sup></td>
+          <td>i<sup>5</sup></td>
+          <td>i<sup>6</sup></td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>i<sup>3</sup>*y<sub>i</sub></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><br>
+      Now I have been leaving out the summation symbol but each of the above
+      items is summed from -<i>h</i> to <i>h</i>. Note that the sum of an odd
+      function over this range is zero, revealing why we chose the restrictions
+      of an index range symmetric around 0. This means that every other term in
+      the powers-of-i matrix is zero, making a checkerboard where even elements
+      are sums of even powers of the integers and odd elements are zero. Note
+      the additional symmetry of the counter-diagonals.<br>
+      <br>
+      <table  style="margin-left: 40px;"  border="3">
+        <tbody>
+          <tr>
+            <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+            </td>
+            <th>a<sub>0</sub></th>
+            <th>a<sub>1</sub></th>
+            <th>a<sub>2</sub></th>
+            <th>a<sub>3</sub></th>
+            <td  style="vertical-align: top;"><br>
+            </td>
+            <th>y</th>
+          </tr>
+          <tr>
+            <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+            </td>
+            <td>i<sup>0</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>2</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td  style="vertical-align: top;">=<br>
+            </td>
+            <td>i<sup>0</sup>*y</td>
+          </tr>
+          <tr>
+            <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+            </td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>2</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>4</sup></td>
+            <td  style="vertical-align: top;">=<br>
+            </td>
+            <td>i<sup>1</sup>*y</td>
+          </tr>
+          <tr>
+            <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+            </td>
+            <td>i<sup>2</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>4</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td  style="vertical-align: top;">=<br>
+            </td>
+            <td>i<sup>2</sup>*y</td>
+          </tr>
+          <tr>
+            <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+            </td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>4</sup></td>
+            <td  style="background-color: rgb(204, 204, 204);">0</td>
+            <td>i<sup>6</sup></td>
+            <td  style="vertical-align: top;">=<br>
+            </td>
+            <td>i<sup>3</sup>*y</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      The matrix of sums of powers of the integers is what normally is shown as
+      x<sup>T</sup>*x in articles on least squares fitting, where x is the
+      non-square matrix of independent inputs.<br>
+      <br>
+      The number of unique sums of powers of integers for a polynomial of degree
+      r is&nbsp; r+1.</p>
+    <p>Now I introduce some abbreviations to help us solve the simpler cases,
+      using the ratio of determinants method.<br>
+    </p>
+    <p>Master equation shown for orders up to 3:<br>
+    </p>
+    <table  style="text-align: left; margin-left: 40px;"  cellpadding="2"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  colspan="1"  rowspan="2"  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;">Eqn<br>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>0</sub></td>
+                  <td  style="font-weight: bold;">a<sub>1</sub></td>
+                  <td  style="font-weight: bold;">a<sub>2</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+                  </td>
+                  <td>S<sub>0</sub></td>
+                  <td>0</td>
+                  <td>S<sub>2</sub></td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y<sub>0</sub></td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+                  </td>
+                  <td>0</td>
+                  <td>S<sub>2</sub></td>
+                  <td>0</td>
+                  <td  style="vertical-align: top;">S<sub>4</sub><br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y<sub>1</sub></td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+                  </td>
+                  <td>S<sub>2</sub></td>
+                  <td>0</td>
+                  <td>S<sub>4</sub></td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y<sub>2</sub></td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S<sub>4</sub> </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S<sub>6</sub><br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y<sub>3</sub><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;"><math><!--S_R -= sum_[i=-h]^[+h]{i^R}--><mstyle
+                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msub><mi>S</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><mo>}</mo></mrow></mstyle></math><br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><math><!--Y_R -= sum_[i=-h]^[+h] { i^R y_[x+i]}--><mstyle
+                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msub><mi>Y</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><msub><mi>y</mi><mrow><mi>x</mi><mo>+</mo><mi>i</mi></mrow></msub><mo>}</mo></mrow></mstyle></math><br>
+            <br>
+            (S&amp;G used F<sub><span  style="font-weight: bold;">R </span></sub>for
+            this)<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr  style="width: 100%; height: 2px;">
+    <p>The pattern of zeroes allows us to separate the fit problem into two
+      independent smaller problems. <br>
+      Our ordering of rows and columns so far was convenient but is arbitrary,
+      reordering them does not affect the solutions.<br>
+    </p>
+    <table  style="text-align: left;"  border="0"  cellpadding="9"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;">&nbsp;the problem<br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>0</sub></td>
+                  <td  style="font-weight: bold;">a<sub>1</sub></td>
+                  <td  style="font-weight: bold;">a<sub>2</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+                  </td>
+                  <td>S0</td>
+                  <td>0</td>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+                  </td>
+                  <td>0</td>
+                  <td>S2</td>
+                  <td>0</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y1</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+                  </td>
+                  <td>S2</td>
+                  <td>0</td>
+                  <td>S4</td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y2</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">reorder columns<br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>0</sub></td>
+                  <td  style="font-weight: bold;">a<sub>2</sub></td>
+                  <td  style="font-weight: bold;">a<sub>1</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+                  </td>
+                  <td>S0</td>
+                  <td>S2</td>
+                  <td>0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+                  </td>
+                  <td>0</td>
+                  <td>0<br>
+                  </td>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y1</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+                  </td>
+                  <td>S2</td>
+                  <td>S4</td>
+                  <td>0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y2</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S4 </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">reorder rows<br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>0</sub></td>
+                  <td  style="font-weight: bold;">a<sub>2</sub></td>
+                  <td  style="font-weight: bold;">a<sub>1</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+                  </td>
+                  <td>S0</td>
+                  <td>S2</td>
+                  <td>0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+                  </td>
+                  <td>S2</td>
+                  <td>S4 </td>
+                  <td>0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y2</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+                  </td>
+                  <td>0<br>
+                  </td>
+                  <td>0<br>
+                  </td>
+                  <td>S2 </td>
+                  <td  style="vertical-align: top;">S4 </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y1</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">0<br>
+                  </td>
+                  <td  style="vertical-align: top;">S4 </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  colspan="2"  rowspan="1"  style="vertical-align: top;">The above
+            is "block diagonal", each block is independently solvable<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">evens block<br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>0</sub></td>
+                  <td  style="font-weight: bold;">a<sub>2</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">0</span><br>
+                  </td>
+                  <td>S0</td>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">2</span><br>
+                  </td>
+                  <td>S2</td>
+                  <td>S4 </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y2</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">odds block<br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="3"  cellpadding="2"  cellspacing="2">
+              <tbody>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+                  </td>
+                  <td  style="font-weight: bold;">a<sub>1</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
+                  <td  style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td  style="font-weight: bold;">y</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+                  </td>
+                  <td>S2 </td>
+                  <td  style="vertical-align: top;">S4 </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td>Y1</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;"><span  style="font-weight: bold;">3</span><br>
+                  </td>
+                  <td  style="vertical-align: top;">S4 </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">=<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    This separability gives us the fact that half of the formulas generated for
+    one order are identical for the next order up, and the other half for the
+    next order down.<br>
+    <hr  style="width: 100%; height: 2px;">0th order:<br>
+    <table  style="margin-left: 40px;"  border="3"  cellpadding="2"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="font-weight: bold;">a<sub>0</sub></td>
+          <td  style="vertical-align: top; font-weight: bold;"><br>
+          </td>
+          <td  style="font-weight: bold;">y</td>
+        </tr>
+        <tr>
+          <td>S0</td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>Y0</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    I.e.: a<sub>0</sub>*S0=Y0&nbsp; , a<sub>0</sub>=Y0/S0 = simple definition of
+    average, confirming we haven't made some horrible mistake (at least not yet
+    :).<br>
+    <hr  style="width: 100%; height: 2px;">1st order:<br>
+    Two equations, one must be the same as the lower order so a<sub>0</sub>=
+    Y0/S0.<br>
+    The odds block:<br>
+    <table  style="margin-left: 40px;"  border="3"  cellpadding="2"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">Eqn</span><br>
+          </td>
+          <td  style="font-weight: bold;">a<sub>1</sub></td>
+          <td  style="vertical-align: top; font-weight: bold;"><br>
+          </td>
+          <td  style="font-weight: bold;">y</td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">1</span><br>
+          </td>
+          <td>S2 </td>
+          <td  style="vertical-align: top;">=<br>
+          </td>
+          <td>Y1</td>
+        </tr>
+      </tbody>
+    </table>
+    So a1*S2=Y1, a1=Y1/S2. <br>
+    The intercept of the linear fit is the moving average, <br>
+    the slope is the average of the differences between symmetrically matched
+    pairs of points around the center point.<br>
+    <span  style="font-weight: bold;"></span>The denominators S0 and S2 depend
+    only on the width of the window and can often be ignored, or applied only to
+    interesting x values.<br>
+    <hr  style="width: 100%; height: 2px;">
+    <p>2nd order:<br>
+      The a<sub>1</sub> term is the same as for the first order fit, so when
+      looking for peaks via zero crossings of a<sub>1</sub> one doesn't have to
+      compute a quadratic to get the effect of it! </p>
+    <table  style="text-align: left; margin-left: 40px;"  border="3"  cellpadding="2"
+       cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">evens</span>
+            <br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S0</td>
+                  <td>S2</td>
+                </tr>
+                <tr>
+                  <td>S2</td>
+                  <td>S4 </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>Y0</td>
+                  <td>S2</td>
+                </tr>
+                <tr>
+                  <td>Y2</td>
+                  <td>S4 </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S0</td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td>S2</td>
+                  <td>Y2</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">&nbsp;</span><br>
+          </td>
+          <td  style="vertical-align: top;">denominator<br>
+          </td>
+          <td  style="vertical-align: top;">a<sub>0</sub><br>
+          </td>
+          <td  style="vertical-align: top;">a<sub>2</sub></td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">determinant
+              </span><br> </td>
+          <td  style="vertical-align: top;">&nbsp;S0S4-S2S2</td>
+          <td  style="vertical-align: top;">Y0S4-Y2S2</td>
+          <td  style="vertical-align: top;">S0Y2-Y0S2</td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">S4:=S2R2<br>
+          </td>
+          <td  style="vertical-align: top;">&nbsp;S2(S0R2-S2)</td>
+          <td  style="vertical-align: top;">S2(Y0R2-Y2)</td>
+          <td  style="vertical-align: top;">ditto<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">coefficient</span>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td  style="vertical-align: top;">(Y0R2-Y2)/<br>
+            (S0R2-S2)</td>
+          <td  style="vertical-align: top;">(S0Y2-Y0S2)/ <br>
+            S2(S0R2-S2) </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    The a<sub>0</sub> term is affected by Y*squares term: the moving average
+    near a peak is less than the actual amplitude as computed via this quadratic
+    fit.<br>
+    The a<sub>2</sub> term is positive when the Y2 term is bigger than a scaled
+    up version of the moving average. <br>
+    <br>
+    <div  style="margin-left: 40px;"> S4 =&nbsp;<math><!--sum_[i=-h]^[+ h] i^4--><mstyle
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></mstyle></math>
+      =&nbsp;<math><!--2*sum_[i=1]^h i^4--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><mn>2</mn><mo>&#8901;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></mstyle></math>
+      = S2*(3<span  style="font-style: italic;">h</span><sup>2</sup>+3<span  style="font-style: italic;">h</span>-1)/5&nbsp;
+      :=S2*R2 introducing the symbols R<sub>N</sub>.</div>
+    <br>
+    This factoring of S<sub>N</sub> into S2*R<sub><span  style="font-weight: bold;">N-2
+        </span></sub>is not part of S&amp;G's original paper. One can prove (or
+    look up) that all sums of even powers of integers are a multiple of the sum
+    of the squares.<br>
+    <hr  style="width: 100%; height: 2px;">the cubic:<br>
+    <br>
+    The a0 and a2 terms are the same as the quadratic.<br>
+    So a cubic fit will yield the same value as a quadratic for an estimate of
+    the amplitude of a peak or the sharpness of it as determined by the distance
+    between the zero crossings of the a2 term.<br>
+    <br>
+    <table  style="text-align: left;"  border="3"  cellpadding="2"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">matrix</span>
+            &nbsp; <br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>Y1</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S2</td>
+                  <td>Y1</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">for&nbsp;&nbsp;&nbsp;
+              </span><br> </td>
+          <td  style="vertical-align: top;">denominator<br>
+          </td>
+          <td  style="vertical-align: top;">a<sub>1</sub></td>
+          <td  style="vertical-align: top;">a<sub>3</sub><br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">determinant
+              </span><br> </td>
+          <td  style="vertical-align: top;">S2S6-S4S4<br>
+          </td>
+          <td  style="vertical-align: top;">Y1S6-Y3S4<br>
+          </td>
+          <td  style="vertical-align: top;">Y3S2-Y1S4<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">factor <a  href="#Sums_of_even_powers_of_the_integers">S2</a><br>
+          </td>
+          <td  style="vertical-align: top;">S2<sup>2</sup>(R4-R2<sup>2</sup>)<br>
+          </td>
+          <td  style="vertical-align: top;">S2(Y1R4-Y3R2)</td>
+          <td  style="vertical-align: top;">S2(Y3-Y1R2)</td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">coefficient</span>&nbsp;
+            <br> </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td  style="vertical-align: top;">(Y1R4-Y3R2)/<br>
+            S2(R4-R2<sup>2</sup>)</td>
+          <td  style="vertical-align: top;">(Y3-Y1R2)/<br>
+            S2(R4-R2<sup>2</sup>)</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Compared to a quadratic the slope is reduced when the Y3 term is positive,
+    increased when Y3 is negative. <br>
+    For a Gaussian peak the Y3 sum is negative to the lower side of the peak so
+    the slope becomes less steep as you get further from the centroid, ditto for
+    the higher side's slope.<br>
+    <hr  style="width: 100%; height: 2px;">the quartic:<br>
+    a1 and a3 are the same as the cubic.<br>
+    <table  style="text-align: left;"  border="3"  cellpadding="2"  cellspacing="2">
+      <tbody>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">matrix</span>
+            &nbsp; <br>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S0</td>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>S2</td>
+                  <td>S4</td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">S8<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>Y0</td>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Y2</td>
+                  <td>S4</td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">Y4<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">S8<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S0</td>
+                  <td>Y0</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>S2</td>
+                  <td>Y2</td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y4<br>
+                  </td>
+                  <td  style="vertical-align: top;">S8<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td  style="vertical-align: top;">
+            <table  border="1"  cellpadding="2"  cellspacing="0">
+              <tbody>
+                <tr>
+                  <td>S0</td>
+                  <td  style="vertical-align: top;">S2<br>
+                  </td>
+                  <td>Y0</td>
+                </tr>
+                <tr>
+                  <td>S2</td>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td>Y2</td>
+                </tr>
+                <tr>
+                  <td  style="vertical-align: top;">S4<br>
+                  </td>
+                  <td  style="vertical-align: top;">S6<br>
+                  </td>
+                  <td  style="vertical-align: top;">Y4<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">for&nbsp;&nbsp;&nbsp;
+              </span><br> </td>
+          <td  style="vertical-align: top;">denominator<br>
+          </td>
+          <td  style="vertical-align: top;">a<sub>0</sub><br>
+          </td>
+          <td  style="vertical-align: top;">a<sub>2</sub></td>
+          <td  style="vertical-align: top;">a4<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">determinant</span></td>
+          <td>&nbsp;S0S4S8+2*S2S4S6<br>
+            -S4S4S4-S0S6S6-S2S2S8<br>
+          </td>
+          <td>+Y0(S4S8-S6S6)<br>
+            -Y2(S2S8-S4S6)<br>
+            +Y4(S2S6-S4S4)<br>
+          </td>
+          <td>-Y0(S2S8-S4S6)<br>
+            +Y2(S0S8-S4S4)<br>
+            -Y4(S0S6-S2S4)<br>
+          </td>
+          <td>+Y0(S2S6-S4<sup>2</sup>)<br>
+            -Y2(S0S6-S2S4)<br>
+            +Y4(S0S4-S2<sup>2</sup>)<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;">factor <a  href="dynamicsvg.html#Sums_of_even_powers_of_the_integers">S2</a><br>
+            <span  style="font-weight: bold;">S4:=S2R2</span><br  style="font-weight: bold;">
+            <span  style="font-weight: bold;">S6:=S2R4</span><br  style="font-weight: bold;">
+            <span  style="font-weight: bold;">S8:=S2R6</span><br>
+          </td>
+          <td>&nbsp;S0S2<sup>2</sup>R2R6+2*S2<sup>3</sup>R2R4<br>
+            -S2<sup>3</sup>R2<sup>3</sup>-S0S2<sup>2</sup>R4<sup>2</sup>-S2<sup>3</sup>R6<br>
+            = S2<sup>2*<br>
+            </sup>(S0(R2R6-R4<sup>2</sup>)<br>
+            +S2(2*R2R4-R6-R2<sup>3</sup>))<br>
+          </td>
+          <td>&nbsp;S2<sup>2</sup>*<br>
+            ( Y0(R2R6-R4<sup>2</sup>)<br>
+            +Y2(R2R4-R6)<br>
+            +Y4(R4-R2<sup>2</sup>))<br>
+            <br>
+          </td>
+          <td>S2*<br>
+            (Y0S2(R2R4-R6)<br>
+            +Y2(S0R6-S2R2<sup>2</sup>)<br>
+            +Y4(S2R2-S0R4)) </td>
+          <td>S2*<br>
+            (Y0S2(R4-R2<sup>2</sup>)<br>
+            +Y2(S2R2-S0R4)<br>
+            +Y4(S0R2-S2))<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">coefficient</span></td>
+          <td>D9:=<br>
+            S0(R2R6-R4<sup>2</sup>)<br>
+            +S2(2*R2R4-R6-R2<sup>3</sup>) </td>
+          <td>(Y0(R2R6-R4<sup>2</sup>)<br>
+            +Y2(R2R4-R6)<br>
+            +Y4(R4-R2<sup>2</sup>))<br>
+            /D9<br>
+            <br>
+          </td>
+          <td>(Y0S2(R2R4-R6)<br>
+            +Y2(S0R6-S2R22)<br>
+            +Y4(S2R2-S0R4))<br>
+            /S2D9<br>
+          </td>
+          <td>(Y0S2(R4-R2<sup>2</sup>)<br>
+            +Y2(S2R2-S0R4)<br>
+            +Y4(S0R2-S2))<br>
+            /S2D9<br>
+          </td>
+        </tr>
+        <tr>
+          <td  style="vertical-align: top;"><span  style="font-weight: bold;">order
+of
+              magnitude calculation</span><br>
+          </td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+          <td  style="vertical-align: top;">(Y0H8+Y2H6+Y4H4)/H9<br>
+          </td>
+          <td  style="vertical-align: top;">&nbsp;(Y0H9+Y2H7+Y4H5)/H12<br>
+          </td>
+          <td  style="vertical-align: top;">(Y0H7+Y2H5+Y4H3)/H12&nbsp; </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    All of the Hxx expressions are abbreviations for "polynomial in <span  style="font-style: italic;">h</span>
+    of degree xx". Each instance of Hxx is a possibly different polynomial of
+    degree xx. <br>
+    The point of these is to help calculate how many bits are needed to avert
+    overflow when computing these values.<br>
+    <br>
+    Each of the Y and H terms is an integer, but the final expressions for the
+    coefficients are not.<br>
+    <hr  style="width: 100%; height: 2px;">
+    <h3>Summary</h3>
+    <ul>
+      <li>The coefficients of polynomial fits of a set of integer data are the
+        ratio of integers where the numerator is a linear combination of sums of
+        each datum times an integer raised to a power and the denominator is a
+        polynomial in just the filter width. </li>
+      <li>The linear combination present in each numerator can be computed by a
+        single convolution with a set of values which are a function of only the
+        polynomial order and the filter width.</li>
+      <li>Half of the formulas for coefficients generated for one order are
+        identical for the next order up, and the other half for the next order
+        down.</li>
+    </ul>
+    <hr  style="width: 100%; height: 2px;">
+    <h3>Appendix </h3>
+    (not in the original paper)<br>
+    <h3>Numerical precision during computation</h3>
+    The number of bits needed to perform the computations can be computed via
+    summing the numerical subscripts in the formulae above.<br>
+    For a linear fit's slope we have a<sub>1</sub>=Y<sub>1</sub>/S<sub>2</sub>.
+    The convolution Y<sub>1</sub> is the sum of the y data each multiplied by an
+    integer whose magnitude is &lt;=<span  style="font-style: italic;">h</span>.<br>
+    The number of bits required is therefore #bits for y (such as 12 for a 12
+    bit ADC) + the number of bits for a signed h =1+log<sub>2</sub>(<span  style="font-style: italic;">h</span>)
+    rounded up which is 2+log<sub>2</sub>(<span  style="font-style: italic;">h</span>)
+    unless h is an exact power of 2, and 1 more for each addition = 2*h
+    (although careful ordering of operations can knock a few off).<br>
+    #bits for a<sub>1</sub> linear fit = #data bits+2+2*<span  style="font-style: italic;">h</span>+log<sub>2</sub>(<span
+       style="font-style: italic;">h</span>), for 12 bit data and a 13 point
+    average (<span  style="font-style: italic;">h</span>=6): 29. Given the
+    sloppiness of this derivation one should use at least 30 bits and add one
+    more for the sign.<br>
+    In the formulation above the #of bits to represent Rx or Hx is log<sub>2</sub>(<span
+       style="font-style: italic;">h</span>)*x+x. For Yx it is log<sub>2</sub>(Ymax)+x*log<sub>2</sub>(<span
+       style="font-style: italic;">h</span>)<br>
+    This justifies doing the extra algebra to remove the common factors of S2,
+    without that we would need 3*log<sub>2</sub>(<span  style="font-style: italic;">h</span>)
+    extra bits for our computations.<br>
+    <br>
+    a<sub>2</sub> quadratic = (S<sub>0</sub>Y<sub>2</sub>-Y<sub>0</sub>S<sub>2</sub>)/
+    S<sub>2</sub>(S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>)<br>
+    Its numerator requires 3*log<sub>2</sub>(<span  style="font-style: italic;">h</span>)+log<sub>2</sub>(ymax)+1&nbsp;
+for
+    12 bits of y and 13 point average ~25 bits are needed.<br>
+    <hr  style="width: 100%; height: 2px;">
+    <h3>Appendix</h3>
+    (not in the original paper)<br>
+    <h3>Sums of power of the integers </h3>
+    The relevant sums of the powers of the integers are all of the form: <br>
+    <math><!--sum_[i=-h]^[+h] i^[2k] = 0^[2k] + 2 sum_[i=1]^[h] i^[2k]--></math>
+    <div  style="margin-left: 40px;"><math><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>=</mo><msup><mn>0</mn><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>+</mo><mn>2</mn><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup></mstyle></math>&nbsp;<br>
+      &nbsp; </div>
+    The only time the 0<sup>2*k</sup> term is non zero is when 2*k is 0, in
+    which case the term is equal to 1 and the total expression is 1+2*<i>h</i>.
+    <br>
+    For all other powers the relevant expression is 2*sum of integers from 1 to
+    h of i<sup>2k</sup>. <br>
+    <br>
+    Each of the Sn terms for n=2k, k&gt;=1 have a common factor which
+    conveniently is S2. I introduce the symbol Rn where R<span  style="font-family: monospace;">n-2</span>*S2=Sn.
+    <br>
+    <table  style="margin-left: 40px;"  border="5">
+      <caption><a  name="Sums_of_even_powers_of_the_integers"></a>Sums of even
+        powers of the integers </caption>
+      <tbody>
+        <tr>
+          <th>p</th>
+          <th>Sum of i<sup>p</sup>&nbsp;&nbsp; i={1 to <i>h</i>}</th>
+          <th  style="vertical-align: top;">abbrev.<br>
+          </th>
+        </tr>
+        <tr>
+          <td>0</td>
+          <td><i>h</i></td>
+          <td  style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><i>h</i>*(<i>h</i>+1)*(2*<i>h</i>+1)/6&nbsp; (fyi = S<sub>1</sub>*(2*<i>h</i>+1)/3)</td>
+          <td  style="vertical-align: top;">S2<br>
+          </td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>(Sum of i<sup>2</sup>)*(3<i>h</i><sup>2</sup>+3<i>h</i>-1)/5</td>
+          <td  style="vertical-align: top;">S2R2<br>
+          </td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>(Sum of i<sup>2</sup>)*(3<i>h</i><sup>4</sup>+6<i>h</i><sup>3</sup>-3<i>h</i>+1)/7</td>
+          <td  style="vertical-align: top;">S2R4<br>
+          </td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>(Sum of i<sup>2</sup>)*(5<i>h</i><sup>6</sup>+15<i>h</i><sup>5</sup>+5<i>h</i><sup>4</sup>-15<i>h</i><sup>3</sup>-<i>h</i><sup>2</sup>+9<i>h</i>-3)/15</td>
+          <td  style="vertical-align: top;">S2R6<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    NOTE: The Sx symbols in this paper are 2* those defined in most documents on
+    the sums of the powers of the integers. <br>
+    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2009 (extracted and
+    embellished from work ©Andy Heilveil 2008)
+  </body>
+</html>

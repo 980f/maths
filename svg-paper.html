@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta  content="text/html; charset=ISO-8859-1"  http-equiv="content-type">
+    <title>svg-paper</title>
+    <meta  content="histrionics"  name="author">
+  </head>
+  <body>
+    Savitsky Golay<br>
+    <br>
+    Smoothing and Differentiation of Data by Simplified Least Squares
+    Procedures<br>
+    <br>
+    Abraham Savitsky and Marcel J.E. Golay<br>
+    <br>
+    Perkin-Elmer Corp.<br>
+    <br>
+    (paraphrased and synopsized by Andy Heilveil)<br>
+    Extract: In attempting to analyze data from basically
+    continuous physical experiments numerical methods of performing
+    familiar operations must be developed.<br>
+    The operations of differentiation and filtering are especially
+    important
+    both as an end in themselves and as a prelude to further treatment of
+    the data.<br>
+    The least squares calculations may be carried out in the computer by
+    convolution of the data points with properly chosen sets of
+    integers. <br>
+    These sets of integers and their normalizing factors are
+    described and their use is illustrated in spectroscopic applications.<br>
+    <br>
+    <h3>Introductory paragraph</h3>
+    Initial section explains the purpose is to remove noise from
+    experimental data while retaining most of the underlying information.<br>
+    It declares the requirements on the data set, that one coordinate be
+    equal spaced and the other 'smooth' and continuous, [although they err
+    in saying that the data must be continuous when it is the physical
+    property being measured that must be continuous].<br>
+    <br>
+    <h3>ALTERNATE METHODS</h3>
+    First the technique of the moving average computation is described.
+    Figure 1 is referred to which shows a left hand column of equal spaced
+    data and a right hand column of integers with no apparent relationship
+    to each other other than being somewhat close in value. Between the
+    columns is a block with its own left and right columns of symbols, each
+    set labeled with indices running from -2 to +2. The diagram is used to
+    explain what a convolution sum is and states that the convolution
+    coefficients are all 1 for a moving average.<br>
+    <div  style="margin-left: 40px;"><math><!--Y_j'--><mstyle  displaystyle="true"
+           fontfamily=""  mathcolor=""  mathsize=""><msub><mi>Y</mi><mi>j</mi></msub><mo>'</mo></mstyle></math>&nbsp;<math><!---=--><mstyle
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>&#8801;</mo></mstyle></math>&nbsp;<math><!--{sum_[i=-m]^[+m] C_i*Y_[j+i]}/N--><mstyle
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>m</mi></mrow><mrow><mo>+</mo><mi>m</mi></mrow></munderover></mrow><msub><mi>C</mi><mi>i</mi></msub><mo>&#8901;</mo><msub><mi>Y</mi><mrow><mi>j</mi><mo>+</mo><mi>i</mi></mrow></msub></mrow><mi>N</mi></mfrac></mstyle></math>&nbsp;
+      shown as the definition
+      of convolution.<br>
+    </div>
+    <br>
+    The text goes on to explain how the moving average degrades peaks and
+    introduces Figure 2 which shows for convolution functions: <br>
+    <ol  style="list-style-type: upper-alpha;">
+      <li>Moving average (rectangle)</li>
+      <li>Exponential function (rises from 0 at -inf to 1 at 0, after which
+        it is 0 for all positives)<br>
+      </li>
+      <li>Symmetrical triangular function, the idealized spectrometer slit
+        function</li>
+      <li>Symmetrical exponential function [B reflected around 0, e<sup>-abs(x)</sup>]</li>
+    </ol>
+    The text explains that B emulates an RC analog filter which produces a
+    uni-directional distortion. D, which is not physically realizable for
+    time domain data, is described as an idealized lead-lag network.<br>
+    It is stated that the triangular function yields results often not
+    significantly different from the symmetrical exponential. Figure 3
+    shows a spectral absorption data set with one strong absorption line,
+    one random point, and some minor lines filtered in various ways. One's
+    attention is directed to how the depth of the peak is affected by each
+    operation and how the random data point is transformed. The 4 filters
+    introduced with figure 2 are applied using 9 data points, and the raw
+    data and the to-be-described least squares filter are shown as well.<br>
+    <br>
+    <h3>METHOD OF LEAST SQUARES</h3>
+    The convolutions functions of figure 2 are rather simple and do not
+    extract as much information as possible. "The experimenter, if
+    presented
+    with a plot of the data points, would tend to draw through these points
+    a line which best fits them. ... The most common criterion [for best
+    fit] is that of least squares". Least squares fitting is described
+    using an example of a cubic polynomial and the point is made that only
+    the ordinate is deemed as having errors, the abscissa is considered
+    error free. Figure 4 shows doing a 7 point fit across various subsets
+    of a data set. One computes the fit coefficients for each subset then
+    substitutes the central abscissa value into the equation using those
+    coefficients to get the value of the filtered point. &lt;The least
+    squares algorithm's direct computation is described.&gt;<br>
+    Moving the data selection window incrementally through the data set
+    computing all the coefficients at each point is tedious. Note that the
+    finding of the coefficients is a means to the end of generating the
+    filtered value. A careful study [this paper;)] of the least squares
+    procedure leads to the derivation of a set of integers which constitute
+    a convolution filter which gives the exact same result as the direct
+    LSQ procedure. The derivation is given as appendix I.<br>
+    Beyond simple curve fitting (noise elimination) one can look at the
+    computation of derivatives. If one constrains oneself to our first
+    requirement of uniform sampling then one can create all-integer
+    convolution functions for the derivative.<br>
+    <br>
+    <h3>CONCLUSIONS</h3>
+    The sole function of the computer is to act as a filter to smooth the
+    noise fluctuations and hopefully to introduce no distortions into the
+    data.<br>
+    This problem of distortion is difficult to assess. In any of the curves
+    of figure 3, there remain small fluctuations in the data that might be
+    real or might just be noise. To decide which, one must identically
+    acquire multiple data sets and then either average then smooth, or
+    smooth then average to get rid of the lowest noise frequencies.
+    Computation is most efficient if averaging is done before smoothing.
+    General techniques of data collection is described with little
+    relationship to the essence of this paper other than that the
+    computational efficiency of polynomial smoothing allows for less data
+    to be taken then simple averaging of many runs without filtering. This
+    is true only if the polynomial faithfully represents the physical thing
+    being measured over the domain of the convolution, lower order
+    polynomials are restricted in the width of data they can faithfully
+    filter, requiring more raw data sets to first be averaged before the
+    filtering takes place.<br>
+    <br>
+    ACKNOWLEDGMENT<br>
+    The authors appreciate the assistance of Harrison J.M. Kinyua in the
+    recompilation and checking of the convolute tables, of Robert Bernard
+    of the Perkin-Elmer Scientific Computing Facility for his advice and
+    assistance in program development, and of Joel Stutman, University of
+    Maryland, for his advice on Appendix I.<br>
+    <br>
+    APPENDIX&nbsp; I<br>
+    The algebra of least squares fit to a polynomial is presented. The
+    equations are resolved to where one is given a set of linear equations
+    to solve where the coefficients matrix is a checker board of 0's and
+    sums of powers of the integers over the range -m to +m. The vector of
+    "y" values are sums of the ordinate data convolved with powers of the
+    integers. The checkerboard of zeroes allows the sets of equations to be
+    separated into two independent subsets, reducing them to the level
+    where they can be solved by inspection. This separability means that
+    half of the equations for a given order are identical to the next order
+    up, for instance the 1st derivative computed from a quadratic fit is
+    the same as that from a linear fit. Condensed into an equation:<br>
+    <br>
+    <div  style="margin-left: 40px;">B<sub>N,S</sub> = B<sub>N+1,S&nbsp;</sub>
+      when N and S are of the same parity (both odd or both even). <br>
+      B<sub>N,S</sub> is the coefficient for the <sub>N</sub>th derivative
+      of the <sub>S</sub>th order polynomial.<br>
+      <br>
+    </div>
+    Successive convolutions to be applied to a data set can be combined
+    into a single convolution with that data set by convolving the
+    convolutions with each other first (the convolution operation is
+    associative). This is definitely advantageous as the length of each of
+    the two convolution sets is usually much less than that of the data set.<br>
+    <br>
+    <hr  style="width: 100%; height: 2px;">APPENDIX II <br>
+    Many tables are given of the coefficients for derivatives up to the 5th
+    order / polynomials of the fifth degree for various numbers of data
+    points. <br>
+    <br>
+    APPENDIX III<br>
+    Fortran programs are shown for performing the filtering, and for
+    generating the tables just described. Fortran was popular at the time :)<br>
+    <br>
+    In here the first mention is made of the symmetry or anti-symmetry of
+    the convolution coefficients, and that pairing data points before
+    multiplication saves some computation.<br>
+    <br>
+    <hr  style="width: 100%; height: 2px;">In the author's possession is a
+    paper published in&nbsp; ANALYTICAL CHEMISTRY VOL 44 NO.11 SEPTEMBER
+    1972 which claims that the tables publish in S&amp;G's original paper
+    have errors in them. That author gives a relatively obtuse alternate
+    derivation and corrected tables of numbers. Modern programming
+    languages and computers are so fast that the coefficients can be
+    calculated from the defining equations each time a program using them
+    starts, making the accuracy of any table moot. While the author is
+    technically correct, the error he points out only applies to the
+    trivial
+    case of a polynomial which is constant (degree 0) which is useless. For
+    all other degrees his equation is the same as S&amp;G's original.<br>
+    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2009
+  </body>
+</html>
