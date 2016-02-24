@@ -30,26 +30,39 @@
       analytical continuation as is done in discrete Fourier analysis. </p>
     <p>Denote polynomial terms: </p>
     <div  style="margin-left: 40px;"> A(i): = a<sub>0</sub>+i*a<sub>1</sub>+i<sup>2</sup>*a<sub>2</sub>+...&nbsp;<math><!--= sum_[k=0]^r [i^k a_k]--><mstyle
-           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><mrow><mo>[</mo><msup><mi>i</mi><mi>k</mi></msup><msub><mi>a</mi><mi>k</mi></msub><mo>]</mo></mrow></mstyle></math>
+           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><mrow><mo>[</mo><msub><mi>a</mi><mi>k</mi></msub><msup><mi>i</mi><mi>k</mi></msup><mo>]</mo></mrow></mstyle></math>
     </div>
     <p>Least Squares fitting assigns the various derivatives of the square of a
       difference by the terms to be fitted to zero, then simultaneously solves
       all of these equations. The sum to minimize&nbsp; is: </p>
     <div  style="margin-left: 40px;">
       <math><!--sum_[i=-h]^h (A(i)-y_i)^2--><mstyle  displaystyle="true"  fontfamily=""
-           mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></div>
+           mathcolor=""  mathsize="">
+          <mrow><mn>D</mn><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></div>
+    <br>
+    <div  style="margin-left: 40px;">
+      <math><!--[del D] / [del a_k]--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><mfrac><mrow><mo>&#8706;</mo><mi>D</mi></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></mstyle></math>
+      =
+      <math><!--sum_[i=-h]^[h] 2*(A(i)-y_i)*[del A(i)]/[del a_k]--><mstyle  displaystyle="true"
+           fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><mfrac><mrow><mo>&#8706;</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)
+                </mo></mrow></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></mstyle></math>
+      =
+      <math><!--sum_[i=-h]^[h] 2*(A(i)-y_i)*i^k--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
     <br>
     The derivative of a square is the term times 2 times its derivative. We can
     ignore the factor of 2 as we will be solving for where the derivative equals
     0. Note that the derivatives we speak of are with respect to a<sub>k</sub>,
     not i. Each of these is simply a power of i: <tt><br>
     </tt>
-    <div  style="margin-left: 40px;">EQN(p;p=0 to r):=&nbsp;
+    <div  style="margin-left: 40px;">EQN(p;p=0 to r):&nbsp;
       <math><!--sum_[i=-h]^[+h] (A(i)-y_i)i^p =0--><mstyle  displaystyle="true"
            fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mn>0</mn></mstyle></math></div>
     Rearrange that to be: <br>
-    <div  style="margin-left: 40px;"> EQN(p;p=0 to r):=&nbsp;<math><!--sum_[i=-h]^h A(i) * i^p = sum_[i=-h]^h y_i * i^p--><mstyle
-           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msub><mi>y</mi><mi>i</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
+    <div  style="margin-left: 40px;"> EQN(p;p=0 to r):
+      <math><!--sum_[i=-h]^h A(i) * i^p = sum_[i=-h]^h y_i * i^p--><mstyle  displaystyle="true"
+           fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msub><mi>y</mi><mi>i</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
     <br>
     Here is the matrix for the solution of simultaneous linear equations (shown
     for degree of 3), leaving out the symbol for summation over i from -h to h:<br>
@@ -195,7 +208,7 @@
       of an index range symmetric around 0. This means that every other term in
       the powers-of-i matrix is zero, making a checkerboard where even elements
       are sums of even powers of the integers and odd elements are zero. Note
-      the additional symmetry of the counter-diagonals.<br>
+      the additional symmetry of the reverse-diagonals.<br>
       <br>
       <table  style="margin-left: 40px;"  border="3">
         <tbody>
@@ -827,7 +840,7 @@
       =&nbsp;<math><!--2*sum_[i=1]^h i^4--><mstyle  displaystyle="true"  fontfamily=""
            mathcolor=""  mathsize=""><mn>2</mn><mo>&#8901;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></mstyle></math>
       = S2*(3<span  style="font-style: italic;">h</span><sup>2</sup>+3<span  style="font-style: italic;">h</span>-1)/5&nbsp;
-      :=S2*R2 introducing the symbols R<sub>N</sub>.</div>
+      := S2*R2 introducing the symbols R<sub>N</sub>.</div>
     <br>
     This factoring of S<sub>N</sub> into S2*R<sub><span  style="font-weight: bold;">N-2
         </span></sub>is not part of S&amp;G's original paper. One can prove (or
@@ -1266,7 +1279,7 @@ for
     <br>
     NOTE: The Sx symbols in this paper are 2* those defined in most documents on
     the sums of the powers of the integers. <br>
-    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2009 (extracted and
-    embellished from work ©Andy Heilveil 2008)
+    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2009,2016 (extracted
+    and embellished from work ©Andy Heilveil 2008)
   </body>
 </html>
