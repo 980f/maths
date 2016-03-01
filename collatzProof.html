@@ -81,8 +81,8 @@
       number, all other cases 2 extra bits are needed. Also note then when 2
       extra bits are needed then the resulting number will only require 1 bit
       the next cycle. If only one bit was added then the next cycle will add 2
-      bits. From this we conclude that on average each cycle adds 1.5 bits at
-      the most significant end of the number.<br>
+      bits. From this we conclude that each pair of cycles adds 1.5 bits at the
+      most significant end of the number.<br>
       The above assumes that there is not a carry in to the sum from lesser
       blocks of 1's. That will be the case if there is at least one block of 0's
       of length 2 or more somewhere in the number. We will come back to the case
@@ -157,7 +157,67 @@
       </tbody>
     </table>
     <p><br>
+      Now for groups of 1's isolated by many 0's on each side:<br>
       <br>
     </p>
+    <table  border="1">
+      <tbody  style="text-align: right;">
+        <tr>
+          <td>1</td>
+          <td>11</td>
+          <td>111</td>
+          <td>1111</td>
+          <td>11111</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><br>
+          </td>
+          <td>10101</td>
+          <td>101101</td>
+          <td>1011101</td>
+        </tr>
+        <tr>
+          <td>1001</td>
+          <td><br>
+          </td>
+          <td>111111</td>
+          <td>10000111</td>
+          <td>100010111</td>
+        </tr>
+        <tr>
+          <td>11011</td>
+          <td><br>
+          </td>
+          <td>10111101</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>1010001</td>
+          <td><br>
+          </td>
+          <td>1000110111</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
