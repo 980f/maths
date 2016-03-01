@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta  content="text/html; charset=UTF-8"  http-equiv="content-type">
+    <title>collatzProof</title>
+    <meta  content="Andy Heilveil"  name="author">
+  </head>
+  <body>
+    <h2>Collatz conjecture</h2>
+    <p>The Collatz conjecture can be formulated as:<br>
+      <br>
+      For the series&nbsp;<math><!--C_n -= 1+3*C_[n-1]--><mstyle  displaystyle="true"
+           fontfamily=""  mathcolor=""  mathsize=""><msub><mi>C</mi><mi>n</mi></msub><mo>≡</mo><mn>(1</mn><mo>+</mo><mn>3</mn><mo>⋅</mo><msub><mi>C</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mstyle></math>)
+      / (the highest power of 2 that divides the numerator) there exists for all
+      odd&nbsp;<math><!--C_0--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
+           mathsize=""><msub><mi>C</mi><mn>0</mn></msub></mstyle></math> an N
+      such that&nbsp;<math><!--C_N = 1--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><msub><mi>C</mi><mi>N</mi></msub><mo>=</mo><mn>1</mn></mstyle></math>.<br>
+      Note that if&nbsp;<math><!--C_x = 1--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><msub><mi>C</mi><mi>x</mi></msub><mo>=</mo><mn>1</mn></mstyle></math>
+      then&nbsp;<math><!--C_[x+1]=1--><mstyle  displaystyle="true"  fontfamily=""
+           mathcolor=""  mathsize=""><msub><mi>C</mi><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn></mstyle></math>:&nbsp;
+      1+3*1 = 4, prime factorization of 4=2<sup>2 </sup>so we divide 4/2<sup>2</sup>
+      = 1.</p>
+    <p>Representing the terms in binary notation we note that all values are odd
+      and so the lsb is always a 1.<br>
+      The values are always finite and so there is a notion of 'number of bits
+      to represent the number'.<br>
+      <br>
+      We will prove the conjecture by showing that the number of bits needed to
+      represent a term in the series eventually decreases.</p>
+    <p><br>
+      The following analyses will presume many more bits than are shown are
+      required for the current term, which is ok as the conjecture as been
+      confirmed for numbers up to many bits.</p>
+    <p>A binary number can be represented as blocks of adjacent 1's separated by
+      blocks of adjacent 0's. Let is look at what the most significant block of
+      one's does as the collatz numerator is formed:<br>
+    </p>
+    <table  border="1">
+      <tbody  style="text-align: right;">
+        <tr>
+          <td>previous<br>
+          </td>
+          <td>10</td>
+          <td>110</td>
+          <td>1110</td>
+          <td>11110</td>
+        </tr>
+        <tr>
+          <td>shifted<br>
+          </td>
+          <td>10x</td>
+          <td>110x</td>
+          <td>1110x</td>
+          <td>11110x</td>
+        </tr>
+        <tr>
+          <td>sum<br>
+          </td>
+          <td>11x</td>
+          <td>1001x</td>
+          <td>10101x<br>
+          </td>
+          <td>101101x</td>
+        </tr>
+        <tr>
+          <td>number of added bits<br>
+          </td>
+          <td>1<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>We note that in one case a single extra bit is needed to represent the
+      number, all other cases 2 extra bits are needed. Also note then when 2
+      extra bits are needed then the resulting number will only require 1 bit
+      the next cycle. If only one bit was added then the next cycle will add 2
+      bits. From this we conclude that on average each cycle adds 1.5 bits at
+      the most significant end of the number.<br>
+      The above assumes that there is not a carry in to the sum from lesser
+      blocks of 1's. That will be the case if there is at least one block of 0's
+      of length 2 or more somewhere in the number. We will come back to the case
+      of all of the blocks of 0's being length 1.</p>
+    <p>Let us look at how the lsb's develop.</p>
+    <table  border="1">
+      <tbody  style="text-align: right;">
+        <tr>
+          <td>previous<br>
+          </td>
+          <td>101</td>
+          <td>1001</td>
+          <td>10001</td>
+          <td>1011<br>
+          </td>
+          <td>10011</td>
+          <td>100011</td>
+          <td>10111</td>
+          <td>100111</td>
+          <td>1000111</td>
+        </tr>
+        <tr>
+          <td>shifted+1<br>
+          </td>
+          <td>1011</td>
+          <td>10011<br>
+          </td>
+          <td>100011<br>
+          </td>
+          <td>10111<br>
+          </td>
+          <td>100111</td>
+          <td>1000111</td>
+          <td>101111</td>
+          <td>1001111</td>
+          <td>10001111</td>
+        </tr>
+        <tr>
+          <td>sum<br>
+          </td>
+          <td>c000<br>
+          </td>
+          <td>c1100<br>
+          </td>
+          <td>c10100<br>
+          </td>
+          <td>c0010<br>
+          </td>
+          <td>p11010</td>
+          <td>p101010</td>
+          <td>c00110</td>
+          <td>p110110</td>
+          <td>p1010110</td>
+        </tr>
+        <tr>
+          <td>number of bits to remove<br>
+          </td>
+          <td>&gt;=3<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>1<br>
+          </td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><br>
+      <br>
+    </p>
+  </body>
+</html>
