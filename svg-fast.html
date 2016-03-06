@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta  content="text/html; charset=iso-8859-1"  http-equiv="content-type">
-    <meta  name="GENERATOR"  content="Mozilla/4.03 [en] (Win95; I) [Netscape]">
-    <meta  name="AUTHOR"  content="Andy Heilveil">
+    <meta content="text/html; charset=iso-8859-1" http-equiv="content-type">
+    <meta name="GENERATOR" content="Mozilla/4.03 [en] (Win95; I) [Netscape]">
+    <meta name="AUTHOR" content="Andy Heilveil">
     <title>fast svg</title>
   </head>
   <body>
-    <math  xmlns="http://www.w3.org/1998/Math/MathML"  display="inline"> </math>
-    <math  xmlns="http://www.w3.org/1998/Math/MathML"  display="block"> </math>
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"> </math>
+    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"> </math>
     <h2>OPTIMAL COMPUTATION OF POLYNOMIAL FITS</h2>
     <h3> SPEEDING UP SAVITSKY-GOLAY FILTERING</h3>
-    <hr><a  href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a>
+    <hr><a href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a>
     FILTERING is a moving least squares fit of a set of integer indexed data to
     a polynomial of that integer index.<br>
     <br>
@@ -19,14 +19,16 @@
     polynomial via a convolution using integer coefficients divided by an
     integer scaling constant.<br>
     What follows is optimal computation of the particular convolutions involved
-    by taking advantage of patterns in the convolution coefficients. <br>
-    <hr  style="width: 100%; height: 2px;">In S&amp;G's derivation at an
+    by taking advantage of patterns in the convolution coefficients. This
+    optimization is very significant when implementing the algorithm in logic
+    such as an FPGA. It is also a significant improvement in programmable DSP's.<br>
+    <hr style="width: 100%; height: 2px;">In S&amp;G's derivation at an
     intermediate step of the calculation coefficients are expressed as
     polynomials of the convolutions of the data with powers of the integers.<br>
-    I use the symbol Y2 to indicate "sum_of the data each multiplied by the
+    I use the symbol Y2 to indicate "sum of the data each multiplied by the
     square of its index". <br>
-    I use <span  style="font-style: italic;">h</span> to represent the length
-    of the convolution (#of points in each fit), 2*<span  style="font-style: italic;">h</span>+1
+    I use <span style="font-style: italic;">h</span> to represent the length of
+    the convolution (#of points in each fit), 2*<span style="font-style: italic;">h</span>+1
     = actual width, to both force the window to have an odd number of elements
     and to get rid of a bunch of 2's in the expressions.<br>
     <br>
@@ -43,20 +45,20 @@
     <hr> First some warmup exercises ...<br>
     <br>
     We have a set of summations of the form: <br>
-    <table  style="text-align: left; margin-left: 40px;"  cellpadding="2"  cellspacing="2">
+    <table style="text-align: left; margin-left: 40px;" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td>1<br>
           </td>
           <td><br>
           </td>
-          <td><math><!--Y(r,x)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></td>
-          <td><span><math><!---=--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><mo>&#8801;</mo></mstyle></math></span><br>
+          <td><math><!--Y(r,x)--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></td>
+          <td><span><math><!---=--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><mo>&#8801;</mo></mstyle></math></span><br>
           </td>
-          <td><math><!--sum_[k:-h]^[h] k^r y[x+k]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math><br>
+          <td><math><!--sum_[k:-h]^[h] k^r y[x+k]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math><br>
           </td>
           <td><br>
           </td>
@@ -68,22 +70,22 @@
     &nbsp;<br>
     A simple reduction of computation can be made via using the symmetry (or
     anti-symmetry) of the k<sup>r</sup> term. <br>
-    <table  style="text-align: left; margin-left: 40px;"  cellpadding="2"  cellspacing="2">
+    <table style="text-align: left; margin-left: 40px;" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td>1b<br>
           </td>
           <td><br>
           </td>
-          <td><math><!--sum_[k:-h]^[+h] k^r y[x+k]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></td>
+          <td><math><!--sum_[k:-h]^[+h] k^r y[x+k]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></td>
           <td>=<br>
           </td>
-          <td><math><!--{0^r y[x+0]}+sum_[k=1]^[h] {k^r (y[x+k]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>{</mo><msup><mn>0</mn><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mn>0</mn><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>k</mi><mi>r</mi></msup><mrow><mo>(</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mrow></mrow></mstyle></math>
+          <td><math><!--{0^r y[x+0]}+sum_[k=1]^[h] {k^r (y[x+k]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><mo>{</mo><msup><mn>0</mn><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mn>0</mn><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>k</mi><mi>r</mi></msup><mrow><mo>(</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mrow></mrow></mstyle></math>
             ±
-            <math><!--y[x-k])}--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>k</mi><mo>]</mo></mrow><mo>)</mo><mo>}</mo></mstyle></math></td>
+            <math><!--y[x-k])}--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>k</mi><mo>]</mo></mrow><mo>)</mo><mo>}</mo></mstyle></math></td>
           <td><br>
           </td>
         </tr>
@@ -95,11 +97,11 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--delta_[r,0] y[x]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msub><mi>&#948;</mi><mrow><mi>r</mi><mo>,</mo><mn>0</mn></mrow></msub><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>]</mo></mrow></mstyle></math>
+          <td><math><!--delta_[r,0] y[x]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><msub><mi>&#948;</mi><mrow><mi>r</mi><mo>,</mo><mn>0</mn></mrow></msub><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>]</mo></mrow></mstyle></math>
             +
-            <math><!--sum_[k=1]^[h] k^r(y[x+k] +- y[x-k])--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mrow><mo>(</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow><mo>±</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>k</mi><mo>]</mo></mrow><mo>)</mo></mrow></mstyle></math></td>
+            <math><!--sum_[k=1]^[h] k^r(y[x+k] +- y[x-k])--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mrow><mo>(</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow><mo>±</mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>k</mi><mo>]</mo></mrow><mo>)</mo></mrow></mstyle></math></td>
           <td><br>
           </td>
         </tr>
@@ -114,14 +116,14 @@
       omission of the zero term&nbsp; since 0<sup>r</sup> = 0 unless r=0, in
       which case 0<sup>0</sup>=1<br>
     </p>
-    <div  style="margin-left: 40px;">
-      <table  style="text-align: left;"  border="1"  cellpadding="8"  cellspacing="0">
+    <div style="margin-left: 40px;">
+      <table style="text-align: left;" border="1" cellpadding="8" cellspacing="0">
         <tbody>
           <tr>
             <td> If there is significant cost to having and indexing into an
               array of the powers of the integers (our k<sup>r</sup>) we can use
               incremental computation in the loop itself:<br>
-              <table  style="text-align: left;"  cellpadding="2"  cellspacing="2">
+              <table style="text-align: left;" cellpadding="2" cellspacing="2">
                 <tbody>
                   <tr>
                     <td><span>(n+1)</span><sup>2</sup><span></span><span></span></td>
@@ -141,14 +143,14 @@
               (add n, then increment n to use as index into the data, then add
               the new value of n)<br>
               <br>
-              <table  style="text-align: left;"  cellpadding="2"  cellspacing="2">
+              <table style="text-align: left;" cellpadding="2" cellspacing="2">
                 <tbody>
                   <tr>
                     <td>(n+1)<sup>3</sup></td>
                     <td>=<br>
                     </td>
                     <td> n<sup>3</sup><span>+3n</span><sup>2</sup><span>+3n+1</span><br>
-                      <div  style="margin-left: 40px;"><span></span></div>
+                      <div style="margin-left: 40px;"><span></span></div>
                     </td>
                   </tr>
                   <tr>
@@ -189,13 +191,15 @@
         </tbody>
       </table>
     </div>
-    <hr  width="100%">
+    <hr width="100%">
     <h3>Going faster</h3>
     A much more massive computational improvement can be achieved by taking
     advantage of the fact that we usually desire the fitted coefficients for
-    successive subsets of a large series of points. <br>
+    successive subsets of a large series of points, in the case of signal
+    processing for an indefinitely large number of points.<br>
+    <br>
     Let us compute Y(r,x+1) as a function of Y(r,x).
-    <table  style="text-align: left;"  cellpadding="2"  cellspacing="2">
+    <table style="text-align: left;" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td>1<br>
@@ -204,8 +208,8 @@
           <td>=<br>
           </td>
           <td>
-            <math><!--sum_[k=-h]^[h]k^r*y[x+k] --><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></td>
+            <math><!--sum_[k=-h]^[h]k^r*y[x+k] --><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></td>
           <td>definition of Y(r,x) </td>
         </tr>
         <tr>
@@ -215,8 +219,8 @@
           </td>
           <td>=<br>
           </td>
-          <td><span><math><!--sum_[k=-h]^[h]k^r*y[x+1+k] --><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mn>1</mn><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></span><span></span></td>
+          <td><span><math><!--sum_[k=-h]^[h]k^r*y[x+1+k] --><mstyle displaystyle="true"
+                  fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>k</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mn>1</mn><mo>+</mo><mi>k</mi><mo>]</mo></mrow></mstyle></math></span><span></span></td>
           <td>replace x with x+1<br>
           </td>
         </tr>
@@ -227,8 +231,8 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--sum_[j=-h+1]^[h+1] (j-1)^r*y[x+j]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>h</mi><mo>+</mo><mn>1</mn></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow></mstyle></math>
+          <td><math><!--sum_[j=-h+1]^[h+1] (j-1)^r*y[x+j]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>h</mi><mo>+</mo><mn>1</mn></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow></mstyle></math>
           </td>
           <td>introduce j=k+1, k=j-1<br>
           </td>
@@ -240,8 +244,8 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--{sum_[j=-h+1]^[h] (j-1)^r*y[x+j]} + (h+1-1)^r*y[x+h+1]--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow></mstyle></math>&nbsp;
+          <td><math><!--{sum_[j=-h+1]^[h] (j-1)^r*y[x+j]} + (h+1-1)^r*y[x+h+1]--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow></mstyle></math>&nbsp;
             </td>
           <td>extract high term from sum<br>
           </td>
@@ -253,9 +257,9 @@
           </td>
           <td>=<br>
           </td>
-          <td><span><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r*y[x+h+1]-(-h-1)^r*y[x-h]--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mi>h</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>h</mi><mo>]</mo></mrow></mstyle></math></span><span
-               style="text-decoration: underline;"></span> </td>
+          <td><span><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r*y[x+h+1]-(-h-1)^r*y[x-h]--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mi>h</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mi>h</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>h</mi><mo>]</mo></mrow></mstyle></math></span><span
+              style="text-decoration: underline;"></span> </td>
           <td>add low term to summation and subtract from the whole<br>
           </td>
         </tr>
@@ -266,8 +270,8 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r*y[x+h+1]-(-1)^r(h+1)^r*y[x-h]--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>h</mi><mo>]</mo></mrow></mstyle></math></td>
+          <td><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r*y[x+h+1]-(-1)^r(h+1)^r*y[x-h]--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mi>h</mi><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>-</mo><mi>h</mi><mo>]</mo></mrow></mstyle></math></td>
           <td>factor out a -1 in last term<br>
           </td>
         </tr>
@@ -278,20 +282,20 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r *--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo>
-                <msup><mi></mi><mi></mi></msup><mo></mo></mstyle></math><mstyle
-               displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mi>h</mi><sup><mi>r</mi></sup></msup><mo></mo></mstyle>y<math><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-            <math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo></mstyle></math>y<math><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]</td>
+          <td><math><!--{sum_[j:-h]^[h] (j-1)^r*y[x+j]} + h^r *--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo>
+                <msup><mi></mi><mi></mi></msup></mstyle></math><mstyle displaystyle="true"
+              fontfamily="" mathcolor="" mathsize=""><msup><mi>h</mi><sup><mi>r</mi></sup></msup></mstyle>y<math><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+            <math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup></mstyle></math>y<math><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]</td>
           <td>introduce symbols new=<span>x+h+1 </span>and old=<span>x-h</span>,
             <br>
             which are constant with respect to our summations<br>
           </td>
         </tr>
         <tr>
-          <td  colspan="4"  rowspan="1">Focus in on the summation:<br>
+          <td colspan="4" rowspan="1">Focus in on the summation:<br>
           </td>
           <td> <br>
           </td>
@@ -299,25 +303,25 @@
         <tr>
           <td>3a<br>
           </td>
-          <td><math><!--sum_[j=-h]^[h] (j-1)^r y[x+j]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow></mstyle></math></td>
+          <td><math><!--sum_[j=-h]^[h] (j-1)^r y[x+j]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow></mstyle></math></td>
           <td>=<br>
           </td>
           <td>
-            <math><!--sum_[j:-h]^[h] sum_[u=0]^[r] C_[r,u]*(-1)^(r-u) *j^u*y[x+j] --><mstyle
-                 displaystyle="true">
+            <math><!--sum_[j:-h]^[h] sum_[u=0]^[r] C_[r,u]*(-1)^(r-u) *j^u*y[x+j] --><mstyle
+                displaystyle="true">
                 <mrow><munderover><mo>&#8721;</mo>
                     <mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow>
                     <mrow><mi>h</mi></mrow></munderover></mrow>
                 <mrow><mi>y</mi><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>{</mo>
                 <mrow><munderover><mo>&#8721;</mo>
                     <mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow>
-                    <mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><msup><mi>j</mi><mi>u</mi></msup><mrow><mo>}</mo></mrow></mstyle></math><br>
+                    <mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><msup><mi>j</mi><mi>u</mi></msup><mrow><mo>}</mo></mrow></mstyle></math><br>
           </td>
           <td>show binomial expansion of (j-1)<sup>r</sup><br>
             C<sub>r,u</sub> is
-            <math><!--[r!]/(u!(r-u)! --><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mfrac><mrow><mi>r</mi><mo>!</mo></mrow><mrow><mi>u</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>u</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math><sup><br>
+            <math><!--[r!]/(u!(r-u)! --><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mfrac><mrow><mi>r</mi><mo>!</mo></mrow><mrow><mi>u</mi><mo>!</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>u</mi><mo>)</mo></mrow><mo>!</mo></mrow></mfrac></mstyle></math><sup><br>
             </sup></td>
         </tr>
         <tr>
@@ -327,8 +331,8 @@
           </td>
           <td>=<br>
           </td>
-          <td><span></span><span><math><!--sum_ [u=0]^[r] { C_[r,u] * (-1)^[r-u] * sum_ [j=-h]^[+h] j^u * y[x+j]}--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>j</mi><mi>u</mi></msup><mo></mo><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow></mstyle></math></span><span></span>
+          <td><span></span><span><math><!--sum_ [u=0]^[r] { C_[r,u] * (-1)^[r-u] * sum_ [j=-h]^[+h] j^u * y[x+j]}--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>j</mi><mi>u</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow></mstyle></math></span><span></span>
           </td>
           <td>summations commute if indexes are independent, also<br>
             terms not dependent on index may be brought outside the summation<br>
@@ -341,14 +345,14 @@
           </td>
           <td>=<br>
           </td>
-          <td><span><math><!--sum_[u=0]^[r] C_[r,u]*(-1)^[r-u] *Y(u,x)--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></span><span></span>
+          <td><span><math><!--sum_[u=0]^[r] C_[r,u]*(-1)^[r-u] *Y(u,x)--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></span><span></span>
           </td>
           <td>apply definition of Y(r,x)<br>
           </td>
         </tr>
         <tr>
-          <td  colspan="4"  rowspan="1"><br>
+          <td colspan="4" rowspan="1"><br>
           </td>
           <td><br>
           </td>
@@ -359,26 +363,24 @@
           <td>Y(r,x+1) </td>
           <td>=<br>
           </td>
-          <td><span><math><!--sum_ [u=0]^[r] C_[r,u] * (-1)^[r-u] * Y(u,x)--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>{C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></span><span></span><span>}
+          <td><span><math><!--sum_ [u=0]^[r] C_[r,u] * (-1)^[r-u] * Y(u,x)--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>{C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow></mstyle></math></span><span></span><span>}
               + </span><span><i>h</i></span><sup>r</sup><span></span><span>y[new]</span>
             <span>- (-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span></span><span>y[old]</span></td>
           <td>combine 3c and 2f<br>
           </td>
         </tr>
         <tr>
-          <td  colspan="1"  rowspan="1"><br>
+          <td colspan="1" rowspan="1"><br>
           </td>
-          <td  rowspan="1"  colspan="4">&nbsp;<br>
+          <td rowspan="1" colspan="4">&nbsp;<br>
             in words: the next value for the rth order coefficient is a weighted
             sum of the previous lower-order coefficients, the newest point in
             the moving window, and the point just leaving the window. </td>
         </tr>
         <tr>
-          <td  colspan="4"  rowspan="1"><br>
+          <td colspan="5" rowspan="1"><br>
             Clean up the "y[old]" term<br>
-          </td>
-          <td><br>
           </td>
         </tr>
         <tr>
@@ -388,12 +390,7 @@
           <td>=<br>
           </td>
           <td>
-            <math><!--(-1)^r *--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]
-            <math><!--* sum_[u=0]^[r] C_[r,u]*h^u--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mo></mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mi>h</mi><mi>u</mi></msup></mstyle></math></td>
+            <math><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo>y[old]</mo><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mi>h</mi><mi>u</mi></msup></math></td>
           <td>binomial expansion<br>
           </td>
         </tr>
@@ -404,27 +401,53 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--sum_[u=0]^[r] C_[r,u] * h^u *(-1)^r *--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]</td>
+          <td><math><!--sum_[u=0]^[r] C_[r,u] * h^u *(-1)^r *--><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mi>h</mi><mi>u</mi></msup>
+              <msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo>y[old]</mo></math></td>
           <td>term can be brought inside the summation<br>
           </td>
         </tr>
         <tr>
-          <td>6a<br>
-          </td>
+          <td>6a </td>
           <td>Y(r,x+1)</td>
-          <td>=<br>
-          </td>
-          <td><span><math><!--sum_[u:0]^[r] { C_[r,u]*(-1)^[r-u] *Y(u,x)} +--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>}</mo></mrow><mo>-</mo></mstyle></math></span><span><br>
-            </span><math><!--sum_[u=0]^[r]{C_[r,u]*h^u*(-1)^r *--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]}
-            <math><!--+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo></mstyle></math>&nbsp; <br>
-            <i>h</i><sup>r</sup>y[new]</td>
+          <td>= </td>
+          <td>
+            <math><!--sum_[u:0]^[r] { C_[r,u]*(-1)^[r-u] *Y(u,x)} + sum_[u=0]^[r]{C_[r,u]*h^u*(-1)^r -->
+              <mrow>
+                <munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover>
+              </mrow>
+              <mrow>
+                <mo>{</mo>
+                <msub><mi>C</mi>
+                  <mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow> </msub>
+                <msup>
+                  <mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow>
+                  <mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow> </msup>
+                <mrow>
+                  <mi>Y</mi><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo> </mrow>
+                <mo>}</mo> </mrow>
+              <mo>-</mo>
+              <mrow>
+                <munderover>
+                  <mo>&#8721;</mo>
+                  <mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow>
+                  <mrow><mi>r</mi></mrow> </munderover> </mrow>
+              <mrow>
+                <mo>{</mo>
+                <msub>
+                  <mi>C</mi>
+                  <mrow>
+                    <mi>r</mi><mo>,</mo><mi>u</mi> </mrow> </msub>
+                <msup>
+                  <mi>h</mi><mi>u</mi> </msup>
+                <msup>
+                  <mrow>
+                    <mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo> </mrow>
+                  <mi>r</mi> </msup>
+                <mn>y[old]</mn><mo>}</mo> </mrow>
+              <mo>+</mo>
+              <msup>
+                <mi>h</mi><mi>r</mi> </msup>
+              <mn>y[new]</mn> </math> </td>
           <td>insert 5 into 4a<br>
           </td>
         </tr>
@@ -435,11 +458,10 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--sum_ [u=0]^[r]{C_[r,u]*(-1)^[r-u] *(Y(u,x)-(-1)^[r-(r-u)]*h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>u</mi><mo>)</mo></mrow></mrow></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])
-            }+ <i>h</i><sup>r</sup>y[new]</td>
+          <td><math><!--sum_ [u=0]^[r]{C_[r,u]*(-1)^[r-u] *(Y(u,x)-(-1)^[r-(r-u)]*h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>u</mi><mo>)</mo></mrow></mrow></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]) }+ <i>h</i><sup>r</sup>y[new]</td>
           <td>merge items with common summation range</td>
         </tr>
         <tr>
@@ -449,18 +471,17 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--sum_[u=0]^[r] {C_[r,u]*(-1)^[r-u] *( Y(u,x) - (-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}+
-            <i>h</i><sup>r</sup>*y[new]</td>
+          <td><math><!--sum_[u=0]^[r] {C_[r,u]*(-1)^[r-u] *( Y(u,x) - (-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+ <i>h</i><sup>r</sup>*y[new]</td>
           <td>&nbsp;<br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td  colspan="4"  rowspan="1">in words: The next value of a Y(r,x) is
+          <td colspan="4" rowspan="1">in words: The next value of a Y(r,x) is
             the sum of it and all lesser ones' previous values - each's trailing
             value, plus the leading value of just itself.<br>
           </td>
@@ -471,14 +492,14 @@
           <td>Y(r,x+1)</td>
           <td>=<br>
           </td>
-          <td><math><!--C_[r,r]*(-1)^[r-r] *( Y(r,x) -(-1)^r*h^r *--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>r</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>r</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mrow></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])
-            <math><!--+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo></mstyle></math><br>
-            <math><!--sum_[u=0]^[r-1] {C_[r,u]*(-1)^[r-u] *( Y(u,x) - (-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}+
+          <td><math><!--C_[r,r]*(-1)^[r-r] *( Y(r,x) -(-1)^r*h^r *--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>r</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>r</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mrow></mstyle></math>y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])
+            <math><!--+--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>+</mo></mstyle></math><br>
+            <math><!--sum_[u=0]^[r-1] {C_[r,u]*(-1)^[r-u] *( Y(u,x) - (-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
             <i>h</i><sup>r</sup>y[new]</td>
           <td>break out rth term<br>
           </td>
@@ -490,17 +511,16 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--1*(-1)^0 * (Y(r,x)-(-1)^r * h^r *--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mn>1</mn><mo>&#8901;</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>0</mn></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])
-            <math><!--+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo></mstyle></math><br>
-            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}+
-            <i>h</i><sup>r</sup>y[new]</td>
+          <td><math><!--1*(-1)^0 * (Y(r,x)-(-1)^r * h^r *--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mn>1</mn><mo>&#8901;</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>0</mn></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])
+            <math><!--+--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>+</mo></mstyle></math><br>
+            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+ <i>h</i><sup>r</sup>y[new]</td>
           <td>simplify some<br>
           </td>
         </tr>
@@ -511,17 +531,17 @@
           </td>
           <td>=<br>
           </td>
-          <td><i><math><!--h^r *--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mstyle></math>y<math><!--[--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-              <math><!--+ Y(r,x) - (-1)^r * h^r *--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mo>+</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mstyle></math>y<math><!--[--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]
-              <math><!--+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><mo>+</mo></mstyle></math></i><br>
-            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}</td>
+          <td><i><math><!--h^r *--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+              <math><!--+ Y(r,x) - (-1)^r * h^r *--><mstyle displaystyle="true"
+                  fontfamily="" mathcolor="" mathsize=""><mo>+</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+              <math><!--+--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><mo>+</mo></mstyle></math></i><br>
+            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}</td>
           <td>simplify and rearrange<br>
           </td>
         </tr>
@@ -531,17 +551,16 @@
           <td>Y(r,x+1) - Y(r,x)</td>
           <td>=<br>
           </td>
-          <td><i><math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mstyle></math>y<math><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-              <math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo></mo><mi></mi><mrow><mo></mo><mi></mi><mo></mo><mi></mi><mo></mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo></mstyle></math>y<math><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]
-              <math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>+</mo></mstyle></math></i><br>
-            <math><!--sum_[u=0]^[r-1] {C_[r,u] * (-1)^(r-u) * ( Y(u,x) - (-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]
-            <math><!--)}--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>)</mo><mo>}</mo></mstyle></math></td>
+          <td><i><math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+              <math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mi></mi><mrow><mi></mi></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+              <math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mo>+</mo></mstyle></math></i><br>
+            <math><!--sum_[u=0]^[r-1] {C_[r,u] * (-1)^(r-u) * ( Y(u,x) - (-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+            <math><!--)}--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>)</mo><mo>}</mo></mstyle></math></td>
           <td>subtract Y(r,x) from both sides of 6<br>
           </td>
         </tr>
@@ -552,35 +571,34 @@
           </td>
           <td>=<br>
           </td>
-          <td><i><math><!--h^r * (--><mstyle  displaystyle="true"  fontfamily=""
-                   mathcolor=""  mathsize=""><msup><mi>h</mi><mi>r</mi></msup><mo></mo><mrow><mo>(</mo><mo></mo></mrow></mstyle></math>
-              y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-              -
-              <math><!--(-1)^r *--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mo></mo></mstyle></math>y<math><!--[--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])
+          <td><i><math><!--h^r * (--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><msup><mi>h</mi><mi>r</mi></msup><mrow><mo>(</mo></mrow></mstyle></math>
+              y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new] -
+              <math><!--(-1)^r *--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                  mathsize=""><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])
               +<br>
-              <math><!--sum_[u=0]^[r-1] { C_[r,u] * (-1)^(r-u) * ( Y(u,x) - (-1)^u*h^u *--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo></mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])</i></td>
+              <math><!--sum_[u=0]^[r-1] { C_[r,u] * (-1)^(r-u) * ( Y(u,x) - (-1)^u*h^u *--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
+                  displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])</i></td>
           <td><br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td  colspan="4"  rowspan="1">in words: The change in value of Y(r,x)
-            is a simple function of the points at the ends of the range and a
-            sum of lesser order coefficients each adjusted by the old point.<br>
+          <td colspan="4" rowspan="1">in words: The change in value of Y(r,x) is
+            a simple function of the points at the ends of the range and a sum
+            of lesser order coefficients each adjusted by the old point.<br>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
-    <hr  style="width: 100%; height: 2px;">
+    <hr style="width: 100%; height: 2px;">
     <h3>Computational cost</h3>
-    <table  border="1">
+    <table border="1">
       <caption>computational costs for each point</caption>
       <tbody>
         <tr>
@@ -615,22 +633,21 @@
         <tr>
           <td>ratio of improvement<br>
           </td>
-          <td><span  style="font-style: italic;">&gt;h</span>/2<br>
+          <td><span style="font-style: italic;">&gt;h</span>/2<br>
           </td>
-          <td>2<span  style="font-style: italic;">h/r</span><br>
+          <td>2<span style="font-style: italic;">h/r</span><br>
           </td>
-          <td><span  style="font-style: italic;">&gt;h</span><br>
+          <td><span style="font-style: italic;">&gt;h</span><br>
           </td>
         </tr>
       </tbody>
     </table>
-    <br>
-    Since <span  style="font-style: italic;">h</span> must be &gt;=r (and is
+    Since <span style="font-style: italic;">h</span> must be &gt;=r (and is
     typically &gt;&gt; r) this is always an improvement per point.<br>
+    <br>
     The startup for the incremental method, which in some use cases can be
     ignored, is the same as one point done via the 'better' math.<br>
-    <br>
-    <table  border="1">
+    <table border="1">
       <caption>computational costs with initialization</caption>
       <tbody>
         <tr>
@@ -661,13 +678,13 @@
     Which is always still an improvement, except for the trivial case of
     Length=1.<br>
     &nbsp; <br>
-    <div  style="margin-left: 40px;">
-      <table  style="text-align: left;"  border="1"  cellpadding="8"  cellspacing="0">
+    <div style="margin-left: 40px;">
+      <table style="text-align: left;" border="1" cellpadding="8" cellspacing="0">
         <tbody>
           <tr>
             <td>The first set of coefficients must be computed directly, the
               Y(r,0). <br>
-              In many situations one can pretend that there were <span  style="font-style: italic;">h</span>
+              In many situations one can pretend that there were <span style="font-style: italic;">h</span>
               points whose Y values were all zero preceding the present data
               set. If that is acceptable then the Y(r,0) values are all zero. <br>
               However, please note that estimates of the accuracy of the fit
@@ -675,7 +692,7 @@
               the number of actual data points in use.<br>
               <br>
               If computing on a continuous stream of data forcing the first Y's
-              to zero is a glitch, but that glitch is gone by the time 2*<span  style="font-style: italic;">h</span>+1
+              to zero is a glitch, but that glitch is gone by the time 2*<span style="font-style: italic;">h</span>+1
               data points have gone by due to this being an FIR filter, so for
               the case of a continuous data stream only the per point costs need
               to be counted when calculating the relative performance.<br>
@@ -686,7 +703,7 @@
     </div>
     <hr>
     <h3>explicit formula for first few degrees</h3>
-    <table  style="text-align: left;"  cellpadding="2"  cellspacing="2">
+    <table style="text-align: left;" cellpadding="2" cellspacing="2">
       <tbody>
         <tr>
           <td>8<br>
@@ -694,15 +711,15 @@
           <td>Y(r,x+1)-Y(r,x)</td>
           <td>=<br>
           </td>
-          <td><math><!--sum_[u=0]^[r-1] { C_[r,u]*(-1)^(r-u) *( Y(u,x)-(-1)^u * h^u *--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><mo></mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mo></mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><mo></mo><msup><mi>h</mi><mi>u</mi></msup><mo></mo></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}+
-            <i>h</i><sup>r</sup>(y[new]-(-1)<sup>r</sup><span  style="font-style: italic;"></span>y[old])</td>
+          <td><math><!--sum_[u=0]^[r-1] { C_[r,u]*(-1)^(r-u) *( Y(u,x)-(-1)^u * h^u *--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
+            <i>h</i><sup>r</sup>(y[new]-(-1)<sup>r</sup><span style="font-style: italic;"></span>y[old])</td>
           <td>6g</td>
         </tr>
         <tr>
-          <td  colspan="5"  rowspan="1">
-            <hr  style="width: 100%; height: 2px;"></td>
+          <td colspan="5" rowspan="1">
+            <hr style="width: 100%; height: 2px;"></td>
         </tr>
         <tr>
           <td>8a<br>
@@ -720,18 +737,18 @@
           <td>Y(1,x+1)-Y(1,x) </td>
           <td>=<br>
           </td>
-          <td><math><!--C_[1,0] (-1)^(1-0) (Y(0,x)-(-1)^0 h^0--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msub><mi>C</mi><mrow><mn>1</mn><mo>,</mo><mn>0</mn></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mn>1</mn><mo>-</mo><mn>0</mn></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>0</mn></msup><msup><mi>h</mi><mn>0</mn></msup></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])
-            <math><!--+ h^1 (--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo><msup><mi>h</mi><mn>1</mn></msup><mrow><mo>(</mo><mo></mo></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-            <math><!--- (-1)^1--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>1</mn></msup></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])</td>
+          <td><math><!--C_[1,0] (-1)^(1-0) (Y(0,x)-(-1)^0 h^0--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><msub><mi>C</mi><mrow><mn>1</mn><mo>,</mo><mn>0</mn></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mn>1</mn><mo>-</mo><mn>0</mn></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>0</mn></msup><msup><mi>h</mi><mn>0</mn></msup></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])
+            <math><!--+ h^1 (--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>+</mo><msup><mi>h</mi><mn>1</mn></msup><mrow><mo>(</mo></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+            <math><!--- (-1)^1--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>1</mn></msup></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])</td>
           <td>r=1, only u value in sum_is u=0<br>
           </td>
         </tr>
@@ -742,15 +759,15 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!---( Y(0,x) ---><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mo>-</mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo></mrow></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old]
-            <math><!--)+ h--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>)</mo><mo>+</mo><mi>h</mi></mstyle></math> (y<math><!--[--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-            <math><!--+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo></mstyle></math> y[old])</td>
+          <td><math><!---( Y(0,x) ---><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mo>-</mo><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mn>0</mn><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo></mrow></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+            <math><!--)+ h--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>)</mo><mo>+</mo><mi>h</mi></mstyle></math> (y<math><!--[--><mstyle
+                displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+            <math><!--+--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mo>+</mo></mstyle></math> y[old])</td>
           <td><br>
           </td>
         </tr>
@@ -761,13 +778,13 @@
           </td>
           <td>=<br>
           </td>
-          <td>{C<sub>2,0</sub>*(-1)<sup>2-0</sup> *(Y(0,x)-(-1)<sup>0</sup>*<span
-               style="font-style: italic;">h</span><sup>0</sup>*y[old]<sub><span
-                 style="font-style: italic;"></span></sub>)}+<br>
-            {C<sub>2,1</sub>*(-1)<sup>2-1</sup> *(Y(1,x)-(-1)<sup>1</sup>*<span
-               style="font-style: italic;">h</span><sup>1</sup>*y[old]<sub><span
-                 style="font-style: italic;"></span></sub>)}+<br>
-            &nbsp;<i>h</i><sup>2</sup>*(y[new]-(-1)<sup>2</sup><span  style="font-style: italic;"></span>*y[old])</td>
+          <td>{C<sub>2,0</sub>*(-1)<sup>2-0</sup> *(Y(0,x)-(-1)<sup>0</sup>*<span
+              style="font-style: italic;">h</span><sup>0</sup>*y[old]<sub><span
+                style="font-style: italic;"></span></sub>)}+<br>
+            {C<sub>2,1</sub>*(-1)<sup>2-1</sup> *(Y(1,x)-(-1)<sup>1</sup>*<span
+              style="font-style: italic;">h</span><sup>1</sup>*y[old]<sub><span
+                style="font-style: italic;"></span></sub>)}+<br>
+            &nbsp;<i>h</i><sup>2</sup>*(y[new]-(-1)<sup>2</sup><span style="font-style: italic;"></span>*y[old])</td>
           <td>r=2,u=0 and u=1<br>
           </td>
         </tr>
@@ -778,9 +795,9 @@
           </td>
           <td>=<br>
           </td>
-          <td>+ Y(0,x)-y[old]<sub><span  style="font-style: italic;"></span></sub><br>
-            -2(Y(1,x)+<span  style="font-style: italic;">h</span>*y[old]<sub><span
-                 style="font-style: italic;"></span></sub>)<br>
+          <td>+ Y(0,x)-y[old]<sub><span style="font-style: italic;"></span></sub><br>
+            -2(Y(1,x)+<span style="font-style: italic;">h</span>*y[old]<sub><span
+                style="font-style: italic;"></span></sub>)<br>
             <i>+h</i><sup>2</sup>(y[new]-y[old])</td>
           <td>a term used in Y(1..) +<br>
             something+<br>
@@ -794,10 +811,10 @@
           <td>- (Y(0,x)-y[old])<br>
             +3(Y(1,x)-h*y[old])<br>
             - 3(Y(2,x)-h<sup>2</sup>y[old])<br>
-            +h<sup>3</sup>(y<math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-            <math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>+</mo></mstyle></math>
-            y[old])<sub></sub></td>
+            +h<sup>3</sup>(y<math><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+            <math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mo>+</mo></mstyle></math>
+            y[old])</td>
           <td><br>
           </td>
         </tr>
@@ -807,9 +824,9 @@
           <td><br>
           </td>
           <td>=</td>
-          <td>h<sup>3</sup>(y<math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>new]
-            <math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>+</mo></mstyle></math>
+          <td>h<sup>3</sup>(y<math><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+            <math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mo>+</mo></mstyle></math>
             y[old]) <br>
             - (Y(0,x)-y[old])<br>
             +3(Y(1,x)-Y(2,x) + (h<sup>2</sup>-h)y[old] )</td>
@@ -819,7 +836,7 @@
       </tbody>
     </table>
     <br>
-    <hr  style="width: 100%; height: 2px;">The powers of <span  style="font-style: italic;">h</span>
+    <hr style="width: 100%; height: 2px;">The powers of <span style="font-style: italic;">h</span>
     can all be computed once at the beginning of the iteration, or at compile
     time up to a maximum filter width.<br>
     The binomial coefficients used on both the Y[] terms and the 'y[old]' terms
@@ -828,7 +845,7 @@
     Dynamic computation (at the start of each filtering pass) is cheaply done
     via Pascal's Triangle: C<sub>p+1,r</sub> = C<sub>p,r </sub>+ C<sub>p,r-1</sub>.<br>
     <br>
-    In pseudo code (<span  style="font-style: italic;">untested</span>)<br>
+    In pseudo code (<span style="font-style: italic;">untested</span>)<br>
     <ul>
       <li>//initialize powers of h. For processors with a fast multiply it may
         be better to recompute pow() inside each loop where it is used instead
@@ -911,12 +928,12 @@
     </ul>
     Deciding the order at compilation time is clearly advantageous as loops can
     be unrolled and binomial coefficients hard-coded.<br>
-    <hr  style="width: 100%; height: 2px;"><br>
-    <table  border="1"  cellpadding="0"  cellspacing="0">
+    <hr style="width: 100%; height: 2px;"><br>
+    <table border="1" cellpadding="0" cellspacing="0">
       <tbody>
         <tr>
-          <td  colspan="5"  rowspan="1">And now a few more transformations to
-            save on some multiplications by 1<br>
+          <td colspan="5" rowspan="1">And now a few more transformations to save
+            on some multiplications by 1<br>
           </td>
         </tr>
         <tr>
@@ -926,12 +943,11 @@
           </td>
           <td>=<br>
           </td>
-          <td><math><!--sum_[u:0]^[r-1]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
-               style="font-style: italic;">h</span><sup>u</sup>y[old]<sub><span
-                 style="font-style: italic;"></span></sub>)}<br>
-            + <i>h</i><sup>r</sup>y[new] - (-1)<sup>r</sup><span  style="font-style: italic;">h</span><sup>r</sup>y[old]<sub><span
-                 style="font-style: italic;"></span></sub></td>
+          <td><math><!--sum_[u:0]^[r-1]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)}<br>
+            + <i>h</i><sup>r</sup>y[new] - (-1)<sup>r</sup><span style="font-style: italic;">h</span><sup>r</sup>y[old]<sub><span
+                style="font-style: italic;"></span></sub></td>
           <td>&nbsp;7b<br>
           </td>
         </tr>
@@ -942,13 +958,13 @@
             </span>when r&gt;1 </td>
           <td>=<br>
           </td>
-          <td><math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>
-            (Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old]<sub><span
-                 style="font-style: italic;"></span></sub>)}+<br>
-            (-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) +<br>
-            <span  style="font-style: italic;">h</span><sup>r</sup>*(y[new] -
-            (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)</td>
+          <td><math><mstyle displaystyle="true" fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>
+            (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old]<sub><span
+                style="font-style: italic;"></span></sub>)}+<br>
+            (-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) +<br>
+            <span style="font-style: italic;">h</span><sup>r</sup>*(y[new] -
+            (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)</td>
           <td>extract 0th term from summation, its multiplier is either 1 or -1<br>
           </td>
         </tr>
@@ -959,16 +975,16 @@
           </td>
           <td>=<br>
           </td>
-          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]
-            - (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)
+          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]
+            - (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
-            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
-            <math><!--sum_[u=(r+1)/2]^[r-1]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old])}<br>
+            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
+            <math><!--sum_[u=(r+1)/2]^[r-1]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}<br>
           </td>
           <td>for instance, if r=5 then one sum covers 1 and 2, <br>
             the second from 3 to 4<br>
@@ -981,20 +997,20 @@
           </td>
           <td>=<br>
           </td>
-          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]
-            - (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)
+          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]
+            - (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
-            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
-            <math><!--sum_[v=r-((r+1)/2)]^[r-(r-1)]--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>v</mi><mo>=</mo><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>)</mo></mrow></mrow><mrow><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>
-            (<math><!--Y(r-v,x) - (-1)^(r-v) h^(r-v)--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mi>&nbsp; Y</mi><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>v</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>v</mi></mrow></msup><msup><mi>h</mi><mrow><mi>r</mi><mo>-</mo><mi>v</mi></mrow></msup></mstyle></math>
-            y<math><!--[--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>[</mo><mo></mo></mrow></mstyle></math>old])}<sub><span
-                 style="font-style: italic;"></span></sub><br>
+            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
+            <math><!--sum_[v=r-((r+1)/2)]^[r-(r-1)]--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>v</mi><mo>=</mo><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mfrac><mrow><mi>r</mi><mo>+</mo><mn>1</mn></mrow><mn>2</mn></mfrac><mo>)</mo></mrow></mrow><mrow><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>
+            (<math><!--Y(r-v,x) - (-1)^(r-v) h^(r-v)--><mstyle displaystyle="true"
+                fontfamily="" mathcolor="" mathsize=""><mi>&nbsp; Y</mi><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>v</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>v</mi></mrow></msup><msup><mi>h</mi><mrow><mi>r</mi><mo>-</mo><mi>v</mi></mrow></msup></mstyle></math>
+            y<math><!--[--><mstyle displaystyle="true" fontfamily="" mathcolor=""
+                mathsize=""><mrow><mo>[</mo></mrow></mstyle></math>old])}<sub><span
+                style="font-style: italic;"></span></sub><br>
           </td>
           <td>introduce v=r-u, u=r-v, <br>
           </td>
@@ -1006,16 +1022,16 @@
           </td>
           <td>=<br>
           </td>
-          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)
+          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+            (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
-            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
-            <math><!--sum_[v:(r-1)/2]^[1]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>v</mi><mo>=</mo><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow><mrow><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>(Y(r-v,x)-(-1)<sup>r-v</sup><span
-               style="font-style: italic;">h</span><sup>r-v</sup>y[old])}</td>
+            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
+            <math><!--sum_[v:(r-1)/2]^[1]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>v</mi><mo>=</mo><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow><mrow><mn>1</mn></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>(Y(r-v,x)-(-1)<sup>r-v</sup><span
+              style="font-style: italic;">h</span><sup>r-v</sup>y[old])}</td>
           <td><br>
           </td>
         </tr>
@@ -1026,16 +1042,16 @@
           </td>
           <td>=<br>
           </td>
-          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)
+          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+            (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
-            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span  style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
-            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-u</sub>(-1)<sup>u</sup>(Y(r-u,x)-(-1)<sup>r-u</sup><span
-               style="font-style: italic;">h</span><sup>r-u</sup>y[old])}</td>
+            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+<br>
+            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{C<sub>r,r-u</sub>(-1)<sup>u</sup>(Y(r-u,x)-(-1)<sup>r-u</sup><span
+              style="font-style: italic;">h</span><sup>r-u</sup>y[old])}</td>
           <td>order of summation doesn't matter, <br>
             independent summations can be given arbitrary indices, <br>
             can use same symbol if you wish<br>
@@ -1048,15 +1064,15 @@
           </td>
           <td>=<br>
           </td>
-          <td>Y(r,x)+ (-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)
+          <td>Y(r,x)+ (-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+            (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
-            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
-            C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
-               style="font-style: italic;">h</span><sup>u</sup>y[old]) + (-1)<sup>u</sup>
-            (Y(r-u,x)-(-1)<sup>r-u</sup><span  style="font-style: italic;">h</span><sup>r-u</sup>y[old])]
+            <math><!--sum_[u=1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{
+            C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old]) + (-1)<sup>u</sup>
+            (Y(r-u,x)-(-1)<sup>r-u</sup><span style="font-style: italic;">h</span><sup>r-u</sup>y[old])]
             }</td>
           <td><span>C<sub>r,u = </sub></span><span></span><span>C<sub>r,r-u</sub></span>,
             symmetry of combinatorial, <br>
@@ -1070,13 +1086,13 @@
           </td>
           <td>=<br>
           </td>
-          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span  style="font-style: italic;"></span><sub><span
-                 style="font-style: italic;"></span></sub>) + <span  style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]<sub><span  style="font-style: italic;"></span></sub>)<br>
-            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>:</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>
-            [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup><span
-               style="font-style: italic;">(h</span><sup>u</sup>+<span  style="font-style: italic;">h</span><sup>r-u</sup>)y[old]]
+          <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style: italic;"></span><sub><span
+                style="font-style: italic;"></span></sub>) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+            (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)<br>
+            <math><!--sum_[u:1]^[(r-1)/2]--><mstyle displaystyle="true" fontfamily=""
+                mathcolor="" mathsize=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>:</mo><mn>1</mn></mrow><mrow><mfrac><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow><mn>2</mn></mfrac></mrow></munderover></mrow></mstyle></math>{C<sub>r,u</sub>
+            [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup><span
+              style="font-style: italic;">(h</span><sup>u</sup>+<span style="font-style: italic;">h</span><sup>r-u</sup>)y[old]]
             }</td>
           <td>r/2 combinatorial coefficients <br>
             cost: 4A,1M,P<br>
@@ -1085,7 +1101,7 @@
         </tr>
       </tbody>
     </table>
-    <hr  style="width: 100%; height: 2px;">
+    <hr style="width: 100%; height: 2px;">
     <h4>Local Typographic conventions</h4>
     <p>If your browser doesn't support MathML you may see:</p>
     <ol>
@@ -1093,8 +1109,8 @@
         last value ]{ expression } </li>
       <li>Exponentiation is shown as base<sup>exp</sup> (for those of you
         reading the raw text)</li>
-      <li><span  style="font-style: italic;">± </span>is <span  style="font-style: italic;">+/-
-          </span>and is in these instances (-1)<sup>r</sup><span  style="font-style: italic;"><br>
+      <li><span style="font-style: italic;">± </span>is <span style="font-style: italic;">+/-
+          </span>and is in these instances (-1)<sup>r</sup><span style="font-style: italic;"><br>
         </span></li>
       <li>"()" usually indicate a function in the mathematical sense, when not
         obviously grouping sub-expressions.<br>
@@ -1102,6 +1118,6 @@
       <li>"[]" often indicate an array lookup, which can become a significant
         performance issue with C++ dynamic arrays</li>
     </ol>
-    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2008,2009,2016
+    <hr style="width: 100%; height: 2px;">©Andy Heilveil 2008,2009,2016
   </body>
 </html>

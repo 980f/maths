@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title>square root</title>
+  </head>
+  <body>
+    <h2>Binary square root, optimal sequential implementation</h2>
+    The integer part of the square root of a given number is the number such
+    that root*root + remainder =given. <br>
+    When the multiply operation is expensive (simple microcontroller or FPGA)
+    one can compute the root one bit at a time with only a few additions and
+    shift per bit.<br>
+    <br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td>given </td>
+          <td>-=</td>
+          <td>sum_[i=0]^M g_i * 2^i</td>
+          <td>definition</td>
+        </tr>
+        <tr>
+          <td>root&nbsp; </td>
+          <td>-= </td>
+          <td>sum_[i=0]^[M/2] q_i * 2^i</td>
+          <td>definition</td>
+        </tr>
+        <tr>
+          <td>root^2</td>
+          <td>=</td>
+          <td>{sum_[i=0]^[M/2] q_i * 2^i } * {sum_[j=0]^[M/2] q_j * 2^j}</td>
+          <td>square is product of item with itself</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>sum_[i=0]^[M/2] sum_[j=0]^[M/2] {q_i * 2^i * q_j * 2^j}</td>
+          <td>product of sums is sum of products </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>sum_[i=0]^[M/2] sum_[j=0]^[M/2] {q_i * q_j * 2^[i+j]}</td>
+          <td>combine powers of two</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>sum_[k=0]^M 2^k * sum_[i=0]^k q_i*q_k-i</td>
+          <td>collect terms with same power of two</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    The most significant bit of the root is only affected by the 2 most
+    significant bits of the given. <br>
+    <br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td>provisional root(i+1)</td>
+          <td>=</td>
+          <td>2*root(i)+1</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>squared root(i+1)</td>
+          <td>=</td>
+          <td>4*root(i)^2 + 4*root(i) + 1</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>4*squared root(i) + 4*root(i) + 1 </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>given- squared root(i+1)<br>
+          </td>
+          <td>=<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    &nbsp;<br>
+  </body>
+</html>
