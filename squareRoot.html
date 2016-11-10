@@ -10,21 +10,22 @@
     that root*root + remainder =given. <br>
     When the multiply operation is expensive (simple microcontroller or FPGA)
     one can compute the root one bit at a time with only a few additions and
-    shift per bit.<br>
+    shifts per bit.<br>
     <br>
     <table border="0">
       <tbody>
         <tr>
           <td>given </td>
-          <td>-=</td>
+          <td>=</td>
           <td>sum_[i=0]^M g_i * 2^i</td>
-          <td>definition</td>
+          <td>definition of g_i</td>
         </tr>
         <tr>
           <td>root&nbsp; </td>
-          <td>-= </td>
+          <td>= </td>
           <td>sum_[i=0]^[M/2] q_i * 2^i</td>
-          <td>definition</td>
+          <td>definition of q_i, note highest power is half that of highest
+            power of given.</td>
         </tr>
         <tr>
           <td>root^2</td>
