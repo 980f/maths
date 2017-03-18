@@ -1,0 +1,160 @@
+(C) 1992 by Andy Heilveil.
+
+Derivation of integral preserving quadratic compression:
+
+    First I shall describe how smooth linear compression works
+for the quadratic version is a trivial extension. We are merging
+a larger number of input points to create a smaller number of
+output points. Viewed graphically we are integrating over a
+spread of X coordinates to generate a Y datum. Each input datum
+represents a fractional Y datum, I call this fraction XSTEP. The
+heart of the algorithm is to add the next X datum to the
+accumulating Y datum, add XSTEP to YFRAC where YFRAC is how much
+of the range of the Y datum has been accumulated. If XSTEP is 1/
+an integer then that number of whole X data go into a Y datum. As
+this is often not the case we encounter X datums that need to be
+split between two Y datums. (I use the word 'datums' to refer to
+a small subset of a block of data). To know how much of the X to
+go into each Y we inspect the YFRAC after each increment by
+XSTEP. If YFRAC is >1 then we have crossed into the new Y datum,
+and the fractional part of YFRAC tells us how much of the X datum
+belongs to the NEW point. This is also the amount that was added
+erroneously to the Y datum-in-process so we calculate the
+fraction of X, subtract it from present accumulation, output
+accumulator, load accumulater with fraction-of-X. To know when to
+do this we have watched YFRAC get greater than 1. When it does so
+we thereafter only care about the  fractional part of it so we can
+subtract one each time it happens. When programming at assembly
+level or building hardware we would let the carry bit of the
+addition be the ONE's position of YFRAC which automatically gets
+lost when the next add is done.
+
+    To extend this algorithm for quadratic compression we do no
+more than modify XSTEP with each data point. The modification is
+to subtract a small amount A from XSTEP either each cycle of X or
+for faster operation at slightly less smooth compression we can
+do it only after outputting each Y datum. Changing XSTEP is in
+effect altering the compression ratio with each step. To
+calculate what A should be we need the following input:
+DX: number of input points to compress,
+DY: number of output points OR equivalently
+NR: net compression desired= DY/DX, a number < one.
+We also need:
+IR: initial compression rate= starting value for XSTEP.
+
+    The free choice of IR corresponds to choosing what part of
+the quadratic curve we are using to compress by. A common sense
+IR value is ONE saying that we want the low end data to be
+approximately 1:1 as there is no advantage to expanding data.
+    As an aside: a slight modification of the loop, which can in
+    fact be coded as a common loop, provides expansion rather
+    than compression.
+An IR value less than one has the effect of losing resolution at
+the low end to gain resolution (lesser local compression) at the
+high end.
+
+    The NR actual may be slightly different then the NR desired
+due to round off of computer math. NR can usually be allowed to
+wander enough so that the A parameter, whose LSB determines the
+precision of YFRAC,XSTEP and itself, is in range of fixed point
+math. Without this pragmatism the alogithm is somewhat
+computationally intensive.  Due to the way X datums are split the
+precision of the product YFRAC*X value can be quite limited, the
+integral is preserved up to an uncertainty of a fraction of the
+integration boundary coordinate.
+
+    DY= sum of XSTEP for Y steps. XSTEP(0)= IR.
+    XSTEP(1)=IR-A; XSTEP(2)=XSTEP(1)-A=IR-A-A=IR-A*2;
+    XSTEP(i)=IR-A*i;
+    sum of XSTEP(i) for i=0 to DX-1=
+        IR*DX - A*(DX/2)*(DX-1)  using the formula for sum of i.
+
+    DY= DX*[IR-(A/2)*(DX-1)]; notice this is like y=ax+bxý
+    NR= IR-(A/2)*(DX-1)
+
+    FR=final rate=IR-A*DX is approx. 2*NR which corresponds to
+    the differential formula: dy/dx=d/dx(xý)=2*x.
+
+    A slight alteration of the order of operations in the
+processing loop changes the summation range to from 1 to DX which
+changes the formula for NR to:
+    NR= IR-(A/2)*(DX+1), with DX >>1  we don't have to be picky
+about what we are doing.
+
+    So: A= 2*(IR-NR)/(DX-1).  (or DX+1 if you prefer).
+
+    Note that IR must be greater than NR. If XSTEP goes below
+zero due to round off (or iterating cycle too many steps) the
+algorithm fails. XSTEP exactly zero corresponds to an infinite
+compression ratioof 1/0, below zero this is the other branch of
+the 1/x hyperbola and as such yields expansion rather than
+compression.
+
+    Using DY instead of NR as a given, and choosing IR= ONE:
+    A= 2*(1-DY/DX)/(DX-1) is approx. 2*(DX-DY)/DXý. This last
+expression may be interpreted as "the A parameter is like twice
+the number of points to be discarded divided by the square of the
+number to keep". For my favorite case of 4096 point compressing
+to 1024 (2 to 12th squeezed into 2 to 10th):
+
+    A=2*(1- (1024/4096))/(4095)= (3/2)/4095.
+
+    Multiplying by 4095/4096 creates a error 1/4095 every 4096th
+cycle of operation. This means no error until the last cycle
+whose result is trashed anyway.  This makes A=3*2^-13 which is
+1.1*2^-12 in base 2 which is .0000 0000 0001 1... which fits
+nicely into a 16 bit integer. The infinitely precise number would
+be .0000 0000 0001 1000 0000 0001 1000 0000 0001 etc. repeating
+in cycles of 12 bits. Other power of two ratios also nicely
+reduce to simple bit patterns, and similarly so for IRs that are
+a (negative) power of two. In general one may truncate the A
+value to double the order of magnitude of the number of given
+points, e.g. 24 bit math for up to 4096 input points.
+
+    If you record the actual net compression and use it for
+calculating offsets for integration then the error in A will be
+significantly compensated for.
+
+================================================================
+
+    Higher order compressions, e.g. cubic, are implemented by
+modifying the A parameter each step. Any finite polynomial
+compression of order N can be reduced to N+1 adds, in effect
+integrating a constant N times to get a*x^N. One gets polynomial
+equations for the A terms which are in the limit of large numbers
+the Taylor series coefficients. I have never found a use for any
+such compression.
+
+================================================================
+================================================================
+
+
+
+    The compression may be expressed in words: accumulate X
+points until they equal a Y point. Expansion is the complementary
+operation and can be expressed: output fractions of the input
+point until it is exhausted. The fraction increases linearly with each
+output to make it quadratic.
+
+    For each X datum:
+        Do
+            output XSTEP* X datum
+            YFRAC +=XSTEP
+            XSTEP -= A
+        until YFRAC>=1
+        YFRAC-=1  (retain just the fractional part)
+        pick up a new X datum.
+
+    The above skips the fine detail of splitting X data via YFRAC
+at the boundaries.
+
+    DY= sum 1 to DY of XSTEP(i); XSTEP(0)=IR
+    XSTEP(i)=XSTEP(i-1)-A; XSTEP(i)=IR-A*i
+
+    DY= IR*DY-A*(DY/2)*(DY+1)
+    DY= DY*[IR-(A/2)*(DY+1)]
+    1 = IR-(A/2)*(DY+1)
+    A = 2*(1-IR)/(DY+1).
+
+    But this time around we can't choose IR to be one! So we have
+to add some other condition
