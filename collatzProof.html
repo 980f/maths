@@ -384,6 +384,54 @@
         </tr>
         <tr>
           <td><br>
+            <table width="100%" border="1">
+              <caption>case: 2 or more trailing ones, 1 zero above</caption>
+              <tbody style="text-align: right;">
+                <tr>
+                  <td>previous<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x1011</span></td>
+                  <td><span style="font-family: monospace;">x10111</span></td>
+                  <td><span style="font-family: monospace;">x1001111</span></td>
+                  <td>(k) 1's</td>
+                </tr>
+                <tr>
+                  <td>shifted+1<br>
+                  </td>
+                  <td><span style="font-family: monospace;">10111</span></td>
+                  <td><span style="font-family: monospace;">101111<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">10011111<br>
+                    </span> </td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>sum<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x0010<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">x00110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c1101110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c110</span><br>
+                    (k-1)1's</td>
+                </tr>
+                <tr>
+                  <td>number of bits to remove<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </td>
         </tr>
         <tr>
@@ -400,10 +448,15 @@
     <br>
     <br>
     <br>
-    <hr>And now for something totally different<br>
+    <hr>And now for something totally different.<br>
     <br>
-    Each value in the Collatz sequence has an unbounded set of possible prior
-    values, the set of all powers of 2.<br>
+    We will show that there is only one independent sequence below a finite
+    value M, but that it does not depend upon the value of M only its
+    finiteness. <br>
+    <br>
+    Beneath 2^M any member of a Collatz sequence has at most M possible prior
+    values, the set of all powers of 2 less than M.<br>
+    <br>
     With each iteration we lose information as to what the prior number was.<br>
     The rate of loss of information is &gt;=1 bit per cycle, due to the
     'erasure' that adding the one causes.<br>
@@ -411,8 +464,14 @@
     At that rate there is a finite number of steps, log base 2 of the initial
     point you choose, by which you have no idea of where you started. IE after N
     steps for a starting number &lt;2<sup>N</sup> <span style="font-family: monospace;">
-        the term is random.</span><br>
+    </span>the term is random.<br>
     <br>
+    The sequence by its formulation is deterministic, you can compute the Nth
+    term with a finite number of steps and each step is fully determined.<br>
+    <br>
+    We know many sequences terminate at 1. That is also the only value that is
+    stable, any other value must give a different 'next value'. <br>
+    Any other sequence must either never repeat<br>
     <br>
     <br>
     <br>
