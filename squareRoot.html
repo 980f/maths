@@ -1,145 +1,163 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <title>square root</title>
   </head>
   <body>
     <h2>Binary square root, optimal sequential implementation</h2>
-    The integer part of the square root of a given number is the number such
-    that root*root + remainder =given. <br>
-    When the multiply operation is expensive (simple microcontroller or FPGA)
-    one can compute the root one bit at a time with only a few additions and
-    shifts per bit.<br>
+    The integer part of the square root of a given number is the number such that
+    <math>
+      <msqrt>
+        <mn>root</mn> </msqrt> </math>*
+    <math>
+      <msqrt>
+        <mn>root</mn> </msqrt> </math> + remainder =given. <br>
+    When the multiply operation is expensive (simple microcontroller or FPGA) one can compute the root one bit at a time with only a few additions and shifts per bit.<br>
     <br>
-    <table border="0">
-      <tbody>
-        <tr>
-          <td>given </td>
-          <td>=</td>
-          <td>sum_[i=0]^M g_i * 2^i</td>
-          <td>definition of g_i</td>
-        </tr>
-        <tr>
-          <td>root&nbsp; </td>
-          <td>= </td>
-          <td>sum_[i=0]^[M/2] q_i * 2^i</td>
-          <td>definition of q_i, note highest power is half that of highest
-            power of given.</td>
-        </tr>
-        <tr>
-          <td>root^2</td>
-          <td>=</td>
-          <td>{sum_[i=0]^[M/2] q_i * 2^i } * {sum_[j=0]^[M/2] q_j * 2^j}</td>
-          <td>square is product of item with itself</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>sum_[i=0]^[M/2] sum_[j=0]^[M/2] {q_i * 2^i * q_j * 2^j}</td>
-          <td>product of sums is sum of products </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>sum_[i=0]^[M/2] sum_[j=0]^[M/2] {q_i * q_j * 2^[i+j]}</td>
-          <td>combine powers of two</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>=</td>
-          <td>sum_[k=0]^M 2^k * sum_[i=0]^k q_i*q_k-i</td>
-          <td>collect terms with same power of two</td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
     <br>
-    The most significant bit of the root is only affected by the 2 most
-    significant bits of the given. <br>
+    We work from the most significant bit downward, guessing and testing. <br>
+    We subtract the square of the guess from the number leaving a remainder.<br>
     <br>
-    <table border="0">
-      <tbody>
-        <tr>
-          <td>provisional root(i+1)</td>
-          <td>=</td>
-          <td>2*root(i)+1</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td>squared root(i+1)</td>
-          <td>=</td>
-          <td>4*root(i)^2 + 4*root(i) + 1</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td>=<br>
-          </td>
-          <td>4*squared root(i) + 4*root(i) + 1 </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td>given- squared root(i+1)<br>
-          </td>
-          <td>=<br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    Remainder<sub>k</sub> = given number - (guess<sub>k</sub>)<sup>2</sup><br>
     <br>
-    &nbsp;<br>
+    From now on I shall write that: <br>
+    R<sub>k</sub> = given - G<sub>k</sub><sup>2</sup><br>
+    <br>
+    G<sub>k-1</sub> = G<sub>k</sub>+2<sup>k-1</sup>&nbsp;&nbsp; <br>
+    G<sub>k-1</sub><sup>2</sup> = G<sub>k</sub><sup>2</sup>+ 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup> = G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2<br>
+      <br>
+    </sup> R<sub>k-1</sub> = given - G<sub>k-1</sub><sup>2<br>
+    </sup>R<sub>k-1</sub> = given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup> ) <br>
+    R<sub>k-1</sub> = given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup> <br>
+    R<sub>k-1</sub> = R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup><br>
+    <br>
+    If that is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub> should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>. <br>
+    Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we just computed.<br>
+    If we don't have a place to keep the old values (FPGA or trying to stick with minimal number of CPU registers) we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp; </sup>excess removed with subtracting the next test value:<br>
+    R<sub>k-2</sub> = R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)<br>
+    <br>
+    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4<br>
+      <br>
+    </sup><br>
+    R<sub>k-2</sub> = R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub> - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup>) <br>
+    <br>
+    <br>
+    R<sub>k-2</sub> = R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>) + 3*(2<sup>2k-4</sup>) <br>
+    <br>
+    R<sub>k-2</sub> = R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub> + 3*(2<sup>2k-4</sup>) <br>
+    <br>
+    Compare that to what we would have done if we had restored/not updated G<sub>k-1</sub>,R<sub>k-1</sub>:<br>
+    <br>
+    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> - 2<sup>2k-4</sup><br>
+    <br>
+    and we see that we are adding the Gk term instead of subtracting it and adding 3 * the "new bit" term instead of subtracting it.<br>
+    <br>
+    Using accumulator symbology:<br>
+    <br>
+    if last bit was a one:<br>
+    <br>
+    R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4&nbsp;&nbsp; </sup><br>
+    <br>
+    if last bit was a zero:<br>
+    <br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 3*2<sup>2k-4</sup>&nbsp;&nbsp; or<br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp; + 2*2<sup>2k-4</sup>&nbsp;&nbsp; <br>
+    <br>
+    Now if we are writing assembly language the "bit was a one/zero" is the sign bit of the previous add or subtract.<br>
+    If we are using a bit in a word for both our bit counter and bit setter then the extra 2*2<sup>2k-4 </sup>term is produced by the first of two shifts that are producing the 2<sup>2k</sup> series and therefore:<br>
+    <br>
+    if prior 1<br>
+    &nbsp;&nbsp;&nbsp; G|=bit<br>
+    &nbsp;&nbsp;&nbsp; G&gt;&gt;=1<br>
+    bit&gt;&gt;=1<br>
+    if prior 0<br>
+    &nbsp;&nbsp;&nbsp; R-=bit<br>
+    bit &gt;&gt;=1<br>
+    if bit==0, done. For some processors we can shift into the carry bit and jump out of loop on carry==1<br>
+    if prior 0<br>
+    &nbsp;&nbsp;&nbsp; R+=bit<br>
+    &nbsp;&nbsp;&nbsp; R+=G<br>
+    if prior 1<br>
+    &nbsp;&nbsp;&nbsp; R-=bit<br>
+    &nbsp;&nbsp;&nbsp; R-=G, save sign to 'prior'.<br>
+    repeat<br>
+    <br>
+    <hr><br>
+    If your processor has a "shift by 2" in one instruction:<br>
+    <br>
+    The "prior was even" equation can also be written:<br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 4*2<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup><br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4</sup><br>
+    <br>
+    <br>
+    if prior 1<br>
+    &nbsp;&nbsp;&nbsp; G|=bit<br>
+    &nbsp;&nbsp;&nbsp; R+=bit<br>
+    G&gt;&gt;=1<br>
+    if prior 0<br>
+    &nbsp;&nbsp;&nbsp; R+=G<br>
+    else<br>
+    &nbsp;&nbsp;&nbsp; R-=G<br>
+    bit&gt;&gt;=2<br>
+    if bit !=0 <br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; repeat<br>
+    (rounding or fixing the remainder)<br>
+    &nbsp; <br>
+    <hr><br>
+    Yet another tweak that should work well in an FPGA:<br>
+    <br>
+    was 0: R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> - 2<sup>2k-4</sup><br>
+    was 1: R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup><br>
+    was 1: R<sub>k-2</sub> += ~(2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)+1<br>
+    <br>
+    if prior 1 <br>
+    &nbsp;&nbsp;&nbsp; G|=bit<br>
+    &nbsp;&nbsp;&nbsp; R+=bit<br>
+    G&gt;&gt;=1<br>
+    if prior 0<br>
+    &nbsp;&nbsp;&nbsp; R+=G<br>
+    else<br>
+    &nbsp;&nbsp;&nbsp; R+=~G+1, where the +1 is a forced carry (carry in = saved sign).<br>
+    bit&gt;&gt;=2<br>
+    if bit !=0 <br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; repeat<br>
+    (rounding or fixing the remainder)<br>
+    <hr>Initial bit:<br>
+    <br>
+    Until we have seen the first 1 bit the loop can be shorter:<br>
+    <br>
+    init R=given<br>
+    init bit= 1&lt;&lt; number of bits -2<br>
+    <br>
+    <br>
+    R -= bit<br>
+    if &lt;0<br>
+    &nbsp;&nbsp;&nbsp; R+=bit<br>
+    bit&gt;&gt;=2<br>
+    &nbsp;&nbsp;&nbsp; if bit==0 done<br>
+    <br>
+    <br>
+    OR<br>
+    <br>
+    init R=given<br>
+    init bit= 3&lt;&lt; number of bits -2<br>
+    <br>
+    <br>
+    R += bit<br>
+    if no carry<br>
+    &nbsp;&nbsp; bit&gt;&gt;=2 fyi arithemetic shift, not logical. Prior to now it did not matter as the MSB was init to a 0.<br>
+    &nbsp;&nbsp; if bit==0 done<br>
+    &nbsp;&nbsp;&nbsp; loop<br>
+    <br>
+    bit=~bit, bit+=1 aka bit = -bit<br>
+    bit&gt;&gt;=2<br>
+    <br>
+    proceed with loop as per prior sections.<br>
+    <hr><br>
+    <br>
+    <br>
   </body>
 </html>
