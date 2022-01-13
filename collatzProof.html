@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>collatzProof</title>
     <meta content="Andy Heilveil" name="author">
   </head>
@@ -9,60 +9,90 @@
     <h2>Collatz conjecture</h2>
     <p>The Collatz conjecture can be formulated as:<br>
       <br>
-      For the series&nbsp;<math><!--C_n -= 1+3*C_[n-1]--><mstyle displaystyle="true"
-          fontfamily="" mathcolor="" mathsize=""><msub><mi>C</mi><mi>n</mi></msub><mo>≡</mo><mn>(1</mn><mo>+</mo><mn>3</mn><mo>⋅</mo><msub><mi>C</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mstyle></math>)
-      / (the highest power of 2 that divides the numerator) there exists for all
-      odd&nbsp;<math><!--C_0--><mstyle displaystyle="true" fontfamily="" mathcolor=""
-          mathsize=""><msub><mi>C</mi><mn>0</mn></msub></mstyle></math> an N
-      such that&nbsp;<math><!--C_N = 1--><mstyle displaystyle="true" fontfamily=""
-          mathcolor="" mathsize=""><msub><mi>C</mi><mi>N</mi></msub><mo>=</mo><mn>1</mn></mstyle></math>.<br>
-      Note that if&nbsp;<math><!--C_x = 1--><mstyle displaystyle="true" fontfamily=""
-          mathcolor="" mathsize=""><msub><mi>C</mi><mi>x</mi></msub><mo>=</mo><mn>1</mn></mstyle></math>
-      then&nbsp;<math><!--C_[x+1]=1--><mstyle displaystyle="true" fontfamily=""
-          mathcolor="" mathsize=""><msub><mi>C</mi><mrow><mi>x</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn></mstyle></math>:&nbsp;
-      1+3*1 = 4, prime factorization of 4=2<sup>2 </sup>so we divide 4/2<sup>2</sup>
-      = 1.</p>
-    <p>Representing the terms in binary notation we note that all values are odd
-      and so the lsb is always a 1.<br>
-      The values are always finite and so there is a notion of 'number of bits
-      to represent the number'.<br>
+      For the series&nbsp;<math><!--C_n -= 1+3*C_[n-1]--><mstyle displaystyle="true"
+          mathsize="" mathcolor="" fontfamily=""><msub><mi>C</mi><mi>n+1</mi></msub><mo>≡</mo><mn>if&nbsp;
+            </mn></mstyle></math><math><mstyle displaystyle="true" mathsize="" mathcolor=""
+          fontfamily=""><mn>Cn&nbsp; odd then (1</mn><mo>+</mo><mn>3</mn><mo>⋅</mo><msub><mi>C</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mstyle></math>)
+      else Cn/2.<br>
       <br>
-      We will prove the conjecture by showing that the number of bits needed to
-      represent a term in the series eventually decreases.</p>
+      It is to be shown that for all
+      <math><!--C_0--><mstyle displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msub><mi>C</mi><mn>0</mn></msub></mstyle></math>
+      there is a finite N such that&nbsp;<math><!--C_N = 1--><mstyle displaystyle="true"
+          mathsize="" mathcolor="" fontfamily=""><msub><mi>C</mi><mi>N</mi></msub><mo>=</mo><mn>1</mn></mstyle></math>.<br>
+      <br>
+      Note that for C<sub>0</sub>=0 C<sub>1</sub>=1, so we will presume for
+      convenience that C<sub>n</sub> is not zero.</p>
+    <hr>We may represent the terms in binary notation, a 1 followed by some
+    series of 1's and 0's.<br>
+    The terms are always finite and so there is a notion of 'number of bits to
+    represent the number'.<br>
+    <br>
+    The "if even" clause of the series amounts to discarding the trailing
+    zeroes. If C<sub>n</sub> is odd then 3*C<sub>n</sub> is odd, adding 1
+    results in an even number so we can redefine the iterative step as:<br>
+    Multiply by 3, add 1, and discard the trailing zeroes, which gives you
+    another odd number;<br>
+    and redefine the initial condition as 'for any odd number'.<br>
+    <br>
+    Since the statement is demonstrably true for initial value 1 we will assume
+    C<sub>n</sub> &gt;1 whenever convenient for the rest of the proof.<br>
+    <p>We can decompose the binary string into substrings which are blocks of
+      adjacent 1's separated by blocks of adjacent 0's. For example<span style="font-family: monospace;">
+        111100101101</span> is (4) 1's, (2) 0's, (1) 1, (1) 0, (2) 1's, (1)0,
+      (1) 1.</p>
+    <p>3*C<sub>n</sub>+1 &lt; 4*C<sub>n</sub> by simple algebra. So it will at
+      most take 2 more bits to represent C<sub>n+1</sub> than C<sub>n</sub>
+      looking at the msb of the bit string. However 3*odd is odd, +1 is even, so
+      we will drop at least 1 bit each cycle from the lsb end of the bit string.
+      This means that at most 1 additional bit is needed each cycle. We shall
+      investigate how the number of bits for step N can be shown to eventually
+      converge to 1, a logarithmic description of our termination condition.</p>
+    <hr>
+    <h3>Cracking our knuckles</h3>
     <p><br>
-      The following analyses will presume many more bits than are shown are
-      required for the current term, which is ok as the conjecture as been
-      confirmed for numbers up to many bits.</p>
-    <p>A binary number can be represented as blocks of adjacent 1's separated by
-      blocks of adjacent 0's. Let is look at what the most significant block of
-      one's does as the collatz numerator is formed:<br>
-    </p>
+      Let us split the bit string at the most significant position where there
+      are 3 or more adjacent zeroes. We will deal with the case 'there are no
+      such splits' later.</p>
+    <br>
     <table border="1">
+      <caption>MS portion cases, isolated by at least 3 zeroes</caption>
       <tbody style="text-align: right;">
         <tr>
           <td>previous<br>
           </td>
-          <td>100</td>
-          <td>1100</td>
-          <td>11100</td>
-          <td>111100</td>
+          <td><span style="font-family: monospace;">1000</span></td>
+          <td><span style="font-family: monospace;">11000</span></td>
+          <td><span style="font-family: monospace;">111000</span></td>
+          <td><span style="font-family: monospace;">1111000</span></td>
+          <td>(k)1's, k&gt;1</td>
         </tr>
         <tr>
-          <td>shifted<br>
+          <td>shifted gives *2<br>
           </td>
-          <td>100x</td>
-          <td>1100x</td>
-          <td>11100x</td>
-          <td>111100x</td>
+          <td><span style="font-family: monospace;">1000x</span></td>
+          <td><span style="font-family: monospace;">11000x</span></td>
+          <td><span style="font-family: monospace;">111000x</span></td>
+          <td><span style="font-family: monospace;">1111000x</span></td>
+          <td><br>
+          </td>
         </tr>
         <tr>
-          <td>sum<br>
+          <td>sum for *3<br>
+            .<br>
           </td>
-          <td>11xx</td>
-          <td>1001xx</td>
-          <td>10101xx<br>
-          </td>
-          <td>101101xx</td>
+          <td><span style="font-family: monospace;">1100x<br>
+              11010</span></td>
+          <td><span style="font-family: monospace;">100100x<br>
+              1001010</span></td>
+          <td><span style="font-family: monospace;">1010100x<br>
+              10101010<br>
+            </span> </td>
+          <td><span style="font-family: monospace;">10110100x<br>
+              101101010</span></td>
+          <td><span style="font-family: monospace;">10</span><br>
+            (k-2)1's<span style="font-family: monospace;"><br>
+              010<br>
+              00,01, or 10</span></td>
         </tr>
         <tr>
           <td>number of added bits<br>
@@ -74,20 +104,378 @@
           <td>2<br>
           </td>
           <td>2</td>
+          <td>2</td>
         </tr>
       </tbody>
     </table>
     <p>We note that in one case a single extra bit is needed to represent the
       number, all other cases 2 extra bits are needed. Also note then when 2
-      extra bits are needed then the resulting number will only require 1 bit
-      the next cycle. If only one bit was added then the next cycle will add 2
-      bits. From this we conclude that each pair of cycles adds 1.5 bits at the
-      most significant end of the number.<br>
-      The above assumes that there is not a carry in to the sum from lesser
-      blocks of 1's. That will be the case if there is at least one block of 0's
-      of length 2 or more somewhere in the number. We will come back to the case
-      of all of the blocks of 0's being length 1.</p>
-    <p>Let us look at how the lsb's develop.</p>
+      extra bits are needed they are exactly <span style="font-family: monospace;">10</span>,
+      never <span style="font-family: monospace;">11</span>. Note that the
+      (k)1's column is a rigorous conclusion provable with simple algebra.</p>
+    <p><span style="font-family: monospace;"></span></p>
+    <hr>
+    <h3>Isolated by two<span style="font-family: monospace;"><br>
+      </span></h3>
+    <p>Let us repeat that table but with only 2 adjacent zeros separating it
+      from the next segment.</p>
+    <table border="1">
+      <caption>MS portion cases, isolated by just 2 zeroes</caption>
+      <tbody style="text-align: right;">
+        <tr>
+          <td>previous<br>
+          </td>
+          <td><span style="font-family: monospace;">1001</span></td>
+          <td><span style="font-family: monospace;">11001</span></td>
+          <td><span style="font-family: monospace;">111001</span></td>
+          <td><span style="font-family: monospace;">1111001</span></td>
+          <td>(k)1's, k&gt;1<br>
+          </td>
+        </tr>
+        <tr>
+          <td>shifted gives *2<br>
+          </td>
+          <td><span style="font-family: monospace;">10010<br>
+              10011<br>
+            </span></td>
+          <td><span style="font-family: monospace;">110010<br>
+              110011<br>
+            </span></td>
+          <td><span style="font-family: monospace;">1110010<br>
+            </span><span style="font-family: monospace;">1110011</span></td>
+          <td><span style="font-family: monospace;">11110010<br>
+            </span><span style="font-family: monospace;">11110011</span></td>
+          <td><span style="font-family: monospace;">case next bit is 0<br>
+              case next bit is 1</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td>sum for *3<br>
+            .<br>
+          </td>
+          <td><span style="font-family: monospace;">11011<em></em><br>
+              11100</span></td>
+          <td><span style="font-family: monospace;">1001011<br>
+              1001100</span></td>
+          <td><span style="font-family: monospace;">10101011<br>
+              10101100<br>
+            </span> </td>
+          <td><span style="font-family: monospace;">101101011<br>
+              101101100</span></td>
+          <td><span style="font-family: monospace;">10</span><br>
+            (k-2)1's<span style="font-family: monospace;"><br>
+              01011 or 01100</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td>number of added bits<br>
+          </td>
+          <td>1<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>2<br>
+          </td>
+          <td>2</td>
+          <td>2<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    As before, the <span style="font-family: monospace;">(k)1's</span> column
+    is a rigorous conclusion provable with simple algebra. <br>
+    <ol>
+      <li>Any step that adds 2 bits to the MSB leaves <span style="font-family: monospace;">10</span>
+        as the leading segment.<span style="font-family: monospace;"><br>
+        </span></li>
+      <li>Any step that is prefixed by <span style=" font-family: monospace;">10</span>
+        only adds 1 bit on the next cycle, leaving leading groups of <span style=" font-family: monospace;">11011</span>
+        or <span style=" font-family: monospace;">11100<br>
+        </span></li>
+    </ol>
+    Lemma 1: A leading group of (k) 1's followed by sufficient zeroes (~k*2)
+    causes 1.5*k bits to be added to the ms end of the bit string over k
+    iterations of the algorithm.<br>
+    <hr>
+    <h3>Lsb erosion</h3>
+    An odd*3 is odd, +1 is even, so we will drop at least 1 bit each cycle from
+    the lsb end of the bit string. In our tables of cases we will show the shift
+    step as always gaining a 1 at the ls end, the +1 of the algorithm.<br>
+    <ol start="3">
+      <li>every cycle reduces the number of bits needed by at least 1 at the ls
+        end. </li>
+    </ol>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td> <br>
+            <table width="100%" border="1">
+              <caption>case: single trailing 1</caption>
+              <tbody style="text-align: right;">
+                <tr>
+                  <td>previous<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x101</span></td>
+                  <td><span style="font-family: monospace;">x1001</span></td>
+                  <td><span style="font-family: monospace;">x10001</span></td>
+                  <td>(j)0's, j&gt;=2</td>
+                </tr>
+                <tr>
+                  <td>shifted+1<br>
+                  </td>
+                  <td><span style="font-family: monospace;">1011</span></td>
+                  <td><span style="font-family: monospace;">10011<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">100011<br>
+                    </span> </td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>sum<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x000<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c1100<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c10100<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">flip next bit</span><br>
+                    <span style="font-family: monospace;">1</span><br>
+                    (j-2) 0's<br>
+                    <span style="font-family: monospace;">100</span></td>
+                </tr>
+                <tr>
+                  <td>number of bits to remove<br>
+                  </td>
+                  <td>&gt;=3<br>
+                  </td>
+                  <td>2<br>
+                  </td>
+                  <td>2<br>
+                  </td>
+                  <td>2</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td>Above the <span style="font-family: monospace;">x</span>
+            represents the next bit, <span style="font-family: monospace;">c</span>
+            is the complement of <span style="font-family: monospace;">x</span>.
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+            <table width="100%" border="1">
+              <caption>case: 2 or more trailing ones, 3 or more zeroes above</caption>
+              <tbody style="text-align: right;">
+                <tr>
+                  <td>previous<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x100011</span></td>
+                  <td><span style="font-family: monospace;">x1000111</span></td>
+                  <td><span style="font-family: monospace;">x10001111</span></td>
+                </tr>
+                <tr>
+                  <td>shifted+1<br>
+                  </td>
+                  <td><span style="font-family: monospace;">1000111</span></td>
+                  <td><span style="font-family: monospace;">10001111<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">100011111<br>
+                    </span> </td>
+                </tr>
+                <tr>
+                  <td>sum<br>
+                  </td>
+                  <td><span style="font-family: monospace;">c101010<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c1010110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c10101110<br>
+                    </span> </td>
+                </tr>
+                <tr>
+                  <td>number of bits to remove<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+            <table width="100%" border="1">
+              <caption>case: 2 or more trailing ones, 2 zeroes above</caption>
+              <tbody style="text-align: right;">
+                <tr>
+                  <td>previous<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x10011</span></td>
+                  <td><span style="font-family: monospace;">x100111</span></td>
+                  <td><span style="font-family: monospace;">x1001111</span></td>
+                  <td>(k) 1's</td>
+                </tr>
+                <tr>
+                  <td>shifted+1<br>
+                  </td>
+                  <td><span style="font-family: monospace;">100111</span></td>
+                  <td><span style="font-family: monospace;">1001111<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">10011111<br>
+                    </span> </td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>sum<br>
+                  </td>
+                  <td><span style="font-family: monospace;">c11010<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c110110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c1101110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c110</span><br>
+                    (k-1)1's</td>
+                </tr>
+                <tr>
+                  <td>number of bits to remove<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>So far we see that the trailing number of 1's uniformly shrinks by
+            1 each cycle, until it get to a single one after which 2 or more
+            bits get eliminated.<br>
+            <br>
+            This gives us our first bound on rate of growth of number of bits
+            required, 0.5 per iteration.<br>
+            We need a negative number for this measure to prove the conjecture,
+            but at least we have come down from the ~2 ignoring the effect of
+            the +1 part of the formula to 0.5.<br>
+            <br>
+            We must now compute the minimum rate at which the trailing 01
+            occurs, and the actual number of bits that the 101 class of ending
+            eliminates.<br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+            <table width="100%" border="1">
+              <caption>case: 2 or more trailing ones, 1 zero above</caption>
+              <tbody style="text-align: right;">
+                <tr>
+                  <td>previous<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x1011</span></td>
+                  <td><span style="font-family: monospace;">x10111</span></td>
+                  <td><span style="font-family: monospace;">x1001111</span></td>
+                  <td>(k) 1's</td>
+                </tr>
+                <tr>
+                  <td>shifted+1<br>
+                  </td>
+                  <td><span style="font-family: monospace;">10111</span></td>
+                  <td><span style="font-family: monospace;">101111<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">10011111<br>
+                    </span> </td>
+                  <td><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td>sum<br>
+                  </td>
+                  <td><span style="font-family: monospace;">x0010<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">x00110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c1101110<br>
+                    </span> </td>
+                  <td><span style="font-family: monospace;">c110</span><br>
+                    (k-1)1's</td>
+                </tr>
+                <tr>
+                  <td>number of bits to remove<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td>1<br>
+                  </td>
+                  <td><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <hr>And now for something totally different.<br>
+    <br>
+    We will show that there is only one independent sequence below a finite
+    value M, but that it does not depend upon the value of M only its
+    finiteness. <br>
+    <br>
+    Beneath 2^M any member of a Collatz sequence has at most M possible prior
+    values, the set of all powers of 2 less than M.<br>
+    <br>
+    With each iteration we lose information as to what the prior number was.<br>
+    The rate of loss of information is &gt;=1 bit per cycle, due to the
+    'erasure' that adding the one causes.<br>
+    <br>
+    At that rate there is a finite number of steps, log base 2 of the initial
+    point you choose, by which you have no idea of where you started. IE after N
+    steps for a starting number &lt;2<sup>N</sup> <span style="font-family: monospace;">
+    </span>the term is random.<br>
+    <br>
+    The sequence by its formulation is deterministic, you can compute the Nth
+    term with a finite number of steps and each step is fully determined.<br>
+    <br>
+    We know many sequences terminate at 1. That is also the only value that is
+    stable, any other value must give a different 'next value'. <br>
+    Any other sequence must either never repeat<br>
+    <br>
+    <br>
+    <br>
+    <br>
     <table border="1">
       <tbody style="text-align: right;">
         <tr>

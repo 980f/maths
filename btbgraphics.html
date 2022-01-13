@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta  content="text/html; charset=windows-1252"  http-equiv="content-type">
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <title>better than Bresenham</title>
-    <meta  content="simple graphics algorithms"  name="description">
+    <meta content="simple graphics algorithms" name="description">
   </head>
   <body>
     <h3>Better Than Bresenham Graphics Algorithms</h3>
@@ -14,110 +14,112 @@
     which error however eventually grows too big to ignore when drawing circles.<br>
     <br>
     A totally different derivation generates an almost identical algorithm, but
-    without no growing error.<br>
-    <hr  style="width: 100%; height: 2px;">Most interesting curves&nbsp; in the
+    without a growing error.<br>
+    <hr style="width: 100%; height: 2px;">Most interesting curves&nbsp; in the
     2D plane can be expressed by the form F(x,y)=0.<br>
-    <div  style="margin-left: 40px;">
-      <hr  style="width: 100%; height: 2px;">
-      <table  style="text-align: left;"  1=""  cellpadding="2"  cellspacing="2">
+    <div style="margin-left: 40px;">
+      <hr style="width: 100%; height: 2px;">
+      <table style="text-align: left;" 1="" cellspacing="0" cellpadding="2" border="1">
         <tbody>
           <tr>
             <td>for example<br>
             </td>
-            <td><span  style="font-family: MathJax_Main,STIXGeneral,Cambria,Cambria Math,XITS,Latin Modern Math,DejaVu Serif,DejaVu Sans,Times,Lucida Sans Unicode,OpenSymbol,Standard Symbols L,serif;">algebraic
+            <td><span style="font-family: MathJax_Main,STIXGeneral,Cambria,Cambria Math,XITS,Latin Modern Math,DejaVu Serif,DejaVu Sans,Times,Lucida Sans Unicode,OpenSymbol,Standard Symbols L,serif;">algebraic
                 </span>definition<br>
             </td>
-            <td>as&nbsp;<math><!--F(x,y)=0--><mstyle  displaystyle="true"  fontfamily=""
-                   mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math></td>
-            <td>compacted&nbsp;<math><!--F(x,y)--><mstyle  displaystyle="true"  fontfamily=""
-                   mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math><br>
+            <td>as&nbsp;<math><!--F(x,y)=0--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math></td>
+            <td>compacted&nbsp;<math><!--F(x,y)--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math><br>
             </td>
           </tr>
           <tr>
             <td>line:<br>
               slope is constant </td>
-            <td>points&nbsp;<math><!--(x_0,y_0)--><mstyle  displaystyle="true"  fontfamily=""
-                   mathcolor=""  mathsize=""><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math>
+            <td>points&nbsp;<math><!--(x_0,y_0)--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math>
               and
-              <math><!--(x_1,y_1)--><mstyle  displaystyle="true"  fontfamily=""
-                   mathcolor=""  mathsize=""><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>1</mn></msub><mo>)
+              <math><!--(x_1,y_1)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                  fontfamily=""><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>y</mi><mn>1</mn></msub><mo>)
                       define the line</mo></mrow></mstyle></math><br>
-              <math><!--(y-y_0)/(x-x_0) = (y_1-y_0)/(x_1-x_0)--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac></mstyle></math>
+              <math><!--(y-y_0)/(x-x_0) = (y_1-y_0)/(x_1-x_0)--><mstyle displaystyle="true"
+                  mathsize="" mathcolor="" fontfamily=""><mfrac><mrow><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac></mstyle></math>
             </td>
-            <td><math><!--(y-y_0)/(x-x_0) - (y_1-y_0)/(x_1-x_0)=0--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mfrac><mrow><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>-</mo><mfrac><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>=</mo><mn>0</mn></mstyle></math><br>
+            <td><math><!--(y-y_0)/(x-x_0) - (y_1-y_0)/(x_1-x_0)=0--><mstyle displaystyle="true"
+                  mathsize="" mathcolor="" fontfamily=""><mfrac><mrow><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>-</mo><mfrac><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>=</mo><mn>0</mn></mstyle></math><br>
               or<br>
-              <math><!--(y-y_0)*(x_1-x_0)-(y_1-y_0)(x-x_0) = 0--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>&#8901;</mo><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>-</mo><mrow><mo>(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
+              <math><!--(y-y_0)*(x_1-x_0)-(y_1-y_0)(x-x_0) = 0--><mstyle displaystyle="true"
+                  mathsize="" mathcolor="" fontfamily=""><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>&#8901;</mo><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>-</mo><mrow><mo>(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
             </td>
             <td> define<br>
-              <math><!--G(x,y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                   mathsize=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+              <math><!--G(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                  fontfamily=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
               &#8801; y&#8901;dx - dy&#8901;x<br>
+              where dx=x<sub><mn>1</mn></sub><mo>-</mo><mi>x</mi><sub>0 </sub>and
+              dy=<msub><mi>y</mi><sub><mn>1</mn></sub></msub><mo>-</mo><msub><mi>y</mi><sub><mn>0</mn></sub></msub><br>
               then <br>
-              <math><!--F(x,y)=G(x,y)-G(x_0,y_0)--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>-</mo><mi>G</mi><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math><br>
+              <math><!--F(x,y)=G(x,y)-G(x_0,y_0)--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>-</mo><mi>G</mi><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math><br>
             </td>
           </tr>
           <tr>
             <td>circle:<br>
               radius is constant<br>
             </td>
-            <td>center point&nbsp;<math><!--(x_c,y_c)--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>(</mo><msub><mi>x</mi><mi>c</mi></msub><mo>,</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
-              and point&nbsp;<math><!--(x_r,y_r)--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>,</mo><msub><mi>y</mi><mi>r</mi></msub><mo>)</mo></mrow></mstyle></math>
+            <td>center point&nbsp;<math><!--(x_c,y_c)--><mstyle displaystyle="true"
+                  mathsize="" mathcolor="" fontfamily=""><mrow><mo>(</mo><msub><mi>x</mi><mi>c</mi></msub><mo>,</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
+              and point&nbsp;<math><!--(x_r,y_r)--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>,</mo><msub><mi>y</mi><mi>r</mi></msub><mo>)</mo></mrow></mstyle></math>
               on perimeter define a circle:<br>
               <math><!--(y-y_c)^2+(x-x_c)^2 = (y_r-y_c)^2+(x_r-x_c)^2--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>=</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math>
+                  displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>=</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math>
             </td>
             <td><math><!--(y-y_c)^2+(x-x_c)^2 - [(y_r-y_c)^2+(x_r-x_c)^2] = 0--><mstyle
-                   displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mrow><mo>[</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>]</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
+                  displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mrow><mo>[</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>]</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
             </td>
             <td>define
-              <math><!--G(x,y) -= y^2-2 y_c y --><mstyle  displaystyle="true"><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>&#8801;</mo><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mrow>
+              <math><!--G(x,y) -= y^2-2 y_c y --><mstyle displaystyle="true"><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>&#8801;</mo><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mrow>
                     <mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>c</mi></msub><mi>x</mi></mrow></mstyle></math><br>
               then<br>
-              <math><!--F(x,y)=G(x,y)-G(x_0,y_0)--><mstyle  displaystyle="true"
-                   fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>-</mo><mi>G</mi><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math><br>
+              <math><!--F(x,y)=G(x,y)-G(x_0,y_0)--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>-</mo><mi>G</mi><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></mstyle></math><br>
             </td>
           </tr>
         </tbody>
       </table>
       <br>
-      <hr  style="width: 100%; height: 2px;"> </div>
+      <hr style="width: 100%; height: 2px;"> </div>
     <br>
-    So let us now ask "what is the value of&nbsp;<math><!--F(x,y)--><mstyle  displaystyle="true"
-         fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+    So let us now ask "what is the value of&nbsp;<math><!--F(x,y)--><mstyle displaystyle="true"
+        mathsize="" mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
     for points that are not on the curve?".<br>
     For a line as x gets very big in the positive direction the term&nbsp;<math><!---dy * x--><mstyle
-         displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></mstyle></math>
-    dominates and&nbsp;<math><!--F(x,y)--><mstyle  displaystyle="true"  fontfamily=""
-         mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+        displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></mstyle></math>
+    dominates and&nbsp;<math><!--F(x,y)--><mstyle displaystyle="true" mathsize=""
+        mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
     becomes a large value with the opposite sign of dy. You can analyze this for
     y becoming very positive, and for each of x and y becoming negative and you
-    get that&nbsp;<math><!--F(x,y)--><mstyle  displaystyle="true"  fontfamily=""
-         mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+    get that&nbsp;<math><!--F(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+        fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
     is positive on one side of the line and negative on the other.<br>
-    <hr  style="width: 100%; height: 2px; margin-left: 40px;">
-    <div  style="margin-left: 40px;">Note: since&nbsp;<math><!--F(x,y)=0--><mstyle
-           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
-      then&nbsp;<math><!---F(x,y)=0--><mstyle  displaystyle="true"  fontfamily=""
-           mathcolor=""  mathsize=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
+    <hr style="width: 100%; height: 2px; margin-left: 40px;">
+    <div style="margin-left: 40px;">Note: since&nbsp;<math><!--F(x,y)=0--><mstyle
+          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
+      then&nbsp;<math><!---F(x,y)=0--><mstyle displaystyle="true" mathsize="" mathcolor=""
+          fontfamily=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
       so there is an arbitrariness in what the sign of&nbsp;<math><!--F(x,y)--><mstyle
-           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
       means. However what isn't arbitrary is that the sign is different on
       opposite sides of the curve. The choice of&nbsp;<math><!--F(x,y)--><mstyle
-           displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
-      or&nbsp;<math><!---F(x,y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-           mathsize=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+      or&nbsp;<math><!---F(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+          fontfamily=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
       for the formula determines the direction in which the algorithm will crawl
       along the curve, but not the pixels that will be lit up.<br>
     </div>
-    <hr  style="width: 100%; height: 2px; margin-left: 40px;"> For a circle the
-    sign of&nbsp;<math><!--F(x,y)--><mstyle  displaystyle="true"  fontfamily=""
-         mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+    <hr style="width: 100%; height: 2px; margin-left: 40px;"> For a circle the
+    sign of&nbsp;<math><!--F(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+        fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
     will be one value inside the circle, the other outside.<br>
     <br>
     The curve is defined over pairs of real values (x,y). When it is time to
@@ -152,29 +154,29 @@
             <math><!--f_[-,-] = F( x_s ---><mstyle><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub>
                 <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo></mrow></mstyle></math>
             ½
-            <math><!--, y_s ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></mstyle></math>
+            <math><!--, y_s ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></mstyle></math>
             ½) </li>
-          <li><math><!--f_[+,-] = F( x_s +--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub>
+          <li><math><!--f_[+,-] = F( x_s +--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub>
                 <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo></mrow></mstyle></math>
             ½
-            <math><!--, y_s ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></mstyle></math>
+            <math><!--, y_s ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></mstyle></math>
             ½)</li>
-          <li><math><!--f_[-,+] = F( x_s ---><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub>
+          <li><math><!--f_[-,+] = F( x_s ---><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub>
                 <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo></mrow></mstyle></math>
             ½
-            <math><!--, y_s +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></mstyle></math>
+            <math><!--, y_s +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></mstyle></math>
             ½)</li>
-          <li><math><!--f_[+,+] = F( x_s +--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub>
+          <li><math><!--f_[+,+] = F( x_s +--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub>
                 <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo></mrow></mstyle></math>
             ½
-            <math><!--, y_s +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></mstyle></math>
+            <math><!--, y_s +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></mstyle></math>
             ½) </li>
         </ol>
       </li>
@@ -184,77 +186,72 @@
             <math><mstyle><msub><mi> f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math>&gt;0
             <ol>
               <li>if
-                <math><!--f_[+,-]--><mstyle  displaystyle="true"  fontfamily=""
-                     mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math>&lt;0
+                <math><!--f_[+,-]--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                    fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math>&lt;0
                 <ol>
                   <li>--y</li>
-                  <li><math><!--f_[+,+]=f_[+,-]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[-,+]=f_[-,-]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[-,-] = F(x ---><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo>
+                  <li><math><!--f_[+,+]=f_[+,-]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[-,+]=f_[-,-]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[-,-] = F(x ---><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo>
                         <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
                     ½
-                    <math><!--, y ---><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mo>,</mo><mi>y</mi><mo>-</mo></mstyle></math>
+                    <math><!--, y ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mo>,</mo><mi>y</mi><mo>-</mo></mstyle></math>
                     ½)
                     <ol>
                     </ol>
                   </li>
-                  <li><math><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                         mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+                  <li><math><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
                     ½,
-                    <math><!--y ---><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mi>y</mi><mo>-</mo></mstyle></math>
-                    ½)
+                    <math><!--y ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mi>y</mi><mo>-</mo></mstyle></math> ½)
                     <ol>
                     </ol>
                   </li>
                 </ol>
               </li>
-              <li>else if&nbsp;<math><!--f_[+,+]<0--><mstyle  displaystyle="true"
-                     fontfamily=""  mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></mstyle></math>
+              <li>else if&nbsp;<math><!--f_[+,+]<0--><mstyle displaystyle="true"
+                    mathsize="" mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></mstyle></math>
                 <ol>
                   <li>++x;</li>
-                  <li><math><!--f_[-,+]=f_[+,+]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[-,-]=f_[+,-]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[+,-] = F(x +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+                  <li><math><!--f_[-,+]=f_[+,+]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[-,-]=f_[+,-]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[+,-] = F(x +--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
                     ½,
-                    <math><!--y ---><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mi>y</mi><mo>-</mo></mstyle></math>
-                    ½)</li>
-                  <li><math><!--f_[+,+]= F(x +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+                    <math><!--y ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mi>y</mi><mo>-</mo></mstyle></math> ½)</li>
+                  <li><math><!--f_[+,+]= F(x +--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
                     ½,
-                    <math><!--y +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mi>y</mi><mo>+</mo></mstyle></math>
-                    ½)</li>
+                    <math><!--y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mi>y</mi><mo>+</mo></mstyle></math> ½)</li>
                 </ol>
               </li>
-              <li>else if&nbsp;<math><!--f_[-,+] <0--><mstyle  displaystyle="true"
-                     fontfamily=""  mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></mstyle></math>
+              <li>else if&nbsp;<math><!--f_[-,+] <0--><mstyle displaystyle="true"
+                    mathsize="" mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></mstyle></math>
                 <ol>
                   <li>++y</li>
-                  <li><math><!--f_[+,-]=f_[+,+]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[-,-]=f_[-,+]--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
-                  <li><math><!--f_[+,+] = F(x +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+                  <li><math><!--f_[+,-]=f_[+,+]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[-,-]=f_[-,+]--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub><mo>=</mo><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub></mstyle></math></li>
+                  <li><math><!--f_[+,+] = F(x +--><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
                     ½,
-                    <math><!--y +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mi>y</mi><mo>+</mo></mstyle></math>
-                    ½)</li>
-                  <li><math><!--f_[-,+] = F(x ---><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
+                    <math><!--y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mi>y</mi><mo>+</mo></mstyle></math> ½)</li>
+                  <li><math><!--f_[-,+] = F(x ---><mstyle displaystyle="true" mathsize=""
+                        mathcolor="" fontfamily=""><msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>=</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
                     ½,
-                    <math><!--y +--><mstyle  displaystyle="true"  fontfamily=""
-                         mathcolor=""  mathsize=""><mi>y</mi><mo>+</mo></mstyle></math>
-                    ½)</li>
+                    <math><!--y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                        fontfamily=""><mi>y</mi><mo>+</mo></mstyle></math> ½)</li>
                 </ol>
               </li>
               <li>else (current point isn't actually on the curve!)
@@ -269,10 +266,10 @@
       </li>
       <br>
       The loop termination is hard to make generic. For a truly generic plotter
-      one runs until an edge of the screen is encountered. Another safeguard is
-      to check whether the first point is encountered. <br>
-      Deep inspection of the algorithm shows that can only happen when
-      completing a closed figure.<br>
+      one runs until an edge of the screen is encountered. <br>
+      Another safeguard is to check whether the first point is encountered, deep
+      inspection of the algorithm shows that can only happen when completing a
+      closed figure.<br>
       <br>
       You may have noticed the tests are &lt;0 and &gt;0. One or the other
       really needs to be &lt;=0 or &gt;=0. <br>
@@ -294,7 +291,7 @@
       <br>
       <br>
     </ol>
-    <hr  style="width: 100%; height: 2px;">
+    <hr style="width: 100%; height: 2px;">
     <h3>Optimizing for line and circle</h3>
     The computation of F(x,y) at the corners of successive pixels can be done
     incrementally, i.e. as a change from the values at the corners of the
@@ -304,8 +301,8 @@
     We also can expedite computing values at the corner of the given (starting)
     pixel, for which we know F(x,y)=0.<br>
     <br>
-    <table  style="text-align: left; margin-left: 40px;"  border="1"  cellpadding="2"
-       cellspacing="2">
+    <table style="text-align: left; margin-left: 40px;" cellspacing="2" cellpadding="2"
+      border="1">
       <tbody>
         <tr>
           <td><br>
@@ -320,94 +317,94 @@
         <tr>
           <td>G(x,y)<br>
           </td>
-          <td><math><!--y* dx - dy * x--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mi>y</mi><mo>&#8901;</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></mstyle></math></td>
-          <td><math><!--y^2 + x^2 -2(y * y_c + x * x_c)--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
+          <td><math><!--y* dx - dy * x--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><mi>y</mi><mo>&#8901;</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></mstyle></math></td>
+          <td><math><!--y^2 + x^2 -2(y * y_c + x * x_c)--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
           <td>part that varies with x or y:<br>
             F(point 1)-F(point 2) = G(point 1)-G(point 2)<br>
           </td>
         </tr>
         <tr>
-          <td><math><!--F(x +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+          <td><math><!--F(x +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
             ½,
-            <math><!--y +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mo>+</mo></mstyle></math> ½)
-            <math><!--- F(x,y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+            <math><!--y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>y</mi><mo>+</mo></mstyle></math> ½)
+            <math><!--- F(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
           </td>
           <td> ½
-            <math><!--* (dy-dx--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>&#8901;</mo><mrow><mo>(</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow></mrow></mstyle></math>)</td>
-          <td><math><!--(y-y_c) + (x-x_c) +--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></mstyle></math>
+            <math><!--* (dy-dx--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>&#8901;</mo><mrow><mo>(</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow></mrow></mstyle></math>)</td>
+          <td><math><!--(y-y_c) + (x-x_c) +--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></mstyle></math>
             ½</td>
           <td>value at top right corner of given point on curve </td>
         </tr>
         <tr>
-          <td><math><!--F(x +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+          <td><math><!--F(x +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
             ½,
-            <math><!--y) - F(x ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
+            <math><!--y) - F(x ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
             ½,
-            <math><!--y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mo>)</mo></mstyle></math> </td>
-          <td><math><!---dy--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><mrow><mi>dy</mi></mrow></mstyle></math></td>
-          <td><math><!--2 * (x-x_c)--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math><br>
+            <math><!--y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>y</mi><mo>)</mo></mstyle></math> </td>
+          <td><math><!---dy--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mrow><mi>dy</mi></mrow></mstyle></math></td>
+          <td><math><!--2 * (x-x_c)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math><br>
           </td>
           <td>compute right given left<br>
           </td>
         </tr>
         <tr>
-          <td><math><!--F(x,y +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
+          <td><math><!--F(x,y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
             ½)
-            <math><!--- F(x,y ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></mstyle></math>
+            <math><!--- F(x,y ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></mstyle></math>
             ½)</td>
-          <td><math><!--+dx--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo><mrow><mi>dx</mi></mrow></mstyle></math><br>
+          <td><math><!--+dx--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>+</mo><mrow><mi>dx</mi></mrow></mstyle></math><br>
           </td>
-          <td><math><!--2*(y-y_c)--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math><br>
+          <td><math><!--2*(y-y_c)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math><br>
           </td>
           <td>compute top given bottom<br>
           </td>
         </tr>
         <tr>
-          <td><math><!--F(x,y ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></mstyle></math>
+          <td><math><!--F(x,y ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></mstyle></math>
             ½)
-            <math><!--- F(x,y +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
+            <math><!--- F(x,y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
             ½)</td>
-          <td><math><!---dx--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>-</mo><mrow><mi>dx</mi></mrow></mstyle></math><br>
+          <td><math><!---dx--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mrow><mi>dx</mi></mrow></mstyle></math><br>
           </td>
-          <td><math><!---2*(y-y_c)--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
+          <td><math><!---2*(y-y_c)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
           </td>
           <td>compute bottom given top<br>
           </td>
         </tr>
         <tr>
-          <td><math><!--F(x ---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
+          <td><math><!--F(x ---><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></mstyle></math>
             ½,
-            <math><!--y) - F(x +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+            <math><!--y) - F(x +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
             ½,
-            <math><!--y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mi>y</mi><mo>)</mo></mstyle></math></td>
-          <td><math><!--+dy--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>+</mo><mrow><mi>dy</mi></mrow></mstyle></math><br>
+            <math><!--y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mi>y</mi><mo>)</mo></mstyle></math></td>
+          <td><math><!--+dy--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>+</mo><mrow><mi>dy</mi></mrow></mstyle></math><br>
           </td>
-          <td><math><!---2*(x-x_c)--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
+          <td><math><!---2*(x-x_c)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
           </td>
           <td>compute left given right<br>
           </td>
@@ -417,34 +414,33 @@
     <br>
     <ul>
       <li> Because these curves have no terms with&nbsp;<math><!--x*y--><mstyle
-             displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mi>x</mi><mo>&#8901;</mo><mi>y</mi></mstyle></math>
+            displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mi>x</mi><mo>&#8901;</mo><mi>y</mi></mstyle></math>
         we get away with the 4 incremental formulae above for all of our
         in-the-loop computations.</li>
       <li>Since F(x,y)=0 then ½*F(x,y)=0 so we can simplify the circle case by
-        dropping all the multiplies by 2. We will presume that for the rest of
-        this paper.</li>
+        dropping the multiply by 2. We will presume that for the rest of this
+        paper.</li>
     </ul>
     <br>
     <div>On the issue of how to deal with exactly zero at a corner:<br>
-      <div  style="margin-left: 40px;"> For lines the initial value's ½
+      <div style="margin-left: 40px;"> For lines the initial value's ½
         multiplier requires a bit below the 2<sup>0</sup> bit for exact
         representation. Since we are otherwise doing integer math we drop the
         fractional bit generating a round-off error that is constant, i.e. the
         same for all values of F(). If the dropped bit is a 0 then F() values
         are exact, if not then a computed value of zero really should be
-        <math><!--+---><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-             mathsize=""><mo>±</mo></mstyle></math> ½ and therefore is actually
-        either positive or negative. Ignoring it sure is an easy way to deal
-        with it :) <br>
-        Or, since&nbsp;<math><!--F(x,y)=0--><mstyle  displaystyle="true"  fontfamily=""
-             mathcolor=""  mathsize=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
-        then&nbsp;<math><!--2*F(x,y)--><mstyle  displaystyle="true"  fontfamily=""
-             mathcolor=""  mathsize=""><mn>2</mn><mo>&#8901;</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
+        <math><!--+---><mstyle displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mo>±</mo></mstyle></math>
+        ½ and therefore is actually either positive or negative. Ignoring it
+        sure is an easy way to deal with it :) <br>
+        Or, since&nbsp;<math><!--F(x,y)=0--><mstyle displaystyle="true" mathsize=""
+            mathcolor="" fontfamily=""><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math>
+        then&nbsp;<math><!--2*F(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+            fontfamily=""><mn>2</mn><mo>&#8901;</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></mstyle></math>
         also equals 0, the dy and dx above can be replaced with 2* their values
         and the ½ we are worrying over becomes -1,0 or 1 and now you can do a
         perfect line draw with diagonal steps.<br>
         <br>
-        For circles there is always an ½ on the initial value as both the y<sup>2</sup>
+        For circles there is always a ½ on the initial value as both the y<sup>2</sup>
         and the x<sup>2</sup> terms generate a +¼ regardless of which corner we
         compute at. That means that the theoretical circle never perfectly
         intersects a corner of a pixel. A computed F() that is zero should
@@ -476,7 +472,7 @@
     you can predict how many iterations are required to get to a quadrant or
     octant bound are you likely to gain a benefit from those operations.<br>
     <br>
-    <hr  style="width: 100%; height: 2px;">
+    <hr style="width: 100%; height: 2px;">
     <h3>Comparison to Bresenham</h3>
     Bresenham's derivation had no relation to the above, but results in a nearly
     identical algorithm. <br>
@@ -496,26 +492,26 @@
     and doesn't require first figuring out which octant you are in so that you
     can reset the accumulating error. Number of iterations is identical.<br>
     <br>
-    <hr  style="width: 100%; height: 2px;">This algorithm was discovered by Andy
+    <hr style="width: 100%; height: 2px;">This algorithm was discovered by Andy
     Heilveil during a sleepless week at Siggraph '82. <br>
-    The effort was triggered by being shown the circle drawing algorithm that
+    The effort was triggered by being shown a circle drawing algorithm that
     takes advantage of the sum of the odd integers being like n<sup>2</sup>.<br>
-    <hr  style="width: 100%; height: 2px;">
+    <hr style="width: 100%; height: 2px;">
     <h3>Gory algebraic details</h3>
     <br>
     F(x,y) for a circle implicitly defined by Cx,Cy as the center and Rx,Ry as a
     point known to be perfectly on the perimeter.
-    <table  style="text-align: left; margin-left: 40px;"  cellpadding="2"  cellspacing="2">
+    <table style="text-align: left; margin-left: 40px;" cellspacing="2" cellpadding="2">
       <tbody>
         <tr>
           <td><br>
           </td>
-          <td><math><!--(y-y_c)^2+(x-x_c)^2--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math>&nbsp;</td>
+          <td><math><!--(y-y_c)^2+(x-x_c)^2--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math>&nbsp;</td>
           <td>=<br>
           </td>
-          <td><math><!--(y_r - y_c)^2+(x_r - x_c)^2--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></td>
+          <td><math><!--(y_r - y_c)^2+(x_r - x_c)^2--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></td>
           <td><br>
           </td>
           <td>defining equation<br>
@@ -525,13 +521,13 @@
           <td><br>
           </td>
           <td>&nbsp;&nbsp;<math><!--y^2-2y*y_c+y_c^2 +x^2-2x*x_c+x_c^2--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></mstyle></math><br>
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></mstyle></math><br>
             <br>
           </td>
           <td>=<br>
           </td>
-          <td><math><!--y_r^2-2y_r y_c+y_c^2 +x_r^2-2x_r x_c+x_c^2--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></mstyle></math></td>
+          <td><math><!--y_r^2-2y_r y_c+y_c^2 +x_r^2-2x_r x_c+x_c^2--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></mstyle></math></td>
           <td><br>
           </td>
           <td>expand the squares<br>
@@ -540,14 +536,14 @@
         <tr>
           <td><br>
           </td>
-          <td><math><!--y^2-2 y y_c + x^2 - 2 x x_c--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub></mstyle></math><br>
+          <td><math><!--y^2-2 y y_c + x^2 - 2 x x_c--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub></mstyle></math><br>
             <br>
           </td>
           <td>=<br>
           </td>
-          <td><math><!--y_r^2-2y_r y_c+x_r^2-2x_r x_c--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub></mstyle></math></td>
+          <td><math><!--y_r^2-2y_r y_c+x_r^2-2x_r x_c--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub></mstyle></math></td>
           <td><br>
           </td>
           <td>eliminate common terms in x_c and y_c squares<br>
@@ -556,12 +552,12 @@
         <tr>
           <td><br>
           </td>
-          <td><math><!--y^2+x^2-2 y_c y - 2 x_c x --><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>c</mi></msub><mi>x</mi></mstyle></math></td>
+          <td><math><!--y^2+x^2-2 y_c y - 2 x_c x --><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>c</mi></msub><mi>x</mi></mstyle></math></td>
           <td>=<br>
           </td>
-          <td><math><!--y_r^2+x_r^2-2 (y_r y_c + x_r x_c)--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
+          <td><math><!--y_r^2+x_r^2-2 (y_r y_c + x_r x_c)--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
           <td><br>
           </td>
           <td>rearrange terms<br>
@@ -570,8 +566,8 @@
         <tr>
           <td><br>
           </td>
-          <td  colspan="3"  rowspan="1"><math><!--y^2+x^2-2 y_c y - 2 x_c x -(y_r^2+x_r^2-2(y_r *y_c+x_r x_c))=0--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>c</mi></msub><mi>x</mi><mo>-</mo><mrow><mo>(</mo><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math></td>
+          <td colspan="3" rowspan="1"><math><!--y^2+x^2-2 y_c y - 2 x_c x -(y_r^2+x_r^2-2(y_r *y_c+x_r x_c))=0--><mstyle
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>c</mi></msub><mi>y</mi><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>c</mi></msub><mi>x</mi><mo>-</mo><mrow><mo>(</mo><mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>)</mo></mrow><mo>=</mo><mn>0</mn></mstyle></math></td>
           <td><br>
           </td>
           <td>subtract right from left to get F(x,y)=0<br>
@@ -581,29 +577,28 @@
     </table>
     <br>
     Initialization calculation for circle,&nbsp;
-    <math><!--G(x,y)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-         mathsize=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>&#8801;</mo>
+    <math><!--G(x,y)--><mstyle displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>&#8801;</mo>
         <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math>
     <br>
-    <table  style="margin-left: 40px;"  border="0">
+    <table style="margin-left: 40px;" border="0">
       <tbody>
         <tr>
           <td>G(x+½, y+½)</td>
           <td>=</td>
-          <td><math><!--(y+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
+          <td><math><!--(y+--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
             ½
-            <math><!--)^2+ (x+--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><msup><mo>)</mo><mn>2</mn></msup><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+            <math><!--)^2+ (x+--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><msup><mo>)</mo><mn>2</mn></msup><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
             ½
-            <math><!--)^2-2 (y +--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><msup><mo>)</mo><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
+            <math><!--)^2-2 (y +--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><msup><mo>)</mo><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></mstyle></math>
             ½)
-            <math><!--* y_c -2 (x+--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
+            <math><!--* y_c -2 (x+--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></mstyle></math>
             ½
-            <math><!--) * x_c--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mo>)</mo><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
+            <math><!--) * x_c--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>)</mo><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
           </td>
           <td>corner of cell<br>
           </td>
@@ -613,7 +608,7 @@
           </td>
           <td>=</td>
           <td><math><!--y^2+ y + 1/4 + x^2 +x +1/4 -2 y y_c - y_c -2 x x_c - x_c--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><mi>y</mi><mo>+</mo><mn>¼</mn><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>x</mi><mo>+</mo><mn>¼</mn>
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><mi>y</mi><mo>+</mo><mn>¼</mn><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>x</mi><mo>+</mo><mn>¼</mn>
                 <mo>-</mo><mn>2</mn><mi>y</mi><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math><br>
           </td>
           <td>expand squares<br>
@@ -624,7 +619,7 @@
           </td>
           <td>=</td>
           <td><math><!--y^2+ x^2 -2 y y_c -2 x x_c + y + 1/4 +x +1/4 - y_c - x_c--><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mi>y</mi><mo>+</mo><mn>¼</mn><mo>+</mo><mi>x</mi><mo>+</mo>
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mi>y</mi><mo>+</mo><mn>¼</mn><mo>+</mo><mi>x</mi><mo>+</mo>
                 <mn>¼</mn><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math><br>
           </td>
           <td>rearrange<br>
@@ -634,8 +629,8 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--G(x,y) + y + 1/4 +x +1/4 - y_c - x_c--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>+</mo><mi>y</mi><mo>+</mo>
+          <td><math><!--G(x,y) + y + 1/4 +x +1/4 - y_c - x_c--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>+</mo><mi>y</mi><mo>+</mo>
                 <mn>¼</mn><mo>+</mo><mi>x</mi><mo>+</mo><mn>¼</mn><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math><br>
           </td>
           <td>recognize G(x,y) terms<br>
@@ -645,8 +640,8 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--G(x,y) + (y - y_c) + (x-x_c) + 1/2--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn>½</mn></mstyle></math></td>
+          <td><math><!--G(x,y) + (y - y_c) + (x-x_c) + 1/2--><mstyle displaystyle="true"
+                mathsize="" mathcolor="" fontfamily=""><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn>½</mn></mstyle></math></td>
           <td>reorganize</td>
         </tr>
       </tbody>
@@ -654,13 +649,13 @@
     <br>
     Incremental calculation, difference in F from one corner of a cell to an
     adjacent corner:
-    <table  style="margin-left: 40px;"  border="0">
+    <table style="margin-left: 40px;" border="0">
       <tbody>
         <tr>
           <td>G(x +½, y)</td>
           <td>=</td>
-          <td><math><!--(x+1)^2 -2(x+1)x_c --><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
+          <td><math><!--(x+1)^2 -2(x+1)x_c --><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
             + y-terms of G(x,y)</td>
           <td><br>
           </td>
@@ -669,9 +664,9 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--x^2+2x+1 - 2x x_x - 2x_c--><mstyle  displaystyle="true"
-                 fontfamily=""  mathcolor=""  mathsize=""><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn></mn><mi>x</mi><mo>+</mo><mn></mn></mstyle></math><math><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mn>¼</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>x</mi></msub><mo>-</mo><mn></mn><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
+          <td><math><!--x^2+2x+1 - 2x x_x - 2x_c--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn></mn><mi>x</mi><mo>+</mo><mn></mn></mstyle></math><math><mstyle
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mn>¼</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>x</mi></msub><mo>-</mo><mn></mn><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
             + y-terms of G(x,y)</td>
           <td><br>
           </td>
@@ -681,8 +676,8 @@
           </td>
           <td>=</td>
           <td>
-            <math><!--(x - x_c) + .25--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn></mn></mstyle></math>¼
+            <math><!--(x - x_c) + .25--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn></mn></mstyle></math>¼
             + x-terms of G(x,y) + y-terms of G(x,y)</td>
           <td><br>
           </td>
@@ -691,9 +686,9 @@
           <td>G(x-½,y)<br>
           </td>
           <td>=</td>
-          <td><math><!--x^2-x+.25-2x x_c + x_c--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mi>x</mi><mo>+</mo><mn></mn></mstyle></math><math><mstyle
-                 displaystyle="true"  fontfamily=""  mathcolor=""  mathsize=""><mn>¼</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
+          <td><math><!--x^2-x+.25-2x x_c + x_c--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mi>x</mi><mo>+</mo><mn></mn></mstyle></math><math><mstyle
+                displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mn>¼</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>c</mi></msub></mstyle></math>
           </td>
           <td><br>
           </td>
@@ -702,8 +697,8 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!---(x-x_c)+--><mstyle  displaystyle="true"  fontfamily=""
-                 mathcolor=""  mathsize=""><mo>-</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></mstyle></math>
+          <td><math><!---(x-x_c)+--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mo>-</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></mstyle></math>
             ¼ <mi></mi><mo></mo><msub><mi></mi><mi></mi></msub><mo></mo><mo></mo>
             + x-terms of G(x,y) + y-terms of G(x,y)</td>
           <td><br>
@@ -712,8 +707,8 @@
         <tr>
           <td>G(x +½, y)-G(x-½,y)</td>
           <td>=</td>
-          <td><math><!--2(x-x_c)--><mstyle  displaystyle="true"  fontfamily=""  mathcolor=""
-                 mathsize=""><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
+          <td><math><!--2(x-x_c)--><mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily=""><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></mstyle></math></td>
           <td><br>
           </td>
         </tr>
@@ -724,7 +719,7 @@
     and we can use symmetry to compute the incremental changes for changes in y
     and changes in the reverse direction<br>
     <br>
-    <hr  style="width: 100%; height: 2px;">©Andy Heilveil 2009 (this document,
+    <hr style="width: 100%; height: 2px;">©Andy Heilveil 2009 (this document,
     not the algorithm)<br>
     <br>
   </body>
