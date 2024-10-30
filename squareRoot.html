@@ -1,71 +1,217 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
     <title>square root</title>
   </head>
   <body>
     <h2>Binary square root, optimal sequential implementation</h2>
-    The integer part of the square root of a given number is the number such that
+    The integer part of the square root of a given number is the number
+    such that
     <math>
       <msqrt>
         <mn>root</mn> </msqrt> </math>*
     <math>
       <msqrt>
         <mn>root</mn> </msqrt> </math> + remainder =given. <br>
-    When the multiply operation is expensive (simple microcontroller or FPGA) one can compute the root one bit at a time with only a few additions and shifts per bit.<br>
-    <br>
-    <br>
-    We work from the most significant bit downward, guessing and testing. <br>
-    We subtract the square of the guess from the number leaving a remainder.<br>
+    When the multiply operation is expensive (simple microcontroller or
+    FPGA) one can compute the root one bit at a time with only a few
+    additions and shifts per bit.<br>
+    <hr width="100%" size="2"><br>
+    We work from the most significant bit downward, guessing and
+    testing. <br>
+    We subtract the square of the guess from the number leaving a
+    remainder.<br>
     <br>
     Remainder<sub>k</sub> = given number - (guess<sub>k</sub>)<sup>2</sup><br>
     <br>
-    From now on I shall write that: <br>
-    R<sub>k</sub> = given - G<sub>k</sub><sup>2</sup><br>
-    <br>
-    G<sub>k-1</sub> = G<sub>k</sub>+2<sup>k-1</sup>&nbsp;&nbsp; <br>
-    G<sub>k-1</sub><sup>2</sup> = G<sub>k</sub><sup>2</sup>+ 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup> = G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2<br>
+    From now on I shall abbreviate that as: <br>
+    R<sub>k</sub> = given - G<sub>k</sub><sup>2<br>
       <br>
-    </sup> R<sub>k-1</sub> = given - G<sub>k-1</sub><sup>2<br>
-    </sup>R<sub>k-1</sub> = given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup> ) <br>
-    R<sub>k-1</sub> = given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup> <br>
-    R<sub>k-1</sub> = R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup><br>
+    </sup>
+    <table cellspacing="2" cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td valign="top">G<sub>k-1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> G<sub>k </sub>+ 2<sup>k-1</sup><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">G<sub>k-1</sub><sup>2</sup> <sup><br>
+            </sup></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">G<sub>k</sub><sup>2</sup> + 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">&nbsp;G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">given - G<sub>k-1</sub>2 </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup>
+            ) </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub>
+            - 2<sup>2k-2</sup> </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k</sub> - (2<sup>k</sup>*G<sub>k</sub>
+            + 2<sup>2k-2</sup> ) </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    If that is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub> should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>. <br>
-    Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we just computed.<br>
-    If we don't have a place to keep the old values (FPGA or trying to stick with minimal number of CPU registers) we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp; </sup>excess removed with subtracting the next test value:<br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)<br>
+    If that is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub>
+    should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>.
     <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4<br>
-      <br>
-    </sup><br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub> - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup>) <br>
-    <br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>) + 3*(2<sup>2k-4</sup>) <br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub> + 3*(2<sup>2k-4</sup>) <br>
-    <br>
-    Compare that to what we would have done if we had restored/not updated G<sub>k-1</sub>,R<sub>k-1</sub>:<br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> - 2<sup>2k-4</sup><br>
-    <br>
-    and we see that we are adding the Gk term instead of subtracting it and adding 3 * the "new bit" term instead of subtracting it.<br>
+    Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we
+    just computed.<br>
+    <hr width="100%" size="2"><br>
+    <table cellspacing="2" cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td rowspan="1" colspan="4" valign="top"> If we don't have a
+            place to keep the old values (FPGA or trying to stick with
+            minimal number of CPU registers) <br>
+            we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp;
+            </sup>excess removed with subtracting the next test value:</td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-2</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub>
+            + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub>
+            + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; -
+            22k-4</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub>
+            - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp;
+
+
+            - 2<sup>2k-4</sup>) </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>)
+            + 3*(2<sup>2k-4</sup>) <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub>
+            + 3*(2<sup>2k-4</sup>) <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="4" valign="top">Compare that to what
+            we would have done if we had restored/not updated G<sub>k-1</sub>,R<sub>k-1</sub>:</td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-2</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub>
+            + 2<sup>2k-4</sup> )<sup><br>
+            </sup></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" valign="top"> and we see that we are adding
+            the Gk term instead of subtracting it and adding 3 * the
+            "new bit" term instead of subtracting it.</td>
+        </tr>
+      </tbody>
+    </table>
     <br>
     Using accumulator symbology:<br>
     <br>
     if last bit was a one:<br>
     <br>
-    R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4&nbsp;&nbsp; </sup><br>
+    R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4&nbsp;&nbsp;
+
+
+
+
+    </sup><br>
     <br>
     if last bit was a zero:<br>
     <br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 3*2<sup>2k-4</sup>&nbsp;&nbsp; or<br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp; + 2*2<sup>2k-4</sup>&nbsp;&nbsp; <br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 3*2<sup>2k-4</sup>&nbsp;&nbsp;
+
+
+
+
+    or<br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp;
+
+
+
+
+    + 2*2<sup>2k-4</sup>&nbsp;&nbsp; <br>
     <br>
-    Now if we are writing assembly language the "bit was a one/zero" is the sign bit of the previous add or subtract.<br>
-    If we are using a bit in a word for both our bit counter and bit setter then the extra 2*2<sup>2k-4 </sup>term is produced by the first of two shifts that are producing the 2<sup>2k</sup> series and therefore:<br>
+    Now if we are writing assembly language the "bit was a one/zero" is
+    the sign bit of the previous add or subtract.<br>
+    If we are using a bit in a word for both our bit counter and bit
+    setter then the extra 2*2<sup>2k-4 </sup>term is produced by the
+    first of two shifts that are producing the 2<sup>2k</sup> series and
+    therefore:<br>
     <br>
     if prior 1<br>
     &nbsp;&nbsp;&nbsp; G|=bit<br>
@@ -74,7 +220,8 @@
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R-=bit<br>
     bit &gt;&gt;=1<br>
-    if bit==0, done. For some processors we can shift into the carry bit and jump out of loop on carry==1<br>
+    if bit==0, done. For some processors we can shift into the carry bit
+    and jump out of loop on carry==1<br>
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R+=bit<br>
     &nbsp;&nbsp;&nbsp; R+=G<br>
@@ -87,8 +234,18 @@
     If your processor has a "shift by 2" in one instruction:<br>
     <br>
     The "prior was even" equation can also be written:<br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 4*2<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup><br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4</sup><br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 4*2<sup>2k-4</sup>&nbsp;
+
+
+
+
+    - 2<sup>2k-4</sup><br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp;
+
+
+
+
+    - 2<sup>2k-4</sup><br>
     <br>
     <br>
     if prior 1<br>
@@ -101,14 +258,16 @@
     &nbsp;&nbsp;&nbsp; R-=G<br>
     bit&gt;&gt;=2<br>
     if bit !=0 <br>
-    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior
+    odd"<br>
     &nbsp;&nbsp;&nbsp; repeat<br>
     (rounding or fixing the remainder)<br>
     &nbsp; <br>
     <hr><br>
     Yet another tweak that should work well in an FPGA:<br>
     <br>
-    was 0: R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> - 2<sup>2k-4</sup><br>
+    was 0: R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>
+    - 2<sup>2k-4</sup><br>
     was 1: R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup><br>
     was 1: R<sub>k-2</sub> += ~(2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)+1<br>
     <br>
@@ -119,10 +278,12 @@
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R+=G<br>
     else<br>
-    &nbsp;&nbsp;&nbsp; R+=~G+1, where the +1 is a forced carry (carry in = saved sign).<br>
+    &nbsp;&nbsp;&nbsp; R+=~G+1, where the +1 is a forced carry (carry in
+    = saved sign).<br>
     bit&gt;&gt;=2<br>
     if bit !=0 <br>
-    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior
+    odd"<br>
     &nbsp;&nbsp;&nbsp; repeat<br>
     (rounding or fixing the remainder)<br>
     <hr>Initial bit:<br>
@@ -148,7 +309,8 @@
     <br>
     R += bit<br>
     if no carry<br>
-    &nbsp;&nbsp; bit&gt;&gt;=2 fyi arithemetic shift, not logical. Prior to now it did not matter as the MSB was init to a 0.<br>
+    &nbsp;&nbsp; bit&gt;&gt;=2 fyi arithemetic shift, not logical. Prior
+    to now it did not matter as the MSB was init to a 0.<br>
     &nbsp;&nbsp; if bit==0 done<br>
     &nbsp;&nbsp;&nbsp; loop<br>
     <br>
