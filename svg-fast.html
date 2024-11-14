@@ -272,6 +272,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>j</mi><mo>=</mo><mo>-</mo><mi>h</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mrow><mo>(</mo><mi>j</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>j</mi><mo>]</mo></mrow><mo>}</mo></mrow><mo>+</mo><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><mi>y</mi><mrow><mo>[</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>]</mo></mrow></mstyle></math>&nbsp;
 
+
+
+
+
           </td>
           <td>extract high term from sum<br>
           </td>
@@ -317,6 +321,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               displaystyle="true" fontfamily="" mathcolor="" mathsize=""><msup><mi>h</mi><sup><mi>r</mi></sup></msup></mstyle>y<math><mstyle
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
+
+
+
 
             <math><mstyle displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mrow><mo>(</mo><mi>h</mi><mo>+</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup></mstyle></math>y<math><mstyle
@@ -425,7 +433,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
         <tr>
           <td>5<br>
           </td>
-          <td><span>(-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span>*</span>y[old]<span></span></td>
+          <td><span>(-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span>*</span>y[old]</td>
           <td>=<br>
           </td>
           <td>
@@ -503,6 +511,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mrow><mo>(</mo><mi>r</mi><mo>-</mo><mi>u</mi><mo>)</mo></mrow></mrow></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])
+
+
+
+
             }+ <i>h</i><sup>r</sup>y[new]</td>
           <td>merge items with common summation range</td>
         </tr>
@@ -518,6 +530,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
+
+
+
+
             <i>h</i><sup>r</sup>*y[new]</td>
           <td>&nbsp;<br>
           </td>
@@ -543,6 +559,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])
 
+
+
+
+
             <math><!--+--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>+</mo></mstyle></math><br>
             <math><!--sum_[u=0]^[r-1] {C_[r,u]*(-1)^[r-u] *( Y(u,x) - (-1)^u * h^u *--><mstyle
@@ -550,6 +570,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
+
+
+
+
 
             <i>h</i><sup>r</sup>y[new]</td>
           <td>break out rth term<br>
@@ -568,14 +592,27 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])
 
+
+
+
+
             <math><!--+--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>+</mo></mstyle></math><br>
-            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
-            y<math><!--[--><mstyle displaystyle="true" mathsize=""
-                mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
-            <i>h</i><sup>r</sup>y[new]</td>
+            <math><!--sum_[u:0]^[r-1]{C_[r,u]*(-1)^(r-u) *(Y(u,x)-(-1)^u * h^u *-->
+              <mstyle displaystyle="true" mathsize="" mathcolor=""
+                fontfamily="">
+                <mrow><munderover><mo>&#8721;</mo>
+                    <mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow>
+                    <mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow> </munderover>
+                </mrow>
+                <mrow><mo>{</mo>
+                  <msub>
+                    <mi>C</mi>
+                    <mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow> </msub>
+                  <msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>
+            y
+            <math><!--[--><mstyle displaystyle="true" mathsize=""
+                mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+<i>h</i><sup>r</sup>y[new]</td>
           <td>simplify some<br>
           </td>
         </tr>
@@ -586,16 +623,23 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td>=<br>
           </td>
-          <td><i><math><!--h^r *--><mstyle displaystyle="true"
-                  mathsize="" mathcolor="" fontfamily=""><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
-                  displaystyle="true" mathsize="" mathcolor=""
+          <td><i>
+              <math><!--h^r *--><mstyle displaystyle="true" mathsize=""
+                  mathcolor="" fontfamily="">
+                  <msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><!--[-->
+                <mstyle displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
 
               <math><!--+ Y(r,x) - (-1)^r * h^r *--><mstyle
                   displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mo>+</mo><mi>Y</mi><mrow><mo>(</mo><mi>r</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
                   displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+
+
+
+
 
               <math><!--+--><mstyle displaystyle="true" mathsize=""
                   mathcolor="" fontfamily=""><mo>+</mo></mstyle></math></i><br>
@@ -618,10 +662,18 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
 
+
+
+
+
               <math><mstyle displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mi></mi><mrow><mi></mi></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup><msup><mi>h</mi><mi>r</mi></msup></mstyle></math>y<math><mstyle
                   displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+
+
+
+
 
               <math><mstyle displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mo>+</mo></mstyle></math></i><br>
@@ -630,6 +682,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old]
+
+
+
+
 
             <math><!--)}--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>)</mo><mo>}</mo></mstyle></math></td>
@@ -647,11 +703,19 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   mathsize="" mathcolor="" fontfamily=""><msup><mi>h</mi><mi>r</mi></msup><mrow><mo>(</mo></mrow></mstyle></math>
               y<math><!--[--><mstyle displaystyle="true" mathsize=""
                   mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
+
+
+
               -
               <math><!--(-1)^r *--><mstyle displaystyle="true"
                   mathsize="" mathcolor="" fontfamily=""><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>r</mi></msup></mstyle></math>y<math><!--[--><mstyle
                   displaystyle="true" mathsize="" mathcolor=""
                   fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])
+
+
+
+
 
               +<br>
               <math><!--sum_[u=0]^[r-1] { C_[r,u] * (-1)^(r-u) * ( Y(u,x) - (-1)^u*h^u *--><mstyle
@@ -796,10 +860,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                 displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow></munderover></mrow><mrow><mo>{</mo><msub><mi>C</mi><mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow></msub><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow></msup><mrow><mo>(</mo><mi>Y</mi><mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mi>u</mi></msup><msup><mi>h</mi><mi>u</mi></msup></mrow></mrow></mstyle></math>y<math><!--[--><mstyle
                 displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])}+
+                fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old]
 
-            <i>h</i><sup>r</sup>(y[new]-(-1)<sup>r</sup><span
-              style="font-style: italic;"></span>y[old])</td>
+            ) } + <i>h</i><sup>r</sup>( y[new] - (-1)<sup>r</sup><span
+              style="font-style: italic;"></span>y[old] )</td>
           <td>6g</td>
         </tr>
         <tr>
@@ -828,10 +892,18 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old])
 
+
+
+
+
             <math><!--+ h^1 (--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>+</mo><msup><mi>h</mi><mn>1</mn></msup><mrow><mo>(</mo></mrow></mstyle></math>
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
+
+
+
 
             <math><!--- (-1)^1--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>-</mo><msup><mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mn>1</mn></msup></mstyle></math>
@@ -852,10 +924,18 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>old]
 
+
+
+
+
             <math><!--)+ h--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>)</mo><mo>+</mo><mi>h</mi></mstyle></math>
             (y<math><!--[--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
+
+
+
 
             <math><!--+--><mstyle displaystyle="true" mathsize=""
                 mathcolor="" fontfamily=""><mo>+</mo></mstyle></math>
@@ -907,6 +987,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             +h<sup>3</sup>(y<math><mstyle displaystyle="true"
                 mathsize="" mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
 
+
+
+
+
             <math><mstyle displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mo>+</mo></mstyle></math> y[old])</td>
           <td><br>
@@ -920,6 +1004,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td>=</td>
           <td>h<sup>3</sup>(y<math><mstyle displaystyle="true"
                 mathsize="" mathcolor="" fontfamily=""><mrow><mo>[</mo></mrow></mstyle></math>new]
+
+
+
+
 
             <math><mstyle displaystyle="true" mathsize="" mathcolor=""
                 fontfamily=""><mo>+</mo></mstyle></math> y[old]) <br>
@@ -1076,6 +1164,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             +<br>
             <span style="font-style: italic;">h</span><sup>r</sup>*(y[new]
+
+
+
+
             - (-1)<sup>r</sup>y[old]<sub><span style="font-style:
                 italic;"></span></sub>)</td>
           <td>extract 0th term from summation, its multiplier is either
@@ -1093,6 +1185,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]
 
+
+
+
+
             - (-1)<sup>r</sup>y[old]<sub><span style="font-style:
                 italic;"></span></sub>) +<br>
             <math><!--sum_[u=1]^[(r-1)/2]--><mstyle displaystyle="true"
@@ -1109,8 +1205,16 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             the second from 3 to 4<br>
             ((r-1)/2) + 1 = ((r-1)/2) + 2/2<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
             = ((r-1)+2)/2<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
             = (r+1)/2<br>
           </td>
         </tr>
@@ -1124,6 +1228,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style:
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]
+
+
+
+
 
             - (-1)<sup>r</sup>y[old]<sub><span style="font-style:
                 italic;"></span></sub>) +<br>
@@ -1155,6 +1263,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
 
+
+
+
+
             (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
             <math><!--sum_[u:1]^[(r-1)/2]--><mstyle displaystyle="true"
@@ -1177,6 +1289,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style:
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+
+
+
+
 
             (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)
             +<br>
@@ -1227,6 +1343,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td>(-1)<sup>r</sup>(Y(0,x)-y[old]<span style="font-style:
               italic;"></span><sub><span style="font-style: italic;"></span></sub>)
             + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
+
+
+
+
 
             (-1)<sup>r</sup>y[old]<sub><span style="font-style: italic;"></span></sub>)<br>
             <math><!--sum_[u:1]^[(r-1)/2]--><mstyle displaystyle="true"
