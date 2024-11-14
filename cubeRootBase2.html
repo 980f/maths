@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>cubeRootBase2</title>
+  </head>
+  <body>
+    <h2>Cube root in binary, for FPGA without appropriate sized
+      multipliers.</h2>
+    <hr width="100%" size="2">
+    <h3>quick review of square root by progressive moving of radix
+      point:Q=Root<sup>2</sup>+rem,</h3>
+    Rem = Q - Root<sup>2</sup>.<br>
+    <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">Root<sub>i+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">2Root<sub>i</sub> + 1</td>
+          <td valign="top">guess at new root</td>
+        </tr>
+        <tr>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">Root <sub>i+1</sub> <sup>2</sup>&nbsp; </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">(2Root<sub>i</sub> + 1)<sup>2</sup></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4Root<sub>i</sub><sup>2</sup> + 4Root<sub>i</sub>
+            + 1</td>
+          <td valign="top">binomial theorem<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">Q<sub>i+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4Q<sub>i</sub> + bits<sub>i+1</sub></td>
+          <td valign="top">expose new bits of the number being rooted<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">4<br>
+          </td>
+          <td valign="top">Rem<sub>i+1</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Q<sub>i+1</sub> - Root<sub>i+1</sub><sup>2</sup></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4Q<sub>i</sub> + bits<sub>i+1 </sub>- (4Root<sub>i</sub><sup>2</sup>
+            + 4Root<sub>i</sub> + 1)</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Q<sub>i</sub> - 4Root<sub>i</sub><sup>2</sup>)
+            - 4Root<sub>i</sub> + bits<sub>i+1</sub> - 1</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4Rem<sub>i</sub> - 4Root<sub>i&nbsp;</sub> -
+            1 + bits<sub>i+1</sub> </td>
+          <td valign="top">incremental computation<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><sub><br>
+            </sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i</sub> - Root<sub>i</sub>) - 1 +
+            bits<sub>i+1</sub><sub> </sub></td>
+          <td valign="top">subtract root, shift two places bringing in
+            bits of Q, subtract 1<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">If Rem<sub>i+1</sub>is
+
+            negative then we want to add 4Root<sub>i&nbsp;</sub> +1 back
+            in to it (if we didn't retain its value) before subtracting
+            the next test value.<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">5<br>
+          </td>
+          <td valign="top">Root<sub>i+1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Root<sub>i</sub></td>
+          <td valign="top">the +1 was a bad guess<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">6<br>
+          </td>
+          <td valign="top">Rem'<sub>i+1 <br>
+            </sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Rem<sub>i+1</sub>+ 4Root<sub>i</sub> + 1<br>
+          </td>
+          <td valign="top">correct the remainder by backing out the
+            subtraction ...<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Rem<sub>i+1</sub>+ 2Root<sub>i+1</sub> + 1<br>
+          </td>
+          <td valign="top">... but we already shifted the Root storage.<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">7<br>
+          </td>
+          <td valign="top">Rem<sub>i+2</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem'<sub>i+1</sub> - Root<sub>i+1</sub>) -
+            1 + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i+1</sub>+ 2Root<sub>i+1</sub> + 1
+            - Root<sub>i+1</sub>) - 1 + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i+1</sub> + (2-1)Root<sub>i+1 </sub>+
+            1) - 1 + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i+1</sub> + Root<sub>i+1 </sub>+
+            1) - 1 + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i+1</sub> + Root<sub>i+1</sub>) + 4
+            - 1 + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Rem<sub>i+1</sub> + Root<sub>i+1</sub>) + 3
+            + bits<sub>i+2</sub></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">So, if previous
+            remainder was zero for the next cycle we add rather than
+            subtract the root from the rem, and add 3 rather than
+            subtract 1<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr width="100%" size="2">
+    <h3>Now let us try that for cube root:</h3>
+    <br>
+    Rem = Q - Root<sup>3</sup>.<br>
+    <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">Root<sub>i+1</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">2Root<sub>i</sub> + 1<br>
+          </td>
+          <td valign="top">guess at new root<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">Root<sub>i+1</sub><sup>3</sup><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">8Root<sub>i</sub><sup>3</sup> + 12Root<sub>i</sub><sup>2</sup>+
+            6Root<sub>i</sub> + 1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">Rem<sub>i+1</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">8Qi + bits<sub>i+1</sub> - (8Root<sub>i</sub><sup>3</sup>
+            + 12Root<sub>i</sub><sup>2</sup>+ 6Root<sub>i</sub> + 1)</td>
+          <td valign="top">compute new remainder, in terms of prior one
+            and new value of root<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">8(Qi - Root<sub>i</sub><sup>3</sup>) - ...<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">8Rem<sub>i</sub> - (12Root<sub>i</sub><sup>2
+            </sup>+ 6Root<sub>i</sub> + 1) +bits<sub>i+1</sub><br>
+          </td>
+          <td valign="top">shift 3 bring in bits of Q, subtract a
+            subcomputation, <br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">4<br>
+          </td>
+          <td valign="top">Delta<sub>i+1</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">12Root<sub>i</sub><sup>2</sup> + 6Root<sub>i</sub>
+            + 1</td>
+          <td valign="top">focus in on what Rem gets adjusted by<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">2(6Root<sub>i</sub><sup>2</sup> + 3Root<sub>i</sub>)
+            + 1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">2(3(2Root<sub>i</sub><sup>2</sup> + Root<sub>i</sub>))
+
+            + 1</td>
+          <td valign="top">copy, square, shift, add, copy , shift, add,
+            shift, increment</td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="3" valign="top">If multiplication is
+            not cheap (single cycle or so)<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">5<br>
+          </td>
+          <td valign="top">Root <sub>i+1</sub> <sup>2</sup></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4Root<sub>i</sub><sup>2</sup> + 4Root<sub>i</sub>
+            + 1</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4(Root<sub>i</sub><sup>2</sup> + Root<sub>i</sub>)
+            + 1</td>
+          <td valign="top">add Root, shift 2, increment </td>
+        </tr>
+        <tr>
+          <td valign="top">6<br>
+          </td>
+          <td valign="top">Delta<sub>i+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">12Root<sub>i</sub><sup>2</sup> + 6Root<sub>i</sub>
+            + 1</td>
+          <td valign="top">repeat step 4<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">(8+4)Root<sub>i</sub><sup>2</sup> + (2+4)Root<sub>i</sub>
+            + 1</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Root <sub>i+1</sub> <sup>2 </sup>+&nbsp;
+            8Root<sub>i</sub><sup>2</sup> + 2Root<sub>i</sub> + 1</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">Root <sub>i+1</sub> <sup>2 </sup>+&nbsp;
+            8Root<sub>i</sub><sup>2</sup> + Root<sub>i</sub><sub>+1</sub></td>
+          <td valign="top">no squaring, just an extra storage element
+            (Root<sup>2</sup>) and simpler shifting and adding<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    If remainder is negative add Delta back in, at least until I can get
+    around to the non-restoring algebra :)<br>
+    <hr width="100%" size="2">(C) 2024 Andy Heilveil (github/980f)<br>
+    <br>
+  </body>
+</html>
