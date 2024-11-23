@@ -101,6 +101,8 @@
             place to keep the old values (FPGA or trying to stick with
             minimal number of CPU registers) <br>
             we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp;
+
+
             </sup>excess removed with subtracting the next test value:</td>
         </tr>
         <tr>
@@ -130,6 +132,8 @@
           </td>
           <td valign="top"> R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub>
             - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp;
+
+
 
 
             - 2<sup>2k-4</sup>) </td>
@@ -189,6 +193,8 @@
 
 
 
+
+
     </sup><br>
     <br>
     if last bit was a zero:<br>
@@ -198,8 +204,12 @@
 
 
 
+
+
     or<br>
     R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp;
+
+
 
 
 
@@ -239,8 +249,12 @@
 
 
 
+
+
     - 2<sup>2k-4</sup><br>
     R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp;
+
+
 
 
 
@@ -319,7 +333,228 @@
     <br>
     proceed with loop as per prior sections.<br>
     <hr><br>
+    If you look at those powers of 2 in the Rk equations we note that
+    bits below 2k are irrelevant to the decision. That allows us to
+    iteratively expose new bits of the given rather than carrying them
+    around the whole process as the lsbs of the remainder. The goal here
+    is to get rid of the Gk power of 2 shifting replaced with shifting
+    bits into a quotient while shifting the given into our view.<br>
     <br>
+    So what we will do is maintain the 2k position in the lsb of the
+    accumulator, and each cycle shift the radix point of the operands. <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">after having counted
+            leading zeros and shifting Given that the even value less
+            than or the same as that amount <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">1:<br>
+          </td>
+          <td valign="top"> R<sub>k</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Given<sub>k</sub> - Q<sub>k</sub><sup>2</sup>
+          </td>
+          <td valign="top">definition of terms<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">2:<br>
+          </td>
+          <td valign="top">R<sub>k+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Given<sub>k+1</sub>- Q<sub>k+1<sup>2</sup><br>
+            </sub></td>
+          <td valign="top">ditto<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*Given<sub>k</sub> - (2*Qk+1)<sup>2</sup> <br>
+          </td>
+          <td valign="top">shift radix point of Q's,presume the new bit
+            is a 1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*Given<sub>k</sub> - 4Q<sub>k</sub><sup>2</sup>-
+            4Q<sub>k</sub> - 1&nbsp; </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>k</sub> +<sub> </sub><i>new bits<sub>k+1<br>
+              </sub></i>- 4Q<sub>k</sub> - 1</td>
+          <td valign="top">Shift in 2 bits from combined R||Given
+            register pair<br>
+            subtract current quotient value &lt;&lt;2 with forced borrow
+            or shift in 01 to lsbs.<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">If Rk+1 is positive
+            (accumulator borrow out ==&nbsp; 0) then we have our new R<sub>k+1</sub>
+            and Q<sub>k+1</sub> values<br>
+            If not then we need to add the&nbsp; (4Q<sub>k+1</sub> + 1
+            )back in to the R<sub>k+1<br>
+            </sub>OR subtract it out from what we are going to subtract
+            on next cycle<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3:<br>
+          </td>
+          <td valign="top">R<sub>k+2</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>k+1 </sub>+ <i>new bits<sub>k+2</sub></i>
+            - 4Q<sub>k+1</sub> - 1</td>
+          <td valign="top">add one to each index in eq 2's final step<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2</sub></i>
+            <br>
+            - 4Q<sub>k+1</sub> - 1<br>
+            + 4*(4Q<sub>k</sub> + 1)</td>
+          <td valign="top">bolded wrong value of R<sub>k+1</sub>,
+            needing correction<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2</sub></i>
+            <br>
+            - 4(2*Q<sub>k</sub>) - 1<br>
+            + 16Q<sub>k</sub> + 4<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2
+
+                <br>
+              </sub></i>+8Q<i><sub>k</sub></i> +3<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2
+
+                <br>
+              </sub></i>+4Q<sub><i>k</i></sub><sub>+1</sub> +3</td>
+          <td valign="top">Shift in 2 bits from combined R||Given
+            register pair<br>
+            add current quotient value &lt;&lt;2 shifting in 11 to lsbs.
+            <br>
+            Alternative shift in 01 and force a carry.<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">So, instead of
+            subtracting 4Q<sub>k</sub>-1 we add 4Q<sub>k</sub>+3<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    On the last cycle, if the remainder is negative we need to correct
+    it by adding the 4Q<sub>k</sub>+1 to get the proper remainder.<br>
+    That 4*Q<sub>k</sub> is actual 2*Q<sub>final</sub><br>
     <br>
   </body>
 </html>
