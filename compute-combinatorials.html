@@ -1,0 +1,357 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>compute combinatorials</title>
+  </head>
+  <body>
+    Computing Combinatorials with a finite range integer<br>
+    <br>
+    When computing C<sup>n</sup><sub>r </sub>,&nbsp; the number of
+    combinations of n things taken r at a time, the naive formula of
+    n!/r!(n-r)! involves terms which might exceed the range of the
+    computer doing the calculation while the Cnr value itself might
+    still be in range.<br>
+    <br>
+    The numerator is the produce of integer from n to n-r+1, the
+    denominator the product of integers 1 to r. <br>
+    If we divide each accumulating product by common integer factors
+    then the eventual division will also be an integer and the
+    intermediates will stay smaller, presumably enough to not overflow
+    the native number range of the computer.<br>
+    <br>
+    We can ignore r=0 and 1 as those are special cases easily dealt with
+    without division.<br>
+    <br>
+    Every other factor of the denominator is even, and as such has a
+    non-zero power of 2 factor. If r=2 we have one 2 in the denominator
+    product, if r=3 we still have just the one 2. <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">r<br>
+          </td>
+          <td valign="top">2's<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">we get a 2 for every 2nd number<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">odds are the same as the preceding row<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">4<br>
+          </td>
+          <td valign="top">2+1<br>
+          </td>
+          <td valign="top">starting with 4 we get another 2 every 4th
+            number<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">5<br>
+          </td>
+          <td valign="top">2+1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">6<br>
+          </td>
+          <td valign="top">3+1<br>
+          </td>
+          <td valign="top">3 from 6,4,2 + another from 4<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">7<br>
+          </td>
+          <td valign="top">3+1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">8<br>
+          </td>
+          <td valign="top">4+2+1<br>
+          </td>
+          <td valign="top">4 from 8,6,4,2 + 2 from 8,4 + another from 8
+            itself<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">9<br>
+          </td>
+          <td valign="top">4+2+1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">10<br>
+          </td>
+          <td valign="top">5+2+1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">r/2 + (r&gt;=4? (r/4)) + (r&gt;8?(r/8)<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    so the number of factors of 2 in a factorial is the sum of the
+    number divided by the successive powers of 2, until you get to a
+    power of 2 greater than the number.<br>
+    <br>
+    So, while forming the two products we reduce each term by removing
+    their trailing zero bits while adding up how many of those zeroes we
+    dropped.<br>
+    Before forming the final ratio we need to apply the imbalance in
+    number of twos removed to the appropriate term, else the integer
+    division will not be exact.<br>
+    <br>
+    <hr width="100%" size="2">That as an easy extension of range.<br>
+    <br>
+    If range is more important than speed we can similarly divide each
+    3rd term of each accumulating product by 3, carefully phasing our
+    selection so that we only divide multiples of 3 by 3.<br>
+    That can be done via initializing a counter with term % 3 and
+    tracking when it hits zero, setting it back to 2 to count down
+    again. And so on for each of the prime numbers less than the 'r'
+    value. That is a lot of integer dividing, so the extended range
+    better be worth it.<br>
+    <br>
+    <hr width="100%" size="2">
+    <h3>P<sup>n</sup><sub>r</sub></h3>
+    When computing permutations the best we can do is defer conversion
+    to floating point by counting the powers of two as we go along
+    multiplying all the odd values created from the integers. We can
+    then pack them into a floating point format via counting leading
+    zeroes (convert int to float) then adjusting the exponent with all
+    of the powers of two we left out of the accumulating product.<br>
+    <br>
+    <br>
+    <hr width="100%" size="2">
+    <h3>Far more tedious but optimal:</h3>
+    <br>
+    For the numbers in the range of n to (n-r+1) their product will
+    contain all of the prime factors of those in 1..r. Finding numbers
+    with common factors and dividing them by those before forming the
+    product reduces the range needed for intermediate calculations,
+    without losing precision.<br>
+    We can trial divide each of the numerator range members by r, and if
+    the division is even drop both of them from the lists of numbers to
+    muck with and accumulate the quotient into the product.<br>
+    We can apply the sieve of Aristophanes reasoning to this task. <br>
+    For as many primes as we are willing to allocate two run-time arrays
+    we initialize each list by r or n modulo p<sub>i</sub>.<br>
+    And I am going to stop right here as the amount of ram and code
+    space needed for this is clearly more than just implementing a
+    multi-word integer that is big enough for the task. <br>
+    So, we shall compute the size required with only the removal of
+    two's (a cheap task and easy to code dynamically):<br>
+    <br>
+    The maximum value of a series of Cn,r over the range r=1..n is where
+    r = n/2 for n odd, n/2+1 for n even. The quick way to see that is to
+    inspect the first rows of Pascal's triangle:<br>
+    2: 1 2 1<br>
+    3:1 3 3 1<br>
+    4:1 4 6 4 1<br>
+    Cn,n/2 = n!/((n/2)!)<sup>2<br>
+    </sup>log<sub>2</sub>(n!) = sum i=2..n{ log<sub>2</sub>(i)}
+    &lt;&nbsp;&nbsp; 2 + 2 + 3 + 3 + 3 + 3 + 4 + 4 + 4 + 4 + 4 + 4 + 4 +
+    4 + 5 ... &lt;= sum 2 for 2, 3 for 4, 4 for 8, 5 for 16 ...<br>
+    log2((n/2)!) = same formula for above but with half the n.<br>
+    The first minus the second is the number of bits needed in the
+    numerator, the second by itself is the number of bits needed in the
+    denominator. <br>
+    <br>
+    To compute this sum we start with half the number of bits in n, 16
+    for a 32 bit number. <br>
+    Count the leading zeroes, word size - that is the number of bits
+    needed to represent n. Shift by the power of 2 that is less than
+    that, for 17 we shift 16, for 10 we shift 8. The number remaining is
+    multiplied by that power of 2 and then we add numbers we can
+    tabulate for the power of two used: <br>
+    2x2 + 3x4 + 4x8 + 5x16 = sum (i+1)*2<sup>i</sup><br>
+    <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">r<br>
+          </td>
+          <td valign="top">r!<br>
+          </td>
+          <td valign="top">log<sub>2</sub>(r!)<br>
+          </td>
+          <td valign="top">estimate<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">6<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">4<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">4<br>
+          </td>
+          <td valign="top">24<br>
+          </td>
+          <td valign="top">5<br>
+          </td>
+          <td valign="top">7<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">5<br>
+          </td>
+          <td valign="top">120<br>
+          </td>
+          <td valign="top">7<br>
+          </td>
+          <td valign="top">10<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">6<br>
+          </td>
+          <td valign="top">720<br>
+          </td>
+          <td valign="top">10<br>
+          </td>
+          <td valign="top">13<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">7<br>
+          </td>
+          <td valign="top">5040<br>
+          </td>
+          <td valign="top">13<br>
+          </td>
+          <td valign="top">16<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">8<br>
+          </td>
+          <td valign="top">40320<br>
+          </td>
+          <td valign="top">16<br>
+          </td>
+          <td valign="top">20<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">9<br>
+          </td>
+          <td valign="top">362880<br>
+          </td>
+          <td valign="top">19<br>
+          </td>
+          <td valign="top">24<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">10<br>
+          </td>
+          <td valign="top">3628800<br>
+          </td>
+          <td valign="top">22<br>
+          </td>
+          <td valign="top">28<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">11<br>
+          </td>
+          <td valign="top">39916800<br>
+          </td>
+          <td valign="top">26<br>
+          </td>
+          <td valign="top">32<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">12<br>
+          </td>
+          <td valign="top">479001600<br>
+          </td>
+          <td valign="top">29<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">13<br>
+          </td>
+          <td valign="top">6227020800<br>
+          </td>
+          <td valign="top">33<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">14<br>
+          </td>
+          <td valign="top">87178291200<br>
+          </td>
+          <td valign="top">37<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">15<br>
+          </td>
+          <td valign="top">1307674368000<br>
+          </td>
+          <td valign="top">41<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+  </body>
+</html>
