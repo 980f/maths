@@ -409,6 +409,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
 
 
 
+
             this)<br>
           </td>
         </tr>
@@ -915,6 +916,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
 
 
 
+
             <br>
             S<sub>2</sub>(S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>) </td>
         </tr>
@@ -1231,6 +1233,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
 
 
 
+
           </td>
           <td>S<sub>2</sub>*<br>
             (Y<sub>0</sub>S<sub>2</sub>(R<sub>4</sub>-R<sub>2</sub><sup>2</sup>)<br>
@@ -1272,6 +1275,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td style="vertical-align: top;">&nbsp;(Y<sub>0</sub>H<sub>9</sub>+Y<sub>2</sub>H<sub>7</sub>+Y<sub>4</sub>H<sub>5</sub>)/H<sub>12</sub><br>
           </td>
           <td style="vertical-align: top;">(Y<sub>0</sub>H<sub>7</sub>+Y<sub>2</sub>H<sub>5</sub>+Y<sub>4</sub>H<sub>3</sub>)/H<sub>12</sub>&nbsp;
+
 
 
 
@@ -1441,6 +1445,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
 
 
 
+
     S<sub>2</sub>(S<sub>0</sub>R<sub><sub>2</sub></sub>-S<sub>2</sub>)<br>
     Its numerator requires 3*log<sub>2</sub>(<span style="font-style:
       italic;">h</span>)+2*log<sub>2</sub>(ymax)+1&nbsp; for 12 bits of
@@ -1482,6 +1487,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
         <tr>
           <td>2</td>
           <td><i>h</i>*(<i>h</i>+1)*(2*<i>h</i>+1)/3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
             <br>
           </td>
@@ -1549,9 +1555,9 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top"><math
               xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><mrow><msqrt><mrow><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow></mrow></msqrt><mo>*</mo><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mrow></mfrac><annotation
-                  encoding="TeX"> \frac { n{Y<sub>1</sub> } } { {\sqrt
-                  {n{S<sub>0</sub>}}} * {\sqrt {n{\sum{{y_i}^2}}-Y0^2}}
-                  }</annotation></semantics></math><br>
+                  encoding="TeX"> \frac { n{Y</annotation></semantics></math><sub>1</sub>
+            } } { {\sqrt {n{S<sub>0</sub>}}} * {\sqrt
+            {n{\sum{{y_i}^2}}-Y0^2}} }<br>
           </td>
           <td valign="top"><br>
           </td>
@@ -1567,8 +1573,8 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top"><math
               xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><msqrt><mrow><msup><mi>n</mi><mn>2</mn></msup><mrow><mi>S</mi><mn>2</mn></mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mfrac><annotation
-                  encoding="TeX"> \frac { n{Y<sub>1</sub> } } { {\sqrt {
-                  n^2{S<sub>2</sub>}{\sum{{y_i}^2}}-n{S<sub>2</sub>}Y0^2}}}</annotation></semantics></math><br>
+                  encoding="TeX"> \frac { n{Y</annotation></semantics></math><sub>1</sub>
+            } } { {\sqrt { n^2{S<sub>2</sub>}{\sum{{y_i}^2}}-n{S<sub>2</sub>}Y0^2}}}<br>
           </td>
           <td valign="top"><br>
           </td>
@@ -1582,9 +1588,9 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top"><math
               xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>Y</mi><mn>1</mn></mrow><mrow><msqrt><mrow><mi>S</mi><mn>2</mn></mrow></msqrt><msqrt><mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mfrac><mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow><mi>n</mi></mfrac></mrow></msqrt></mrow></mfrac><annotation
-                  encoding="TeX"> \frac { {Y<sub>1</sub> } } { {\sqrt{S<sub>2</sub>}}{\sqrt
-
-                  { {\sum{{y_i}^2}}-{\frac {Y0^2} n}}}}</annotation></semantics></math><br>
+                  encoding="TeX"> \frac { {Y</annotation></semantics></math><sub>1</sub>
+            } } { {\sqrt{S<sub>2</sub>}}{\sqrt { {\sum{{y_i}^2}}-{\frac
+            {Y0^2} n}}}}<br>
           </td>
           <td valign="top"><br>
           </td>
