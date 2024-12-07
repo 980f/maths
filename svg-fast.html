@@ -1,88 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-    
-<meta name="generator" content="HTML Tidy for HTML5 for Linux
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HTML Tidy for HTML5 for Linux
       version 5.6.0">
-
-    
-<meta content="text/html; charset=UTF-8" http-equiv="content-type">
-
-    
-<meta name="GENERATOR" content="Mozilla/4.03 [en] (Win95; I)
+    <meta name="GENERATOR" content="Mozilla/4.03 [en] (Win95; I)
       [Netscape]">
-
-    
-<meta name="AUTHOR" content="Andy Heilveil">
-
-    
-<title>fast svg</title>
-
+    <meta name="AUTHOR" content="Andy Heilveil">
+    <title>fast svg</title>
   </head>
   <body>
     <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"></math>
     <math xmlns="http://www.w3.org/1998/Math/MathML" display="block"></math>
-    
-<h2>OPTIMAL COMPUTATION OF POLYNOMIAL FITS</h2>
-
-    
-<h3>SPEEDING UP SAVITSKY-GOLAY FILTERING</h3>
-
-    
-<hr> <a href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a>
-    FILTERING is a moving least squares fit of a set of integer indexed data to a polynomial of that integer index. <br>
-
+    <h2>OPTIMAL COMPUTATION OF POLYNOMIAL FITS</h2>
+    <h3>SPEEDING UP SAVITSKY-GOLAY FILTERING</h3>
+    <hr> <a href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a> FILTERING is a moving least squares fit of a set of integer indexed data to a polynomial of that integer index. <br>
     <br>
-
-    The jist of it is that the one can compute the coefficients of a 
-best fit polynomial via a convolution using integer coefficients divided
- by an integer scaling constant. <br>
-
-    What follows is optimal computation of the particular convolutions 
-involved by taking advantage of patterns in the convolution 
-coefficients. This optimization is very significant when implementing 
-the algorithm in logic such as an FPGA. It is also a significant 
-improvement in programmable DSP's. <br>
-
-    
-<hr style="width: 100%; height: 2px;"> In S&amp;G's derivation at an 
-intermediate step of the calculation coefficients are expressed as 
-polynomials of the convolutions of the data with powers of the integers.
- <br>
-
+    The jist of it is that the one can compute the coefficients of a best fit polynomial via a convolution using integer coefficients divided by an integer scaling constant. <br>
+    What follows is optimal computation of the particular convolutions involved by taking advantage of patterns in the convolution coefficients. This optimization is very significant when implementing the algorithm in logic such as an FPGA. It is also a significant improvement in programmable DSP's. <br>
+    <hr style="width: 100%; height: 2px;"> In S&amp;G's derivation at an intermediate step of the calculation coefficients are expressed as polynomials of the convolutions of the data with powers of the integers. <br>
     I use the symbol Y2 to indicate "sum of the data each multiplied by the square of its index". <br>
-
-    I use <span style="font-style: italic;">h</span> to represent the length of the convolution (#of points in each fit), 2*<span style="font-style: italic;">h</span>+1
- = actual width, to both force the window to have an odd number of 
-elements and to get rid of a bunch of 2's in the expressions. <br>
-
+    I use <span style="font-style: italic;">h</span> to represent the length of the convolution (#of points in each fit), 2*<span
+      style="font-style: italic;">h</span>+1 = actual width, to both force the window to have an odd number of elements and to get rid of a bunch of 2's in the expressions. <br>
     <br>
-
-    S&amp;G resolve the polynomials into a set of coefficients for a 
-single convolution operation to produce a value of a derivative at a 
-point. <br>
-
+    S&amp;G resolve the polynomials into a set of coefficients for a single convolution operation to produce a value of a derivative at a point. <br>
     Their computation takes ~ degree*windowWidth math operations at each point. <br>
-
-    If you don't merge the sums then you compute ~degree*windowWidth for
- each Y datum, followed by ~degree operations to finish the computation.
- <br>
-
-    For many instances the ~degree*windowWidth for a Y term can be 
-reduced to ~constant, easily paying back the cost of the additional 
-operations to get the desired coefficient and removing most of the 
-penalty from choosing a wider window, although the window width does 
-affect the time to initialize the iteration. <br>
-
-    
-<hr> First some warmup exercises ... <br>
-
+    If you don't merge the sums then you compute ~degree*windowWidth for each Y datum, followed by ~degree operations to finish the computation. <br>
+    For many instances the ~degree*windowWidth for a Y term can be reduced to ~constant, easily paying back the cost of the additional operations to get the desired coefficient and removing most of the penalty from choosing a wider window, although the window width does affect the time to initialize the iteration. <br>
+    <hr> First some warmup exercises ... <br>
     <br>
-
     We have a set of summations of the form: <br>
-
-    
-<table style="text-align: left; margin-left: 40px;" cellspacing="2" cellpadding="2">
-
+    <table style="text-align: left; margin-left: 40px;" cellspacing="2"
+      cellpadding="2">
       <tbody>
         <tr>
           <td>1 <br>
@@ -124,21 +73,14 @@ affect the time to initialize the iteration. <br>
           </td>
           <td><br>
           </td>
-          <td>&nbsp;y[x] stands for the xth element of the y data array
-            (C programming language syntax)</td>
+          <td>&nbsp;y[x] stands for the xth element of the y data array (C programming language syntax)</td>
         </tr>
       </tbody>
-    
-</table>
-
+    </table>
     &nbsp; <br>
-
-    A simple reduction of computation can be made via using the symmetry
-    (or anti-symmetry) of the k<sup>r</sup> term. <br>
-
-    
-<table style="text-align: left; margin-left: 40px;" cellspacing="2" cellpadding="2">
-
+    A simple reduction of computation can be made via using the symmetry (or anti-symmetry) of the k<sup>r</sup> term. <br>
+    <table style="text-align: left; margin-left: 40px;" cellspacing="2"
+      cellpadding="2">
       <tbody>
         <tr>
           <td>1b <br>
@@ -146,7 +88,8 @@ affect the time to initialize the iteration. <br>
           <td><br>
           </td>
           <td>
-            <math><mrow>
+            <math>
+              <mrow>
                 <munderover>
                   <mo>∑</mo>
                   <mrow>
@@ -156,7 +99,8 @@ affect the time to initialize the iteration. <br>
                     <mi>h</mi></mrow>
                   <mrow>
                     <mo>+</mo>
-                    <mi>h</mi></mrow></munderover></mrow>
+                    <mi>h</mi></mrow></munderover>
+              </mrow>
               <msup>
                 <mi>k</mi>
                 <mi>r</mi></msup>
@@ -249,36 +193,22 @@ affect the time to initialize the iteration. <br>
                   <mi>x</mi>
                   <mo>+</mo>
                   <mi>k</mi>
-                  <mo>]</mo></mrow> </mrow></math><math><mrow></mrow></math><span style="font-style: italic;"> ±</span> <mi>y</mi> <mrow>
-              <mo>[</mo> <mi>x</mi> <mo>-</mo> <mi>k</mi> <mo>]</mo></mrow>
-            <mo>)</mo> </td>
+                  <mo>]</mo></mrow> </mrow></math><math><mrow></mrow></math><span
+              style="font-style: italic;"> ±</span> <mi>y</mi> <mrow> <mo>[</mo> <mi>x</mi> <mo>-</mo> <mi>k</mi> <mo>]</mo></mrow> <mo>)</mo> </td>
           <td><br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
+    </table>
     <br>
-
-    where the <span style="font-style: italic;">±</span> in the final
-    term is + for even values of r and - for odd values. <br>
-
-    This yields the same number of adds as the direct computation, but
-    half the number of multiplies. <br>
-
-    Actually, except for r=0 we have one less of each operation due to
-    the omission of the zero term&nbsp; since 0<sup>r</sup> = 0 unless
-    r=0, in which case 0<sup>0</sup>=1 <br>
-
-    
-<div style="margin-left: 40px;">
+    where the <span style="font-style: italic;">±</span> in the final term is + for even values of r and - for odd values. <br>
+    This yields the same number of adds as the direct computation, but half the number of multiplies. <br>
+    Actually, except for r=0 we have one less of each operation due to the omission of the zero term since 0<sup>r</sup> = 0 unless r=0, in which case 0<sup>0</sup>=1 <br>
+    <div style="margin-left: 40px;">
       <table style="text-align: left;" cellspacing="0" cellpadding="8" border="1">
         <tbody>
           <tr>
-            <td> If there is significant cost to having and indexing
-              into an array of the powers of the integers (our k<sup>r</sup>)
-              we can use incremental computation in the loop itself: <br>
+            <td> If there is significant cost to having and indexing into an array of the powers of the integers (our k<sup>r</sup>) we can use incremental computation in the loop itself: <br>
               <table style="text-align: left;" cellspacing="2" cellpadding="2">
                 <tbody>
                   <tr>
@@ -296,8 +226,7 @@ affect the time to initialize the iteration. <br>
                 </tbody>
               </table>
               In words: next square = previous square + 2 * index + 1. <br>
-              (add n, then increment n to use as index into the data,
-              then add the new value of n) <br>
+              (add n, then increment n to use as index into the data, then add the new value of n) <br>
               <br>
               <table style="text-align: left;" cellspacing="2" cellpadding="2">
                 <tbody>
@@ -305,8 +234,7 @@ affect the time to initialize the iteration. <br>
                     <td>(n+1)<sup>3</sup></td>
                     <td>= <br>
                     </td>
-                    <td> n<sup>3</sup><span>+3n</span><sup>2</sup><span>+3n+1</span>
-                      <br>
+                    <td> n<sup>3</sup><span>+3n</span><sup>2</sup><span>+3n+1</span> <br>
                     </td>
                   </tr>
                   <tr>
@@ -316,8 +244,7 @@ affect the time to initialize the iteration. <br>
                     <td><span>3n</span><sup>2</sup><span>+3n+1</span></td>
                   </tr>
                   <tr>
-                    <td><span>(3(n+1)</span><sup>2</sup><span>+3(n+1)+1)
-                        - (</span><span>3n</span><sup>2</sup><span>+3n+1)</span></td>
+                    <td><span>(3(n+1)</span><sup>2</sup><span>+3(n+1)+1) - (</span><span>3n</span><sup>2</sup><span>+3n+1)</span></td>
                     <td>= <br>
                     </td>
                     <td><span>3n</span><sup>2</sup><span>+6n+3+3n+3+1</span><span>-</span><span>3n</span><sup>2</sup><span>-3n-1</span></td>
@@ -338,34 +265,20 @@ affect the time to initialize the iteration. <br>
                 </tbody>
               </table>
               In words: <br>
-              next deltacube = previous deltacube + 6*(n+1) (and 6 = 4 +
-              2 if your processor can shift and add at the same time) <br>
+              next deltacube = previous deltacube + 6*(n+1) (and 6 = 4 + 2 if your processor can shift and add at the same time) <br>
               next cube= previous cube + deltacube <br>
-              so an increment, a multiply by a small constant and
-              another add compute each successive cube, or 3 adds. <br>
+              so an increment, a multiply by a small constant and another add compute each successive cube, or 3 adds. <br>
               Similar reductions can be made for all other powers. </td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    
-<hr width="100%">
-    
-<h3>Going faster</h3>
-
-    A much more massive computational improvement can be achieved by
-    taking advantage of the fact that we usually desire the fitted
-    coefficients for successive subsets of a large series of points, in
-    the case of signal processing for an indefinitely large number of
-    points. <br>
-
+    <hr width="100%">
+    <h3>Going faster</h3>
+    A much more massive computational improvement can be achieved by taking advantage of the fact that we usually desire the fitted coefficients for successive subsets of a large series of points, in the case of signal processing for an indefinitely large number of points. <br>
     <br>
-
     Let us compute Y(r,x+1) as a function of Y(r,x).
-    
-<table style="text-align: left;" cellspacing="2" cellpadding="2">
-
+    <table style="text-align: left;" cellspacing="2" cellpadding="2">
       <tbody>
         <tr>
           <td>1 <br>
@@ -711,8 +624,7 @@ affect the time to initialize the iteration. <br>
               <mo>+</mo>
               <msup>
                 <mi></mi>
-                <mi></mi></msup></math> <msup><mi>h</mi> <sup><mi>r</mi></sup></msup>
-            y<math>
+                <mi></mi></msup></math> <msup><mi>h</mi> <sup><mi>r</mi></sup></msup> y<math>
               <mrow>
                 <mo>[</mo></mrow></math>new]
             <math>
@@ -734,8 +646,7 @@ affect the time to initialize the iteration. <br>
                 <mi>r</mi></msup>
               <mtext>y</mtext>
               <mo>[</mo><mtext>old</mtext><mo>]</mo></math> </td>
-          <td>introduce symbols new=<span>x+h+1</span> and old=<span>x-h</span>,
-            <br>
+          <td>introduce symbols new=<span>x+h+1</span> and old=<span>x-h</span>, <br>
             which are constant with respect to our summations <br>
           </td>
         </tr>
@@ -828,7 +739,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td> show binomial expansion of (j-1)<sup>r</sup> <br>
             C<sub>r,u</sub> is
-            <math><!--[r!]/(u!(r-u)! -->
+            <math>
               <mfrac>
                 <mrow>
                   <mi>r</mi>
@@ -903,8 +814,7 @@ affect the time to initialize the iteration. <br>
                     <mo>]</mo></mrow>
                   <mo>}</mo></mrow> </math></span></td>
           <td>summations commute if indexes are independent, also <br>
-            terms not dependent on index may be brought outside the
-            summation <br>
+            terms not dependent on index may be brought outside the summation <br>
           </td>
         </tr>
         <tr>
@@ -994,8 +904,7 @@ affect the time to initialize the iteration. <br>
                   <mi>u</mi>
                   <mo>,</mo>
                   <mi>x</mi>
-                  <mo>)</mo></mrow> </math></span><span>} +</span> <span><i>h</i></span><sup>r</sup><span>y[new]</span>
-            <span>- (-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span>y[old]</span></td>
+                  <mo>)</mo></mrow> </math></span><span>} +</span> <span><i>h</i></span><sup>r</sup><span>y[new]</span> <span>- (-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span>y[old]</span></td>
           <td>combine 3c and 2f <br>
           </td>
         </tr>
@@ -1003,10 +912,7 @@ affect the time to initialize the iteration. <br>
           <td colspan="1" rowspan="1"><br>
           </td>
           <td rowspan="1" colspan="4"><br>
-            in words: the next value for the rth order coefficient is a
-            weighted sum of the previous lower-order coefficients, the
-            newest point in the moving window, and the point just
-            leaving the window.</td>
+            in words: the next value for the rth order coefficient is a weighted sum of the previous lower-order coefficients, the newest point in the moving window, and the point just leaving the window.</td>
         </tr>
         <tr>
           <td colspan="5" rowspan="1"><br>
@@ -1225,10 +1131,10 @@ affect the time to initialize the iteration. <br>
                         <mo>)</mo></mrow></mrow></msup>
                   <msup>
                     <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow><mtext> y[old]</mtext><mo>)</mo>
-              <mo>}</mo>
+                    <mi>u</mi></msup><mtext> y[old]</mtext><mo>)</mo></mrow>
+                <mo>}</mo> </mrow>
               <mo>+</mo>
-              <msup><mi>h</mi>r</msup><mtext>y[new]</mtext></math> </td>
+              <msup><mi>h</mi>r</msup><mtext>y[new]</mtext> </math> </td>
           <td>merge items with common summation range</td>
         </tr>
         <tr>
@@ -1239,65 +1145,43 @@ affect the time to initialize the iteration. <br>
           <td>= <br>
           </td>
           <td>
-            <math><mrow>
-                <munderover>
-                  <mo>∑</mo>
-                  <mrow>
-                    <mi>u</mi>
-                    <mo>=</mo>
-                    <mn>0</mn></mrow>
-                  <mrow>
-                    <mi>r</mi></mrow></munderover></mrow>
+            <math>
+              <mrow>
+                <munderover><mo>∑</mo>
+                  <mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow>
+                  <mrow><mi>r</mi></mrow> </munderover> </mrow>
               <mrow>
                 <mo>{</mo>
                 <msub>
                   <mi>C</mi>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>,</mo>
-                    <mi>u</mi></mrow></msub>
+                  <mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow> </msub>
                 <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mi>u</mi></mrow></msup>
+                  <mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow>
+                  <mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow> </msup>
                 <mrow>
                   <mo>(</mo>
                   <mi>Y</mi>
-                  <mrow>
-                    <mo>(</mo>
-                    <mi>u</mi>
-                    <mo>,</mo>
-                    <mi>x</mi>
-                    <mo>)</mo></mrow>
+                  <mrow><mo>(</mo><mi>u</mi><mo>,</mo><mi>x</mi><mo>)</mo></mrow>
                   <mo>-</mo>
                   <msup>
-                    <mrow>
-                      <mo>(</mo>
-                      <mo>-</mo>
-                      <mn>1</mn>
-                      <mo>)</mo></mrow>
-                    <mi>u</mi></msup>
+                    <mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow>
+                    <mi>u</mi> </msup>
                   <msup>
                     <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow><mtext> y[old]</mtext><mo>)</mo>
-              <mo>}</mo><mo>+</mo><msup><mi>h</mi><mi>r</mi></msup><mo></mo><mtext>y[new]</mtext></math>
-          </td>
+                    <mi>u</mi> </msup>
+                  <mtext>y[old]</mtext>
+                  <mo>)</mo> </mrow>
+                <mo>}</mo> </mrow>
+              <mo>+</mo>
+              <msup><mi>h</mi><mi>r</mi></msup>
+              <mtext>y[new]</mtext></math> </td>
           <td>&nbsp; <br>
           </td>
         </tr>
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">in words: The next value of a
-            Y(r,x) is the sum of it and all lesser ones' previous values
-            - each's trailing value, plus the leading value of just
-            itself. <br>
+          <td colspan="4" rowspan="1">in words: The next value of a Y(r,x) is the sum of it and all lesser ones' previous values - each's trailing value, plus the leading value of just itself. <br>
           </td>
         </tr>
         <tr>
@@ -1307,12 +1191,10 @@ affect the time to initialize the iteration. <br>
           <td>= <br>
           </td>
           <td>
-            <math><msub>
+            <math>
+              <msub>
                 <mi>C</mi>
-                <mrow>
-                  <mi>r</mi>
-                  <mo>,</mo>
-                  <mi>r</mi></mrow></msub>
+                <mrow><mi>r</mi><mo>,</mo><mi>r</mi></mrow> </msub>
               <msup>
                 <mrow>
                   <mo>(</mo>
@@ -1342,12 +1224,11 @@ affect the time to initialize the iteration. <br>
                   <mi>r</mi></msup>
                 <msup>
                   <mi>h</mi>
-                  <mi>r</mi></msup></mrow></math>y<math>
+                  <mi>r</mi></msup></mrow>
               <mrow>
-                <mo>[</mo> old
-                <mo>]</mo>
-                <mo>)</mo>
-                <mo>+</mo></mrow> </math> <br>
+                <mtext>y[old]</mtext>
+                <mo>)</mo></mrow>
+              <mo>+</mo></math> <br>
             <math>
               <mrow>
                 <munderover>
@@ -1399,9 +1280,7 @@ affect the time to initialize the iteration. <br>
                     <mi>h</mi>
                     <mi>u</mi></msup></mrow></mrow></math>y<math>
               <mrow>
-                <mo>[</mo></mrow></math>old <mrow><mo>]</mo> <mo>)</mo>
-              <mo>}</mo> <mo>+</mo></mrow> <i>h</i><sup>r</sup> <mtext>y[new]</mtext>
-          </td>
+                <mo>[</mo></mrow></math>old <mrow><mo>]</mo> <mo>)</mo> <mo>}</mo> <mo>+</mo></mrow> <i>h</i><sup>r</sup> <mtext>y[new]</mtext> </td>
           <td>break out rth term <br>
           </td>
         </tr>
@@ -1781,27 +1660,17 @@ affect the time to initialize the iteration. <br>
         <tr>
           <td><br>
           </td>
-          <td colspan="4" rowspan="1">in words: The change in value of
-            Y(r,x) is a simple function of the points at the ends of the
-            range and a sum of lesser order coefficients each adjusted
-            by the old point. <br>
+          <td colspan="4" rowspan="1">in words: The change in value of Y(r,x) is a simple function of the points at the ends of the range and a sum of lesser order coefficients each adjusted by the old point. <br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
+    </table>
     <br>
-
-    
-<hr style="width: 100%; height: 2px;">
-    
-<h3>Computational cost</h3>
-
-    
-<table border="1">
-
-      <caption> computational costs for each point </caption> <tbody>
+    <hr style="width: 100%; height: 2px;">
+    <h3>Computational cost</h3>
+    <table border="1">
+      <caption> computational costs for each point </caption>
+      <tbody>
         <tr>
           <td><br>
           </td>
@@ -1842,22 +1711,13 @@ affect the time to initialize the iteration. <br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
-    Since <span style="font-style: italic;">h</span> must be &gt;=r
-    (and is typically &gt;&gt; r) this is always an improvement per
-    point. <br>
-
+    </table>
+    Since <span style="font-style: italic;">h</span> must be &gt;=r (and is typically &gt;&gt; r) this is always an improvement per point. <br>
     <br>
-
-    The startup for the incremental method, which in some use cases can
-    be ignored, is the same as one point done via the 'better' math. <br>
-
-    
-<table border="1">
-
-      <caption> computational costs with initialization </caption> <tbody>
+    The startup for the incremental method, which in some use cases can be ignored, is the same as one point done via the 'better' math. <br>
+    <table border="1">
+      <caption> computational costs with initialization </caption>
+      <tbody>
         <tr>
           <td><br>
           </td>
@@ -1882,49 +1742,28 @@ affect the time to initialize the iteration. <br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
-    Which is always still an improvement, except for the trivial case of
-    Length=1. <br>
-
+    </table>
+    Which is always still an improvement, except for the trivial case of Length=1. <br>
     &nbsp; <br>
-
-    
-<div style="margin-left: 40px;">
+    <div style="margin-left: 40px;">
       <table style="text-align: left;" cellspacing="0" cellpadding="8" border="1">
         <tbody>
           <tr>
-            <td>The first set of coefficients must be computed directly,
-              the Y(r,0). <br>
-              In many situations one can pretend that there were <span style="font-style: italic;">h</span> points whose Y
-              values were all zero preceding the present data set. If
-              that is acceptable then the Y(r,0) values are all zero. <br>
-              However, please note that estimates of the accuracy of the
-              fit that includes the inferred points must be adjusted to
-              present the number of actual data points in use. <br>
+            <td>The first set of coefficients must be computed directly, the Y(r,0). <br>
+              In many situations one can pretend that there were <span
+                style="font-style: italic;">h</span> points whose Y values were all zero preceding the present data set. If that is acceptable then the Y(r,0) values are all zero. <br>
+              However, please note that estimates of the accuracy of the fit that includes the inferred points must be adjusted to present the number of actual data points in use. <br>
               <br>
-              If computing on a continuous stream of data forcing the
-              first Y's to zero is a glitch, but that glitch is gone by
-              the time 2*<span style="font-style: italic;">h</span>+1
-              data points have gone by due to this being an FIR filter,
-              so for the case of a continuous data stream only the per
-              point costs need to be counted when calculating the
-              relative performance. <br>
+              If computing on a continuous stream of data forcing the first Y's to zero is a glitch, but that glitch is gone by the time 2*<span
+                style="font-style: italic;">h</span>+1 data points have gone by due to this being an FIR filter, so for the case of a continuous data stream only the per point costs need to be counted when calculating the relative performance. <br>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    
-<hr>
-    
-<h3>explicit formula for first few degrees</h3>
-
-    
-<table style="text-align: left;" cellspacing="2" cellpadding="2" border="1">
-
+    <hr>
+    <h3>explicit formula for first few degrees</h3>
+    <table style="text-align: left;" cellspacing="2" cellpadding="2" border="1">
       <tbody>
         <tr>
           <td>8 <br>
@@ -1933,35 +1772,20 @@ affect the time to initialize the iteration. <br>
           <td>= <br>
           </td>
           <td>
-            <math><mrow>
+            <math>
+              <mrow>
                 <munderover>
                   <mo>∑</mo>
-                  <mrow>
-                    <mi>u</mi>
-                    <mo>=</mo>
-                    <mn>0</mn></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow>
+                  <mrow><mi>u</mi><mo>=</mo><mn>0</mn></mrow>
+                  <mrow><mi>r</mi><mo>-</mo><mn>1</mn></mrow> </munderover> </mrow>
               <mrow>
                 <mo>{</mo>
                 <msub>
                   <mi>C</mi>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>,</mo>
-                    <mi>u</mi></mrow></msub>
+                  <mrow><mi>r</mi><mo>,</mo><mi>u</mi></mrow> </msub>
                 <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mi>u</mi></mrow></msup>
+                  <mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow>
+                  <mrow><mi>r</mi><mo>-</mo><mi>u</mi></mrow> </msup>
                 <mrow>
                   <mo>(</mo>
                   <mi>Y</mi>
@@ -1970,24 +1794,31 @@ affect the time to initialize the iteration. <br>
                     <mi>u</mi>
                     <mo>,</mo>
                     <mi>x</mi>
-                    <mo>)</mo></mrow>
+                    <mo>)</mo> </mrow>
                   <mo>-</mo>
                   <msup>
-                    <mrow>
-                      <mo>(</mo>
-                      <mo>-</mo>
-                      <mn>1</mn>
-                      <mo>)</mo></mrow>
-                    <mi>u</mi></msup>
+                    <mrow><mo>(</mo><mo>-</mo><mn>1</mn><mo>)</mo></mrow>
+                    <mi>u</mi> </msup>
                   <msup>
                     <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow></math>y<math>
+                    <mi>u</mi> </msup>
+                  <mtext>y</mtext>
+                  <mo>[</mo>
+                  <mtext>old</mtext>
+                  <mo>]</mo>
+                  <mo>)</mo> </mrow>
+                <mo>}</mo> </mrow>
+              <mo>+</mo>
               <mrow>
-                <mo>[</mo>
-                <mtext>old</mtext>
-                <mo>]</mo>
-                <mo>)</mo><mo>}</mo><mo>+</mo></mrow></math> <i>h</i><sup>r</sup>(
-            y[new] - (-1)<sup>r</sup>y[old] ) </td>
+                <msup>
+                  <mi>h</mi>
+                  <mi>r</mi> </msup>
+                <mo>(</mo>
+                <mtext>y[new]</mtext><mo>-</mo>
+                <msup>
+                  <mtext>(-1)</mtext>
+                  <mi>r</mi> </msup>
+                <mtext>y[old]</mtext><mo>)</mo> </mrow> </math> </td>
           <td>6g</td>
         </tr>
         <tr>
@@ -2096,13 +1927,13 @@ affect the time to initialize the iteration. <br>
                 <mo>-</mo></mrow></math> y<math>
               <mrow>
                 <mo>[</mo></mrow></math>old]
-            <math><!--)+ h-->
+            <math>
               <mo>)</mo>
               <mo>+</mo>
               <mi>h</mi></math> (y<math>
               <mrow>
                 <mo>[</mo></mrow></math>new]
-            <math><!--+-->
+            <math>
               <mo>+</mo></math> y[old]) </td>
           <td><br>
           </td>
@@ -2114,10 +1945,10 @@ affect the time to initialize the iteration. <br>
           </td>
           <td valign="top">= <br>
           </td>
-          <td>{C<sub>2,0</sub>*(-1)<sup>2-0</sup> *(Y(0,x)-(-1)<sup>0</sup>*<span style="font-style: italic;">h</span><sup>0</sup>*y[old])}+
-            <br>
-            {C<sub>2,1</sub>*(-1)<sup>2-1</sup> *(Y(1,x)-(-1)<sup>1</sup>*<span style="font-style: italic;">h</span><sup>1</sup>*y[old])}+
-            <br>
+          <td>{C<sub>2,0</sub>*(-1)<sup>2-0</sup> *(Y(0,x)-(-1)<sup>0</sup>*<span
+              style="font-style: italic;">h</span><sup>0</sup>*y[old])}+ <br>
+            {C<sub>2,1</sub>*(-1)<sup>2-1</sup> *(Y(1,x)-(-1)<sup>1</sup>*<span
+              style="font-style: italic;">h</span><sup>1</sup>*y[old])}+ <br>
             &nbsp;<i>h</i><sup>2</sup>*(y[new]-(-1)<sup>2</sup>*y[old])</td>
           <td>r=2,u=0 and u=1 <br>
           </td>
@@ -2130,8 +1961,7 @@ affect the time to initialize the iteration. <br>
           <td valign="top">= <br>
           </td>
           <td>+ Y(0,x)-y[old] <br>
-            -2(Y(1,x)+<span style="font-style: italic;">h</span>*y[old])
-            <br>
+            -2(Y(1,x)+<span style="font-style: italic;">h</span>*y[old]) <br>
             <i>+h</i><sup>2</sup>(y[new]-y[old])</td>
           <td>a term used in Y(1..) + <br>
             something+ <br>
@@ -2170,35 +2000,15 @@ affect the time to initialize the iteration. <br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
+    </table>
     <br>
-
-    
-<hr style="width: 100%; height: 2px;"> The powers of <span style="font-style: italic;">h</span> can all be computed once at
-    the beginning of the iteration, or at compile time up to a maximum
-    filter width. <br>
-
-    The binomial coefficients used on both the Y[] terms and the
-    'y[old]' terms are common, and symmetric so ~order r/2 unique values
-    are computed either at the start of the loop or compiled if a
-    maximum r is acceptable. <br>
-
-    Dynamic computation (at the start of each filtering pass) is cheaply
-    done via Pascal's Triangle: C<sub>p+1,r</sub> = C<sub>p,r</sub> + C<sub>p,r-1</sub>.
+    <hr style="width: 100%; height: 2px;"> The powers of <span style="font-style: italic;">h</span> can all be computed once at the beginning of the iteration, or at compile time up to a maximum filter width. <br>
+    The binomial coefficients used on both the Y[] terms and the 'y[old]' terms are common, and symmetric so ~order r/2 unique values are computed either at the start of the loop or compiled if a maximum r is acceptable. <br>
+    Dynamic computation (at the start of each filtering pass) is cheaply done via Pascal's Triangle: C<sub>p+1,r</sub> = C<sub>p,r</sub> + C<sub>p,r-1</sub>. <br>
     <br>
-
-    <br>
-
     In pseudo code (<span style="font-style: italic;">untested</span>) <br>
-
-    
-<ul>
-
-      <li>//initialize powers of h. For processors with a fast multiply
-        it may be better to recompute pow() inside each loop where it is
-        used instead of creating a pow() array.</li>
+    <ul>
+      <li>//initialize powers of h. For processors with a fast multiply it may be better to recompute pow() inside each loop where it is used instead of creating a pow() array.</li>
       <li style="list-style: none; display: inline">
         <ul>
           <li>pow[0]=1,pow[1]=h,</li>
@@ -2206,31 +2016,24 @@ affect the time to initialize the iteration. <br>
           </li>
         </ul>
       </li>
-      <li>pOld=&amp;y[h], pNew=pOld;&nbsp; //pointers into data stream
-        window <br>
+      <li>pOld=&amp;y[h], pNew=pOld;&nbsp; //pointers into data stream window <br>
       </li>
-      <li>old=*pOld--; pNew++; //one pointer moves to the earliest data,
-        the other moves in the other direction. <br>
+      <li>old=*pOld--; pNew++; //one pointer moves to the earliest data, the other moves in the other direction. <br>
       </li>
-      <li>Y[0]=old; //Y[0] is the only coefficient that references its
-        central point <br>
+      <li>Y[0]=old; //Y[0] is the only coefficient that references its central point <br>
       </li>
-      <li>for(u=1,u&lt;=order)&nbsp; //the remainder are initialized to
-        zero, some languages do that inherently or have a 'setmem'
-        function. <br>
+      <li>for(u=1,u&lt;=order)&nbsp; //the remainder are initialized to zero, some languages do that inherently or have a 'setmem' function. <br>
       </li>
       <li style="list-style: none; display: inline">
         <ul>
           <li>Y[u]=0;</li>
         </ul>
       </li>
-      <li>for(c=0,c&lt;h;c++) //this loop is exactly the direct
-        computation <br>
+      <li>for(c=0,c&lt;h;c++) //this loop is exactly the direct computation <br>
       </li>
       <li style="list-style: none; display: inline">
         <ul>
-          <li>old=*pOld--; new = *pNew++; //new is a keyword in some
-            languages, rename it. <br>
+          <li>old=*pOld--; new = *pNew++; //new is a keyword in some languages, rename it. <br>
           </li>
           <li>Y[0] += old + new;</li>
           <li>pow=c; //if computing powers in the loop <br>
@@ -2239,47 +2042,35 @@ affect the time to initialize the iteration. <br>
           <li style="list-style: none; display: inline">
             <ul>
               <li>Y[u]+=pow*(old + u&amp;1? -new: new);</li>
-              <li>pow*=c; //presuming this processor has a fast
-                multiply, else use pow[u] in previous line's expression
-                and do nothing here <br>
+              <li>pow*=c; //presuming this processor has a fast multiply, else use pow[u] in previous line's expression and do nothing here <br>
               </li>
             </ul>
           </li>
         </ul>
       </li>
-      <li>//now pOld points to y[-1], pNew points to y[2*h+1], and 2h+1
-        points have been processed into order+1 Y terms.</li>
-      <li>//compute number of iterations from (number of Y data - 2*h -1
-        )</li>
+      <li>//now pOld points to y[-1], pNew points to y[2*h+1], and 2h+1 points have been processed into order+1 Y terms.</li>
+      <li>//compute number of iterations from (number of Y data - 2*h -1 )</li>
       <li style="list-style: none; display: inline">
         <ul>
-          <li>numCycles=sizeof(y[]) - 2*h-1;&nbsp; //make sure we don't
-            ever make pNew point past end of data</li>
+          <li>numCycles=sizeof(y[]) - 2*h-1;&nbsp; //make sure we don't ever make pNew point past end of data</li>
         </ul>
       </li>
-      <li>while(numCycles--&gt;0)&nbsp; //loop counter's value isn't
-        used inside loop so we can use a decrement and test operation
-        for our looping. <br>
+      <li>while(numCycles--&gt;0)&nbsp; //loop counter's value isn't used inside loop so we can use a decrement and test operation for our looping. <br>
       </li>
       <li style="list-style: none; display: inline">
         <ul>
-          <li>old=*++pOld;new = *pNew++; //datum leaving the window,
-            datum entering the window <br>
+          <li>old=*++pOld;new = *pNew++; //datum leaving the window, datum entering the window <br>
           </li>
           <li>Y[0]-=old;&nbsp; //partial update of Y0</li>
           <li>pow=h; //if have a fast multiply <br>
           </li>
-          <li>for(u=1,u&lt;=order)//must ascend if generating pow in
-            loop, else can descend if using power[u] <br>
+          <li>for(u=1,u&lt;=order)//must ascend if generating pow in loop, else can descend if using power[u] <br>
           </li>
           <li style="list-style: none; display: inline">
             <ul>
-              <li>(u&amp;1? Y[u] - =&nbsp; : Y[u] += ) pow* old;
-                //partial update of each fit coeff either adds or
-                subtracts a multiple of the datum leaving the window <br>
+              <li>(u&amp;1? Y[u] - =&nbsp; : Y[u] += ) pow* old; //partial update of each fit coeff either adds or subtracts a multiple of the datum leaving the window <br>
               </li>
-              <li>hrnew[u]=pow*new; //caching power generation and its
-                use <br>
+              <li>hrnew[u]=pow*new; //caching power generation and its use <br>
               </li>
               <li>pow*=h; //presuming this processor has a fast multiply</li>
             </ul>
@@ -2297,29 +2088,18 @@ affect the time to initialize the iteration. <br>
               </li>
             </ul>
           </li>
-          <li>store all Y's if you are recording them, or do dynamic
-            decisions on them here. <br>
+          <li>store all Y's if you are recording them, or do dynamic decisions on them here. <br>
           </li>
         </ul>
       </li>
       <li>and we are done. except for making binomial (u,v) efficient.</li>
-    
-</ul>
-
-    Deciding the order of the fit polynomial at compilation time is
-    clearly advantageous as loops can be unrolled and binomial
-    coefficients hard-coded. <br>
-
-    
-<hr style="width: 100%; height: 2px;"> <br>
-
-    
-<table cellspacing="0" cellpadding="0" border="1">
-
+    </ul>
+    Deciding the order of the fit polynomial at compilation time is clearly advantageous as loops can be unrolled and binomial coefficients hard-coded. <br>
+    <hr style="width: 100%; height: 2px;"> <br>
+    <table cellspacing="0" cellpadding="0" border="1">
       <tbody>
         <tr>
-          <td colspan="5" rowspan="1">And now a few more transformations
-            to save on some multiplications by 1 <br>
+          <td colspan="5" rowspan="1">And now a few more transformations to save on some multiplications by 1 <br>
           </td>
         </tr>
         <tr>
@@ -2340,7 +2120,8 @@ affect the time to initialize the iteration. <br>
                   <mrow>
                     <mi>r</mi>
                     <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])} <br>
+                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])} <br>
             + <i>h</i><sup>r</sup>y[new] - (-1)<sup>r</sup><span style="font-style: italic;">h</span><sup>r</sup>y[old] </td>
           <td>&nbsp;7b <br>
           </td>
@@ -2363,19 +2144,11 @@ affect the time to initialize the iteration. <br>
                   <mrow>
                     <mi>r</mi>
                     <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>
-            (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+
-
-
-
-            <br>
+                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             (-1)<sup>r</sup>(Y(0,x)-y[old]) + <br>
-            <span style="font-style: italic;">h</span><sup>r</sup>*(y[new]
-
-
-            - (-1)<sup>r</sup>y[old]) </td>
-          <td>extract 0th term from summation, its multiplier is either
-            1 or -1 <br>
+            <span style="font-style: italic;">h</span><sup>r</sup>*(y[new] - (-1)<sup>r</sup>y[old]) </td>
+          <td>extract 0th term from summation, its multiplier is either 1 or -1 <br>
           </td>
         </tr>
         <tr>
@@ -2385,8 +2158,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new] -
-            (-1)<sup>r</sup>y[old]) + <br>
+          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new] - (-1)<sup>r</sup>y[old]) + <br>
             <math><!--sum_[u=1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2401,9 +2173,8 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+
-            <br>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             <math><!--sum_[u=(r+1)/2]^[r-1]-->
               <mrow>
                 <munderover>
@@ -2420,28 +2191,14 @@ affect the time to initialize the iteration. <br>
                   <mrow>
                     <mi>r</mi>
                     <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup>
-            (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}
-
-
-
-            <br>
+                    <mn>1</mn></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])} <br>
           </td>
           <td>for instance, if r=5 then one sum covers 1 and 2, <br>
             the second from 3 to 4 <br>
             ((r-1)/2) + 1 = ((r-1)/2) + 2/2 <br>
-            
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-            = ((r-1)+2)/2 <br>
-            
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-            = (r+1)/2 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= ((r-1)+2)/2 <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= (r+1)/2 <br>
           </td>
         </tr>
         <tr>
@@ -2451,8 +2208,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]) + <br>
+          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
             <math><!--sum_[u=1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2467,13 +2223,9 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup>
-            (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+
-
-
-
-            <br>
-            <math><!--sum_[v=r-((r+1)/2)]^[r-(r-1)]-->
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math> {C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2499,8 +2251,7 @@ affect the time to initialize the iteration. <br>
                       <mi>r</mi>
                       <mo>-</mo>
                       <mn>1</mn>
-                      <mo>)</mo></mrow></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>
-            (<math><!--Y(r-v,x) - (-1)^(r-v) h^(r-v)-->
+                      <mo>)</mo></mrow></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup> (<math><!--Y(r-v,x) - (-1)^(r-v) h^(r-v)-->
               <mi>&nbsp; Y</mi>
               <mrow>
                 <mo>(</mo>
@@ -2540,8 +2291,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]) + <br>
+          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
             <math><!--sum_[u:1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2556,9 +2306,8 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+
-            <br>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             <math><!--sum_[v:(r-1)/2]^[1]-->
               <mrow>
                 <munderover>
@@ -2573,8 +2322,8 @@ affect the time to initialize the iteration. <br>
                         <mn>1</mn></mrow>
                       <mn>2</mn></mfrac></mrow>
                   <mrow>
-                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>(Y(r-v,x)-(-1)<sup>r-v</sup><span style="font-style: italic;">h</span><sup>r-v</sup>y[old])}
-          </td>
+                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup>(Y(r-v,x)-(-1)<sup>r-v</sup><span
+              style="font-style: italic;">h</span><sup>r-v</sup>y[old])} </td>
           <td><br>
           </td>
         </tr>
@@ -2585,8 +2334,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]) + <br>
+          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
             <math><!--sum_[u:1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2601,9 +2349,8 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{
-            C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old])}+
-            <br>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             <math><!--sum_[u=1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2618,8 +2365,8 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,r-u</sub>(-1)<sup>u</sup>(Y(r-u,x)-(-1)<sup>r-u</sup><span style="font-style: italic;">h</span><sup>r-u</sup>y[old])}
-          </td>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,r-u</sub>(-1)<sup>u</sup>(Y(r-u,x)-(-1)<sup>r-u</sup><span
+              style="font-style: italic;">h</span><sup>r-u</sup>y[old])} </td>
           <td>order of summation doesn't matter, <br>
             independent summations can be given arbitrary indices, <br>
             can use same symbol if you wish <br>
@@ -2632,8 +2379,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> Y(r,x)+ (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]) + <br>
+          <td> Y(r,x)+ (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
             <math>
               <mrow>
                 <munderover>
@@ -2648,12 +2394,10 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{
-            C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span style="font-style: italic;">h</span><sup>u</sup>y[old]) +
-            (-1)<sup>u</sup> (Y(r-u,x)-(-1)<sup>r-u</sup><span style="font-style: italic;">h</span><sup>r-u</sup>y[old])]
-            } </td>
-          <td><span>C<sub>r,u =</sub></span> <span>C<sub>r,r-u</sub></span>,
-            symmetry of combinatorial, <br>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+              style="font-style: italic;">h</span><sup>u</sup>y[old]) + (-1)<sup>u</sup> (Y(r-u,x)-(-1)<sup>r-u</sup><span
+              style="font-style: italic;">h</span><sup>r-u</sup>y[old])] } </td>
+          <td><span>C<sub>r,u =</sub></span> <span>C<sub>r,r-u</sub></span>, symmetry of combinatorial, <br>
             merge sums over identical range<span><sub><br>
               </sub></span></td>
         </tr>
@@ -2664,8 +2408,7 @@ affect the time to initialize the iteration. <br>
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]-
-            (-1)<sup>r</sup>y[old]) +<br>
+          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) +<br>
             <math><!--sum_[u:1]^[(r-1)/2]-->
               <mrow>
                 <munderover>
@@ -2680,47 +2423,27 @@ affect the time to initialize the iteration. <br>
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,u</sub>
-            [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup><span style="font-style: italic;">(h</span><sup>u</sup>+<span style="font-style: italic;">h</span><sup>r-u</sup>)y[old]]
-            } </td>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,u</sub> [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup><span
+              style="font-style: italic;">(h</span><sup>u</sup>+<span style="font-style: italic;">h</span><sup>r-u</sup>)y[old]] } </td>
           <td>r/2 combinatorial coefficients <br>
             cost: 4A,1M,P <br>
             other cost: (r-1)/2 * [2M,3A,2P] <br>
           </td>
         </tr>
       </tbody>
-    
-</table>
-
-    
-<hr style="width: 100%; height: 2px;">
-    
-<h4>Local Typographic conventions</h4>
-
-    
-<p>If your browser doesn't support MathML you may see:</p>
-
-    
-<ol>
-
-      <li>Summation expressions are shown as: sum_[ indexname = first
-        value ]^[ last value ]{ expression }</li>
-      <li>Exponentiation is shown as base<sup>exp</sup> (for those of
-        you reading the raw text)</li>
-      <li><span style="font-style: italic;">±</span> is <span style="font-style: italic;">+/-</span> and is in these
-        instances (-1)<sup>r</sup> <br>
+    </table>
+    <hr style="width: 100%; height: 2px;">
+    <h4>Local Typographic conventions</h4>
+    <p>If your browser doesn't support MathML you may see:</p>
+    <ol>
+      <li>Summation expressions are shown as: sum_[ indexname = first value ]^[ last value ]{ expression }</li>
+      <li>Exponentiation is shown as base<sup>exp</sup> (for those of you reading the raw text)</li>
+      <li><span style="font-style: italic;">±</span> is <span style="font-style: italic;">+/-</span> and is in these instances (-1)<sup>r</sup> <br>
       </li>
-      <li>"()" usually indicate a function in the mathematical sense,
-        when not obviously grouping sub-expressions. <br>
+      <li>"()" usually indicate a function in the mathematical sense, when not obviously grouping sub-expressions. <br>
       </li>
-      <li>"[]" often indicate an array lookup, which can become a
-        significant performance issue with C++ dynamic arrays</li>
-    
-</ol>
-
-    
-<hr style="width: 100%; height: 2px;"> ©Andy Heilveil
-    2008,2009,2016,2024
-  
-
-</body></html>
+      <li>"[]" often indicate an array lookup, which can become a significant performance issue with C++ dynamic arrays</li>
+    </ol>
+    <hr style="width: 100%; height: 2px;"> ©Andy Heilveil 2008,2009,2016,2024
+  </body>
+</html>
