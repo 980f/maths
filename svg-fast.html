@@ -1203,9 +1203,9 @@
                   <mi>r</mi></msup>
                 <msup>
                   <mi>h</mi>
-                  <mi>r</mi></msup></mrow>
-              <mrow>
-                <mtext>y[old]</mtext>
+                  <mi>r</mi></msup>
+                <mrow>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow></mrow>
                 <mo>)</mo></mrow>
               <mo>+</mo></math> <br>
             <math>
@@ -1257,9 +1257,13 @@
                     <mi>u</mi></msup>
                   <msup>
                     <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow></math>y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old <mrow><mo>]</mo> <mo>)</mo> <mo>}</mo> <mo>+</mo></mrow> <i>h</i><sup>r</sup> <mtext>y[new]</mtext> </td>
+                    <mi>u</mi></msup>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow><mo>)</mo> </mrow>
+                <mo>}</mo></mrow>
+              <mo>+</mo>
+              <msup>
+                <mi>h</mi><mi>r</mi></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow> </math> </td>
           <td>break out rth term <br>
           </td>
         </tr>
@@ -1299,10 +1303,183 @@
                   <mi>r</mi></msup>
                 <msup>
                   <mi>h</mi>
-                  <mi>r</mi></msup></mrow></math> y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old])
+                  <mi>r</mi></msup>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>)</mo></mrow>
+              <mo>+</mo> </math><br>
             <math>
+              <mrow>
+                <munderover>
+                  <mo>∑</mo>
+                  <mrow>
+                    <mi>u</mi>
+                    <mo>=</mo>
+                    <mn>0</mn></mrow>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>-</mo>
+                    <mn>1</mn></mrow></munderover></mrow>
+              <mrow>
+                <mo>{</mo>
+                <msub>
+                  <mi>C</mi>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>,</mo>
+                    <mi>u</mi></mrow></msub>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo></mrow>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>-</mo>
+                    <mi>u</mi></mrow></msup>
+                <mrow>
+                  <mo>(</mo>
+                  <mi>Y</mi>
+                  <mrow>
+                    <mo>(</mo>
+                    <mi>u</mi>
+                    <mo>,</mo>
+                    <mi>x</mi>
+                    <mo>)</mo></mrow>
+                  <mo>-</mo>
+                  <msup>
+                    <mrow>
+                      <mo>(</mo>
+                      <mo>-</mo>
+                      <mn>1</mn>
+                      <mo>)</mo></mrow>
+                    <mi>u</mi></msup>
+                  <msup>
+                    <mi>h</mi>
+                    <mi>u</mi></msup>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                  <mo>)</mo></mrow>
+                <mo>}</mo></mrow>
+              <mo>+</mo>
+              <msup>
+                <mi>h</mi><mi>r</mi></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow> </math> </td>
+          <td>simplify some <br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>= <br>
+          </td>
+          <td> <i><math>
+                <msup>
+                  <mi>h</mi>
+                  <mi>r</mi></msup>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>+</mo>
+                <mi>Y</mi>
+                <mrow>
+                  <mo>(</mo>
+                  <mi>r</mi>
+                  <mo>,</mo>
+                  <mi>x</mi>
+                  <mo>)</mo></mrow>
+                <mo>-</mo>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo></mrow>
+                  <mi>r</mi></msup>
+                <msup>
+                  <mi>h</mi>
+                  <mi>r</mi></msup>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>+</mo> </math></i> <br>
+            <math>
+              <mrow>
+                <munderover>
+                  <mo>∑</mo>
+                  <mrow>
+                    <mi>u</mi>
+                    <mo>=</mo>
+                    <mn>0</mn></mrow>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>-</mo>
+                    <mn>1</mn></mrow></munderover></mrow>
+              <mrow>
+                <mo>{</mo>
+                <msub>
+                  <mi>C</mi>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>,</mo>
+                    <mi>u</mi></mrow></msub>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo></mrow>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>-</mo>
+                    <mi>u</mi></mrow></msup>
+                <mrow>
+                  <mo>(</mo>
+                  <mi>Y</mi>
+                  <mrow>
+                    <mo>(</mo>
+                    <mi>u</mi>
+                    <mo>,</mo>
+                    <mi>x</mi>
+                    <mo>)</mo></mrow>
+                  <mo>-</mo>
+                  <msup>
+                    <mrow>
+                      <mo>(</mo>
+                      <mo>-</mo>
+                      <mn>1</mn>
+                      <mo>)</mo></mrow>
+                    <mi>u</mi></msup>
+                  <msup>
+                    <mi>h</mi>
+                    <mi>u</mi></msup>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                  <mo>)</mo></mrow>
+                <mo>}</mo> </mrow> </math> </td>
+          <td>simplify and rearrange <br>
+          </td>
+        </tr>
+        <tr>
+          <td>7a <br>
+          </td>
+          <td>Y(r,x+1) - Y(r,x)</td>
+          <td>= <br>
+          </td>
+          <td>
+            <math>
+              <msup>
+                <mi>h</mi>
+                <mi>r</mi></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
+              <mo>-</mo>
+              <msup>
+                <mrow>
+                  <mo>(</mo>
+                  <mo>-</mo>
+                  <mn>1</mn>
+                  <mo>)</mo></mrow>
+                <mi>r</mi></msup>
+              <msup>
+                <mi>h</mi>
+                <mi>r</mi></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
               <mo>+</mo> </math> <br>
             <math>
               <mrow>
@@ -1353,200 +1530,8 @@
                     <mi>u</mi></msup>
                   <msup>
                     <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow></math> y
-            <math>
-              <mrow>
-                <mo>[</mo></mrow></math>old
-            <math>
-              <mrow>
-                <mo>]</mo>
-                <mo>)</mo>
-                <mo>}</mo>
-                <mo>+</mo></mrow></math> <i>h</i><sup>r</sup>y[new] </td>
-          <td>simplify some <br>
-          </td>
-        </tr>
-        <tr>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td>= <br>
-          </td>
-          <td> <i><math>
-                <msup>
-                  <mi>h</mi>
-                  <mi>r</mi></msup></math>y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>new
-              <math>
-                <mo>]</mo>
-                <mo>+</mo>
-                <mi>Y</mi>
-                <mrow>
-                  <mo>(</mo>
-                  <mi>r</mi>
-                  <mo>,</mo>
-                  <mi>x</mi>
-                  <mo>)</mo></mrow>
-                <mo>-</mo>
-                <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mi>r</mi></msup>
-                <msup>
-                  <mi>h</mi>
-                  <mi>r</mi></msup></math>y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>old]
-              <math>
-                <mo>+</mo> </math></i> <br>
-            <math>
-              <mrow>
-                <munderover>
-                  <mo>∑</mo>
-                  <mrow>
-                    <mi>u</mi>
-                    <mo>=</mo>
-                    <mn>0</mn></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow>
-              <mrow>
-                <mo>{</mo>
-                <msub>
-                  <mi>C</mi>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>,</mo>
-                    <mi>u</mi></mrow></msub>
-                <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mi>u</mi></mrow></msup>
-                <mrow>
-                  <mo>(</mo>
-                  <mi>Y</mi>
-                  <mrow>
-                    <mo>(</mo>
-                    <mi>u</mi>
-                    <mo>,</mo>
-                    <mi>x</mi>
-                    <mo>)</mo></mrow>
-                  <mo>-</mo>
-                  <msup>
-                    <mrow>
-                      <mo>(</mo>
-                      <mo>-</mo>
-                      <mn>1</mn>
-                      <mo>)</mo></mrow>
                     <mi>u</mi></msup>
-                  <msup>
-                    <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow></math>y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old
-            <math>
-              <mo>]</mo>
-              <mo>)</mo>
-              <mo>}</mo> </math> </td>
-          <td>simplify and rearrange <br>
-          </td>
-        </tr>
-        <tr>
-          <td>7a <br>
-          </td>
-          <td>Y(r,x+1) - Y(r,x)</td>
-          <td>= <br>
-          </td>
-          <td> <i><math>
-                <msup>
-                  <mi>h</mi>
-                  <mi>r</mi></msup></math>y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>new]
-              <math>
-                <mo>-</mo>
-                <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mi>r</mi></msup>
-                <msup>
-                  <mi>h</mi>
-                  <mi>r</mi></msup></math>y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>old]
-              <math>
-                <mo>+</mo> </math></i> <br>
-            <math>
-              <mrow>
-                <munderover>
-                  <mo>∑</mo>
-                  <mrow>
-                    <mi>u</mi>
-                    <mo>=</mo>
-                    <mn>0</mn></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow>
-              <mrow>
-                <mo>{</mo>
-                <msub>
-                  <mi>C</mi>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>,</mo>
-                    <mi>u</mi></mrow></msub>
-                <msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mo>-</mo>
-                    <mn>1</mn>
-                    <mo>)</mo></mrow>
-                  <mrow>
-                    <mi>r</mi>
-                    <mo>-</mo>
-                    <mi>u</mi></mrow></msup>
-                <mrow>
-                  <mo>(</mo>
-                  <mi>Y</mi>
-                  <mrow>
-                    <mo>(</mo>
-                    <mi>u</mi>
-                    <mo>,</mo>
-                    <mi>x</mi>
-                    <mo>)</mo></mrow>
-                  <mo>-</mo>
-                  <msup>
-                    <mrow>
-                      <mo>(</mo>
-                      <mo>-</mo>
-                      <mn>1</mn>
-                      <mo>)</mo></mrow>
-                    <mi>u</mi></msup>
-                  <msup>
-                    <mi>h</mi>
-                    <mi>u</mi></msup></mrow></mrow></math>y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old
-            <math>
-              <mo>]</mo>
-              <mo>)</mo>
-              <mo>}</mo> </math> </td>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow><mo>)</mo></mrow><mo>}</mo> </mrow> </math> </td>
           <td>subtract Y(r,x) from both sides of 6 <br>
           </td>
         </tr>
@@ -1557,16 +1542,13 @@
           </td>
           <td>= <br>
           </td>
-          <td><i><math>
-                <msup>
-                  <mi>h</mi>
-                  <mi>r</mi></msup>
-                <mrow>
-                  <mo>(</mo></mrow></math> y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>new
-              <math>
-                <mo>]</mo>
+          <td><math>
+              <msup>
+                <mi>h</mi>
+                <mi>r</mi></msup>
+              <mrow>
+                <mo>(</mo>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
                 <mo>-</mo>
                 <msup>
                   <mrow>
@@ -1575,64 +1557,58 @@
                     <mn>1</mn>
                     <mo>)</mo></mrow>
                   <mi>r</mi></msup>
-                <mtext>y</mtext>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow><mo>)</mo>
+                <mo>+</mo></mrow></math><br>
+            <math>
+              <munderover>
+                <mo>∑</mo>
                 <mrow>
-                  <mo>[</mo>
-                  <mtext>old</mtext>
-                  <mo>]</mo>
-                  <mo>)</mo>
-                  <mo>+</mo></mrow> </math> <br>
-              <math>
+                  <mi>u</mi>
+                  <mo>=</mo>
+                  <mn>0</mn></mrow>
                 <mrow>
-                  <munderover>
-                    <mo>∑</mo>
-                    <mrow>
-                      <mi>u</mi>
-                      <mo>=</mo>
-                      <mn>0</mn></mrow>
-                    <mrow>
-                      <mi>r</mi>
-                      <mo>-</mo>
-                      <mn>1</mn></mrow></munderover></mrow>
+                  <mi>r</mi>
+                  <mo>-</mo>
+                  <mn>1</mn></mrow></munderover>
+              <mrow>
+                <msub>
+                  <mi>C</mi>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>,</mo>
+                    <mi>u</mi></mrow></msub>
+                <msup>
+                  <mrow>
+                    <mo>(</mo>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo></mrow>
+                  <mrow>
+                    <mi>r</mi>
+                    <mo>-</mo>
+                    <mi>u</mi></mrow></msup>
                 <mrow>
-                  <msub>
-                    <mi>C</mi>
-                    <mrow>
-                      <mi>r</mi>
-                      <mo>,</mo>
-                      <mi>u</mi></mrow></msub>
+                  <mo>(</mo>
+                  <mi>Y</mi>
+                  <mrow>
+                    <mo>(</mo>
+                    <mi>u</mi>
+                    <mo>,</mo>
+                    <mi>x</mi>
+                    <mo>)</mo></mrow>
+                  <mo>-</mo>
                   <msup>
                     <mrow>
                       <mo>(</mo>
                       <mo>-</mo>
                       <mn>1</mn>
                       <mo>)</mo></mrow>
-                    <mrow>
-                      <mi>r</mi>
-                      <mo>-</mo>
-                      <mi>u</mi></mrow></msup>
-                  <mrow>
-                    <mo>(</mo>
-                    <mi>Y</mi>
-                    <mrow>
-                      <mo>(</mo>
-                      <mi>u</mi>
-                      <mo>,</mo>
-                      <mi>x</mi>
-                      <mo>)</mo></mrow>
-                    <mo>-</mo>
-                    <msup>
-                      <mrow>
-                        <mo>(</mo>
-                        <mo>-</mo>
-                        <mn>1</mn>
-                        <mo>)</mo></mrow>
-                      <mi>u</mi></msup>
-                    <msup>
-                      <mi>h</mi>
-                      <mi>u</mi></msup></mrow></mrow></math>y<math>
-                <mrow>
-                  <mo>[</mo></mrow></math>old])</i></td>
+                    <mi>u</mi></msup>
+                  <msup>
+                    <mi>h</mi>
+                    <mi>u</mi></msup>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow> </mrow>
+                <mo>)</mo> </mrow> </math> </td>
           <td><br>
           </td>
         </tr>
@@ -1693,7 +1669,7 @@
     </table>
     Since <span style="font-style: italic;">h</span> must be &gt;=r (and is typically &gt;&gt; r) this is always an improvement per point. <br>
     <br>
-    The startup for the incremental method, which in some use cases can be ignored, is the same as one point done via the 'better' math. <br>
+    <p> The startup for the incremental method, which in some use cases can be ignored, is the same as one point done via the 'better' math.</p>
     <table border="1">
       <caption> computational costs with initialization </caption>
       <tbody>
@@ -1781,10 +1757,7 @@
                   <msup>
                     <mi>h</mi>
                     <mi>u</mi> </msup>
-                  <mtext>y</mtext>
-                  <mo>[</mo>
-                  <mtext>old</mtext>
-                  <mo>]</mo>
+                  <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
                   <mo>)</mo> </mrow>
                 <mo>}</mo> </mrow>
               <mo>+</mo>
@@ -1793,11 +1766,12 @@
                   <mi>h</mi>
                   <mi>r</mi> </msup>
                 <mo>(</mo>
-                <mtext>y[new]</mtext><mo>-</mo>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
                 <msup>
                   <mtext>(-1)</mtext>
                   <mi>r</mi> </msup>
-                <mtext>y[old]</mtext><mo>)</mo> </mrow> </math> </td>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>)</mo> </mrow> </math> </td>
           <td>6g</td>
         </tr>
         <tr>
@@ -1856,11 +1830,8 @@
                   <mn>0</mn></msup>
                 <msup>
                   <mi>h</mi>
-                  <mn>0</mn></msup></mrow></math> y<math>
-              <mrow>
-                <mo>[</mo></mrow>
-              <mtext>old</mtext>
-              <mo>]</mo>
+                  <mn>0</mn></msup></mrow>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
               <mo>)</mo>
               <mo>+</mo>
               <msup>
@@ -1879,9 +1850,8 @@
                   <mo>-</mo>
                   <mn>1</mn>
                   <mo>)</mo></mrow>
-                <mn>1</mn></msup></math> y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old]) </td>
+                <mn>1</mn></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow><mo>)</mo> </math> </td>
           <td>r=1, only u value in sum_is u=0 <br>
           </td>
         </tr>
@@ -2256,9 +2226,8 @@
                 <mrow>
                   <mi>r</mi>
                   <mo>-</mo>
-                  <mi>v</mi></mrow></msup></math> y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>old])} <br>
+                  <mi>v</mi></mrow></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow><mo>)</mo><mo>}</mo> </math> <br>
           </td>
           <td>introduce v=r-u, u=r-v <br>
           </td>
