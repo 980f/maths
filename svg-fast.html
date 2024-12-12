@@ -601,12 +601,9 @@
                   <mo>]</mo></mrow>
                 <mo>}</mo></mrow>
               <mo>+</mo>
-              <msup>
-                <mi></mi>
-                <mi></mi></msup></math> <msup><mi>h</mi> <sup><mi>r</mi></sup></msup> y<math>
-              <mrow>
-                <mo>[</mo></mrow></math>new]
-            <math>
+              <msup><mi>h</mi>
+                <mi>r</mi></msup>
+              <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
               <mo>-</mo>
               <msup>
                 <mrow>
@@ -623,8 +620,9 @@
                   <mn>1</mn>
                   <mo>)</mo></mrow>
                 <mi>r</mi></msup>
-              <mtext>y</mtext>
-              <mo>[</mo><mtext>old</mtext><mo>]</mo></math> </td>
+              <mrow>
+                <mtext>y</mtext>
+                <mo>[</mo><mtext>old</mtext><mo>]</mo></mrow></math> </td>
           <td>introduce symbols new=<span>x+h+1</span> and old=<span>x-h</span>, <br>
             which are constant with respect to our summations <br>
           </td>
@@ -884,14 +882,14 @@
                   <mo>,</mo>
                   <mi>x</mi>
                   <mo>)</mo></mrow> </math></span><span>} +</span> <span><i>h</i></span><sup>r</sup><span>y[new]</span> <span>- (-1)</span><sup>r</sup><span>(<i>h</i>+1)</span><sup>r</sup><span>y[old]</span></td>
-          <td>combine 3c and 2f <br>
+          <td>merge 3c into 2f <br>
           </td>
         </tr>
         <tr>
           <td colspan="1" rowspan="1"><br>
           </td>
           <td rowspan="1" colspan="4"><br>
-            in words: the next value for the rth order coefficient is a weighted sum of the previous lower-order coefficients, the newest point in the moving window, and the point just leaving the window.</td>
+            in words: the next value for the <em>r</em>th order coefficient is a weighted sum of the previous lower-order coefficients, the newest point in the moving window, and the point just leaving the window.</td>
         </tr>
         <tr>
           <td colspan="5" rowspan="1"><br>
@@ -1698,7 +1696,7 @@
         </tr>
       </tbody>
     </table>
-    Which is always still an improvement, except for the trivial case of Length=1. <br>
+    <p>Which is always still an improvement, except for the trivial case of Length=1. </p>
     &nbsp; <br>
     <div style="margin-left: 40px;">
       <table style="text-align: left;" cellspacing="0" cellpadding="8" border="1">
@@ -1717,7 +1715,7 @@
       </table>
     </div>
     <hr>
-    <h3>explicit formula for first few degrees</h3>
+    <h3>explicit formulae for first few degrees </h3>
     <table style="text-align: left;" cellspacing="2" cellpadding="2" border="1">
       <tbody>
         <tr>
@@ -1772,11 +1770,7 @@
                   <mi>r</mi> </msup>
                 <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
                 <mo>)</mo> </mrow> </math> </td>
-          <td>6g</td>
-        </tr>
-        <tr>
-          <td colspan="5" rowspan="1">
-            <hr style="width: 100%; height: 2px;"> </td>
+          <td>6g in all of its glory</td>
         </tr>
         <tr>
           <td>8a <br>
@@ -1894,11 +1888,11 @@
           </td>
           <td valign="top">= <br>
           </td>
-          <td>{C<sub>2,0</sub>*(-1)<sup>2-0</sup> *(Y(0,x)-(-1)<sup>0</sup>*<span
-              style="font-style: italic;">h</span><sup>0</sup>*y[old])}+ <br>
-            {C<sub>2,1</sub>*(-1)<sup>2-1</sup> *(Y(1,x)-(-1)<sup>1</sup>*<span
-              style="font-style: italic;">h</span><sup>1</sup>*y[old])}+ <br>
-            &nbsp;<i>h</i><sup>2</sup>*(y[new]-(-1)<sup>2</sup>*y[old])</td>
+          <td>{C<sub>2,0</sub>(-1)<sup>2-0</sup> (Y(0,x)-(-1)<sup>0</sup><span
+              style="font-style: italic;">h</span><sup>0</sup>y[old])} + <br>
+            {C<sub>2,1</sub>(-1)<sup>2-1</sup> (Y(1,x)-(-1)<sup>1</sup><span
+              style="font-style: italic;">h</span><sup>1</sup>y[old])} + <br>
+            &nbsp;<i>h</i><sup>2</sup>(y[new]-(-1)<sup>2</sup>y[old])</td>
           <td>r=2,u=0 and u=1 <br>
           </td>
         </tr>
@@ -1910,7 +1904,7 @@
           <td valign="top">= <br>
           </td>
           <td>+ Y(0,x)-y[old] <br>
-            -2(Y(1,x)+<span style="font-style: italic;">h</span>*y[old]) <br>
+            -2(Y(1,x)+<span style="font-style: italic;">h</span>y[old]) <br>
             <i>+h</i><sup>2</sup>(y[new]-y[old])</td>
           <td>a term used in Y(1..) + <br>
             something+ <br>
@@ -1922,7 +1916,7 @@
           <td valign="top">Y(3,x+1)-Y(3,x)</td>
           <td valign="top">=</td>
           <td> - (Y(0,x)-y[old]) <br>
-            +3(Y(1,x)-h*y[old]) <br>
+            +3(Y(1,x)-hy[old]) <br>
             - 3(Y(2,x)-h<sup>2</sup>y[old]) <br>
             +h<sup>3</sup>(y<math>
               <mrow>
@@ -1961,7 +1955,7 @@
       <li style="list-style: none; display: inline">
         <ul>
           <li>pow[0]=1,pow[1]=h,</li>
-          <li>for(p=2,p&lt;order;p++) power[p]=h*power[p-1];&nbsp; <br>
+          <li>for(p=2,p&lt;order;++p) power[p]=h*power[p-1];&nbsp; <br>
           </li>
         </ul>
       </li>
@@ -1978,20 +1972,19 @@
           <li>Y[u]=0;</li>
         </ul>
       </li>
-      <li>for(c=0,c&lt;h;c++) //this loop is exactly the direct computation <br>
+      <li>for(c=0,c&lt;h;++c) //this loop is exactly the direct computation <br>
       </li>
       <li style="list-style: none; display: inline">
         <ul>
-          <li>old=*pOld--; new = *pNew++; //new is a keyword in some languages, rename it. <br>
-          </li>
+          <li>old=*pOld--; new = *pNew++; //new is a keyword in some languages, rename it, perhaps 'lead' for 'new' and 'lag' for 'old'.</li>
           <li>Y[0] += old + new;</li>
           <li>pow=c; //if computing powers in the loop <br>
           </li>
           <li>for(u=1,u&lt;=order)</li>
           <li style="list-style: none; display: inline">
             <ul>
-              <li>Y[u]+=pow*(old + u&amp;1? -new: new);</li>
-              <li>pow*=c; //presuming this processor has a fast multiply, else use pow[u] in previous line's expression and do nothing here <br>
+              <li>Y[u] += pow * (old + u&amp;1? -new : new);</li>
+              <li>pow *=c; //presuming this processor has a fast multiply, else we use precomputed pow[u] in previous line's expression and do nothing here <br>
               </li>
             </ul>
           </li>
@@ -2008,7 +2001,7 @@
       </li>
       <li style="list-style: none; display: inline">
         <ul>
-          <li>old=*++pOld;new = *pNew++; //datum leaving the window, datum entering the window <br>
+          <li>old=*++pOld;new = *pNew++; //datum leaving the window, datum entering the window, the pre vs post increment is not an error.<br>
           </li>
           <li>Y[0]-=old;&nbsp; //partial update of Y0</li>
           <li>pow=h; //if have a fast multiply <br>
@@ -2017,14 +2010,14 @@
           </li>
           <li style="list-style: none; display: inline">
             <ul>
-              <li>(u&amp;1? Y[u] - =&nbsp; : Y[u] += ) pow* old; //partial update of each fit coeff either adds or subtracts a multiple of the datum leaving the window <br>
+              <li>(u&amp;1?&nbsp; Y[u] -=&nbsp; :&nbsp; Y[u] += ) pow* old; //partial update of each fit coeff either adds or subtracts a multiple of the datum leaving the window <br>
               </li>
-              <li>hrnew[u]=pow*new; //caching power generation and its use <br>
+              <li>hrnew[u] = pow * new; //caching power generation and its use <br>
               </li>
-              <li>pow*=h; //presuming this processor has a fast multiply</li>
+              <li>pow *=h; //presuming this processor has a fast multiply</li>
             </ul>
           </li>
-          <li>for(u=order;u&gt;=1;u--) //order is critical!</li>
+          <li>for(u=order;u&gt;=1;--u) //order is critical!</li>
           <li style="list-style: none; display: inline">
             <ul>
               <li>Y[u]+=hrnew[u];</li>
@@ -2093,10 +2086,10 @@
                   <mrow>
                     <mi>r</mi>
                     <mo>-</mo>
-                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
+                    <mn>1</mn></mrow></munderover></mrow></math>{C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup> <span
               style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             (-1)<sup>r</sup>(Y(0,x)-y[old]) + <br>
-            <span style="font-style: italic;">h</span><sup>r</sup>*(y[new] - (-1)<sup>r</sup>y[old]) </td>
+            <span style="font-style: italic;">h</span><sup>r</sup>(y[new] - (-1)<sup>r</sup>y[old]) </td>
           <td>extract 0th term from summation, its multiplier is either 1 or -1 <br>
           </td>
         </tr>
@@ -2108,7 +2101,7 @@
           <td>= <br>
           </td>
           <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new] - (-1)<sup>r</sup>y[old]) + <br>
-            <math><!--sum_[u=1]^[(r-1)/2]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2122,9 +2115,9 @@
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
-              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
-            <math><!--sum_[u=(r+1)/2]^[r-1]-->
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup>
+            <span style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2239,8 +2232,36 @@
           </td>
           <td>= <br>
           </td>
-          <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
-            <math><!--sum_[u:1]^[(r-1)/2]-->
+          <td>
+            <math>
+              <msup><mrow>
+                  <mo>(</mo>
+                  <mo>-</mo>
+                  <mn>1</mn>
+                  <mo>)</mo> </mrow>
+                <mrow><mi>r</mi></mrow> </msup>
+              <mrow>
+                <mo>(</mo>
+                <mtext>Y(0,x)</mtext>
+                <mo>-</mo>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>)</mo> </mrow>
+              <mo>+</mo>
+              <msup><mi>h</mi><mi>r</mi></msup>
+              <mrow>
+                <mo>(</mo>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
+                <mo>-</mo>
+                <msup><mrow>
+                    <mo>(</mo>
+                    <mo>-</mo>
+                    <mn>1</mn>
+                    <mo>)</mo> </mrow>
+                  <mrow><mi>r</mi></mrow> </msup>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mo>)</mo> </mrow>
+              <mo>+</mo> </math> <br>
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2256,7 +2277,7 @@
                         <mn>1</mn></mrow>
                       <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
               style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
-            <math><!--sum_[v:(r-1)/2]^[1]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2283,7 +2304,7 @@
           <td>= <br>
           </td>
           <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
-            <math><!--sum_[u:1]^[(r-1)/2]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2299,7 +2320,7 @@
                         <mn>1</mn></mrow>
                       <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
               style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
-            <math><!--sum_[u=1]^[(r-1)/2]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2380,18 +2401,9 @@
         </tr>
       </tbody>
     </table>
+    <hr style="width: 100%; height: 2px;"><br>
     <hr style="width: 100%; height: 2px;">
-    <h4>Local Typographic conventions</h4>
-    <p>If your browser doesn't support MathML you may see:</p>
-    <ol>
-      <li>Summation expressions are shown as: sum_[ indexname = first value ]^[ last value ]{ expression }</li>
-      <li>Exponentiation is shown as base<sup>exp</sup> (for those of you reading the raw text)</li>
-      <li><span style="font-style: italic;">±</span> is <span style="font-style: italic;">+/-</span> and is in these instances (-1)<sup>r</sup> <br>
-      </li>
-      <li>"()" usually indicate a function in the mathematical sense, when not obviously grouping sub-expressions. <br>
-      </li>
-      <li>"[]" often indicate an array lookup, which can become a significant performance issue with C++ dynamic arrays</li>
-    </ol>
-    <hr style="width: 100%; height: 2px;"> ©Andy Heilveil 2008,2009,2016,2024
+    <p> ©Andy Heilveil 2008,2009,2016,2024 </p>
+    <p>The algorithm itself was first developed by Andy ~1989, empirically derived and just for r=1.</p>
   </body>
 </html>
