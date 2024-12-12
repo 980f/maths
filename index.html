@@ -6,7 +6,15 @@
     <h2>Andy's musings on math</h2>
     <ul>
       <li><a href="svg-main.html">Savitksy-Golay algorithm</a></li>
-      <li><a href="svg-fast.html">Savitsky-Golay made fast</a></li>
+      <li><a href="svg-fast.html">Savitsky-Golay made fast</a><br>
+        Savitsky-Golay refers to two scientists who published a paper on fitting data to polynomials as a digital filter<br>
+        My interest was in finding peaks in XRF spectra, for calibrating the energy to channel gain of our detection system. <br>
+        My first implementation target was an 80.effing.51 microcontroller and I had to write it as a language extension to a BASIC interpreter. I was able to determine that the maximum range of the values involved was with 24 bits, which did mean that I had to write 24 bit math routines for this 8 bit suitable-for-controlling-washing-machines processor. <br>
+        Not in these papers (yet) is the interpolating of a fractional coordinate value for the zero crossing, which was critical to machine precision when the peak find was done on every sample, not just on well managed calibration standards.<br><br>
+      </li>
+      <li><br>
+      </li>
     </ul>
+    
   </body>
 </html>
