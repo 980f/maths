@@ -1,10 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html;
-      charset=windows-1252">
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="content-type">
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <meta name="GENERATOR" content="Mozilla/4.03 [en] (Win95; I)
       [Netscape]">
     <meta name="AUTHOR" content="Andy Heilveil">
@@ -12,74 +9,38 @@
   </head>
   <body>
     <h2><span style="font-weight: bold;"></span>SAVITSKY-GOLAY FILTERING</h2>
-    <hr><a
-href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a>
-    FILTERING is a moving least squares fit of a set of integer indexed
-    data to a polynomial of that integer index.
-    <p>Define y[i] as the data to be fitted over a range of -<i>h</i> to
-      + <i>h</i> around each 'i'. "<span style="font-style: italic;">h</span>"
-      is mnemonic for "Half-width". Use of an odd length range yields
-      significant numerical benefits. Given that reasonable use will
-      have many more points in its <span style="font-style: italic;">±</span><i>h</i>
-      range than polynomial coefficients, the exact value of the range
-      should not be important, allowing us our choice of always having
-      an odd length range. </p>
-    <p>We seek coefficients at each point in the range of y of a
-      polynomial of degree r (positive r's only please!). This is a
-      reasonable restriction if the function being modeled by the
-      polynomial is differentiable at least r times. In that case it has
-      a Taylor's series, and the fitted polynomial is the best guess to
-      the Taylor series' coefficients. </p>
-    <p>We will limit ourselves to finding coefficients in the reduced
-      range of y[] made by skipping the first and last <i>h</i> points.
-      The actual distribution of missing points can be modified at great
-      intellectual expense, and minor benefit. Let us not diverge into
-      the equivalent of analytical continuation as is done in discrete
-      Fourier analysis. </p>
+    <hr><a href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVITSKY-GOLAY</a> FILTERING is a moving least squares fit of a set of integer indexed data to a polynomial of that integer index.
+    <p>Define y[i] as the data to be fitted over a range of -<i>h</i> to + <i>h</i> around each 'i'. "<span
+        style="font-style: italic;">h</span>" is mnemonic for "Half-width". Use of an odd length range yields significant numerical benefits. Given that reasonable use will have many more points in its <span
+        style="font-style: italic;">±</span><i>h</i> range than polynomial coefficients, the exact value of the range should not be important, allowing us our choice of always having an odd length range. </p>
+    <p>We seek coefficients at each point in the range of y of a polynomial of degree r (positive r's only please!). This is a reasonable restriction if the function being modeled by the polynomial is differentiable at least r times. In that case it has a Taylor's series, and the fitted polynomial is the best guess to the Taylor series' coefficients. </p>
+    <p>We will limit ourselves to finding coefficients in the reduced range of y[] made by skipping the first and last <i>h</i> points. The actual distribution of missing points can be modified at great intellectual expense, and minor benefit. Let us not diverge into the equivalent of analytical continuation as is done in discrete Fourier analysis. </p>
     <p>Denote polynomial terms: </p>
-    <div style="margin-left: 40px;"> A(i): = a<sub>0</sub>+i*a<sub>1</sub>+i<sup>2</sup>*a<sub>2</sub>+...&nbsp;<math><!--= sum_[k=0]^r [i^k a_k]--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow>
-          <mrow><mo>[</mo><msub><mi>a</mi><mi>k</mi></msub><msup><mi>i</mi><mi>k</mi></msup><mo>]</mo></mrow></mstyle></math>
-    </div>
-    <p>Least Squares fitting assigns the various derivatives of the
-      square of a difference by the terms to be fitted to zero, then
-      simultaneously solves all of these equations. The sum to
-      minimize&nbsp; is: </p>
+    <div style="margin-left: 40px;"> A(i): = a<sub>0</sub>+i*a<sub>1</sub>+i<sup>2</sup>*a<sub>2</sub>+...
+      <math>
+        <mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow>
+        <mrow><mo>[</mo><msub><mi>a</mi><mi>k</mi></msub><msup><mi>i</mi><mi>k</mi></msup><mo>]</mo></mrow> </math> </div>
+    <p>Least Squares fitting assigns the various derivatives of the square of a difference by the terms to be fitted to zero, then simultaneously solves all of these equations. The sum to minimize is: </p>
     <div style="margin-left: 40px;">
-      <math><!--sum_[i=-h]^h (A(i)-y_i)^2--><mstyle displaystyle="true"
-          mathsize="" mathcolor="" fontfamily="">
-          <mrow><mn>D</mn><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup>
-            <mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mstyle></math></div>
+      <math>
+        <mrow><mn>D</mn><mo>=</mo><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup>
+          <mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></math></div>
     <br>
     <div style="margin-left: 40px;">
-      <math><!--[del D] / [del a_k]--><mstyle displaystyle="true"
-          mathsize="" mathcolor="" fontfamily=""><mfrac><mrow><mo>&#8706;</mo><mi>D</mi></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></mstyle></math>
-      =
-      <math><!--sum_[i=-h]^[h] 2*(A(i)-y_i)*[del A(i)]/[del a_k]--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><mfrac><mrow><mo>&#8706;</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)
-                </mo></mrow></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></mstyle></math>
-      =
-      <math><!--sum_[i=-h]^[h] 2*(A(i)-y_i)*i^k--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
+      <math><mfrac><mrow><mo>&#8706;</mo><mi>D</mi></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></math> =
+      <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><mfrac><mrow><mo>&#8706;</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>) </mo></mrow></mrow><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>p</mi></msub></mrow></mfrac></math> =
+      <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mi>h</mi></mrow></munderover></mrow><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></math></div>
     <br>
-    The derivative of a square is the term times 2 times its derivative.
-    We can ignore the factor of 2 as we will be solving for where the
-    derivative equals 0. Note that the derivatives we speak of are with
-    respect to a<sub>k</sub>, not i. Each of these is simply a power of
-    i: <tt><br>
+    The derivative of a square is the term times 2 times its derivative. We can ignore the factor of 2 as we will be solving for where the derivative equals 0. Note that the derivatives we speak of are with respect to a<sub>k</sub>, not i. Each of these is simply a power of i: <tt><br>
     </tt>
     <div style="margin-left: 40px;">EQN(p;p=0 to r):&nbsp;
-      <math><!--sum_[i=-h]^[+h] (A(i)-y_i)i^p =0--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mn>0</mn></mstyle></math></div>
+      <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>(</mo><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>-</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mn>0</mn></math></div>
     Rearrange that to be: <br>
     <div style="margin-left: 40px;"> EQN(p;p=0 to r):
-      <math><!--sum_[i=-h]^h A(i) * i^p = sum_[i=-h]^h y_i * i^p--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msub><mi>y</mi><mi>i</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math></div>
+      <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>=</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msub><mi>y</mi><mi>i</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></math></div>
     <br>
     <br>
-    Here is the matrix for the solution of simultaneous linear equations
-    (shown for degree of 3), leaving out the symbol for summation over i
-    from -h to h:<br>
+    Here is the matrix for the solution of simultaneous linear equations (shown for degree of 3), leaving out the symbol for summation over i from -h to h:<br>
     <br>
     <table style="margin-left: 40px;" border="3">
       <tbody>
@@ -151,10 +112,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <br>
-    Merging powers of i that are due to the polynomial with those that
-    are due to the differentiation we get a diagonally symmetrical
-    matrix of the powers of i, where the power = row+column, starting
-    each index at zero (very convenient for 'C' programmers!).<br>
+    Merging powers of i that are due to the polynomial with those that are due to the differentiation we get a diagonally symmetrical matrix of the powers of i, where the power = row+column, starting each index at zero (very convenient for 'C' programmers!).<br>
     <br>
     <table style="margin-left: 40px;" border="3">
       <tbody>
@@ -221,14 +179,8 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <p><br>
-      Now I have been leaving out the summation symbol but each of the
-      above items is summed from -<i>h</i> to <i>h</i>. Note that the
-      sum of an odd function over this range is zero, revealing why we
-      chose the restrictions of an index range symmetric around 0. This
-      means that every other term in the powers-of-i matrix is zero,
-      making a checkerboard where even elements are sums of even powers
-      of the integers and odd elements are zero. Note the additional
-      symmetry of the reverse-diagonals.<br>
+      Now I have been leaving out the summation symbol but each of the above items is summed from -<i>h</i> to <i>h</i>. Note that the sum of an odd function over this range is zero, revealing why we chose the restrictions of an index range symmetric around 0. <br>
+      This means that alternating terms in the powers-of-i matrix are zero, making a checkerboard where even elements are sums of even powers of the integers and odd elements are zero. Note the additional symmetry of the reverse-diagonals.<br>
       <br>
       <table style="margin-left: 40px;" border="3">
         <tbody>
@@ -295,14 +247,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
         </tbody>
       </table>
       <br>
-      The matrix of sums of powers of the integers is what normally is
-      shown as x<sup>T</sup>*x in articles on least squares fitting,
-      where x is the non-square matrix of independent inputs.<br>
+      The matrix of sums of powers of the integers is what normally is shown as x<sup>T</sup>*x in articles on least squares fitting, where x is the non-square matrix of independent inputs.<br>
       <br>
-      The number of unique sums of powers of integers for a polynomial
-      of degree r is&nbsp; r+1.</p>
-    <p>Now I introduce some abbreviations to help us solve the simpler
-      cases, using the ratio of determinants method.<br>
+      The number of unique sums of powers of integers for a polynomial of degree r is r+1. </p>
+    <p>Now I introduce some abbreviations to help us solve the simpler cases, using the ratio of determinants method.<br>
     </p>
     <p>Master equation shown for orders up to 3:<br>
     </p>
@@ -325,8 +273,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">0</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">0</span><br>
                   </td>
                   <td>S<sub>0</sub></td>
                   <td>0</td>
@@ -338,8 +285,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub><sub>0</sub></sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">1</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">1</span><br>
                   </td>
                   <td>0</td>
                   <td>S<sub>2</sub></td>
@@ -351,8 +297,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>1</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">2</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">2</span><br>
                   </td>
                   <td>S<sub>2</sub></td>
                   <td>0</td>
@@ -364,8 +309,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>2</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">3</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">3</span><br>
                   </td>
                   <td style="vertical-align: top;">0<br>
                   </td>
@@ -382,48 +326,24 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               </tbody>
             </table>
           </td>
-          <td style="vertical-align: top;"><math><!--S_R -= sum_[i=-h]^[+h]{i^R}--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><msub><mi>S</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><mo>}</mo></mrow></mstyle></math><br>
+          <td style="vertical-align: top;"><math><msub><mi>S</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><mo>}</mo></mrow></math><br>
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;"><math><!--Y_R -= sum_[i=-h]^[+h] { i^R y_[x+i]}--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><msub><mi>Y</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><msub><mi>y[x+i]</mi><mrow><mi></mi><mo></mo><mi></mi></mrow></msub><mo>}</mo></mrow></mstyle></math><br>
+          <td style="vertical-align: top;"><math><msub><mi><br>
+                  Y</mi><mi>R</mi></msub><mo>&#8801;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><mrow><mo>{</mo><msup><mi>i</mi><mi>R</mi></msup><msub><mi>y[x+i]</mi><mrow><mi></mi><mo></mo><mi></mi></mrow></msub><mo>}</mo></mrow></math><br>
             <br>
-            (S&amp;G used F<sub><span style="font-weight: bold;">R </span></sub>for
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            this)<br>
+            (S&amp;G used F<sub><span style="font-weight: bold;">R </span></sub>for this)<br>
           </td>
         </tr>
       </tbody>
     </table>
     <br>
     <hr style="width: 100%; height: 2px;">
-    <p>The pattern of zeroes allows us to separate the fit problem into
-      two independent smaller problems. <br>
-      Our ordering of rows and columns so far was convenient but is
-      arbitrary, reordering them does not affect the solutions.<br>
+    <p>The pattern of zeroes allows us to separate the fit problem into two independent smaller problems. <br>
+      Our ordering of rows and columns so far was convenient but is arbitrary, reordering them does not affect the solutions.<br>
     </p>
-    <table style="text-align: left;" cellspacing="2" cellpadding="9"
-      border="0">
+    <table style="text-align: left;" cellspacing="2" cellpadding="9" border="0">
       <tbody>
         <tr>
           <td style="vertical-align: top;">&nbsp;the problem<br>
@@ -432,8 +352,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             <table cellspacing="2" cellpadding="2" border="3">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">Eqn</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">Eqn</span><br>
                   </td>
                   <td style="font-weight: bold;">a<sub>0</sub></td>
                   <td style="font-weight: bold;">a<sub>1</sub></td>
@@ -444,8 +363,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">0</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">0</span><br>
                   </td>
                   <td>S<sub>0</sub></td>
                   <td>0</td>
@@ -457,8 +375,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>0</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">1</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">1</span><br>
                   </td>
                   <td>0</td>
                   <td>S<sub>2</sub></td>
@@ -470,8 +387,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>1</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">2</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">2</span><br>
                   </td>
                   <td>S<sub>2</sub></td>
                   <td>0</td>
@@ -483,8 +399,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>2</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">3</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">3</span><br>
                   </td>
                   <td style="vertical-align: top;">0<br>
                   </td>
@@ -510,8 +425,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             <table cellspacing="2" cellpadding="2" border="3">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">Eqn</span> </td>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">Eqn</span> </td>
                   <td style="font-weight: bold;">a<sub>0</sub></td>
                   <td style="font-weight: bold;">a<sub>2</sub></td>
                   <td style="font-weight: bold;">a<sub>1</sub></td>
@@ -521,8 +435,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">0</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">0</span><br>
                   </td>
                   <td>S<sub>0</sub></td>
                   <td>S<sub>2</sub></td>
@@ -535,8 +448,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>0</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">1</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">1</span><br>
                   </td>
                   <td>0</td>
                   <td>0<br>
@@ -549,8 +461,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>1</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">2</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">2</span><br>
                   </td>
                   <td>S<sub>2</sub></td>
                   <td>S<sub>4</sub></td>
@@ -563,8 +474,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>2</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">3</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">3</span><br>
                   </td>
                   <td style="vertical-align: top;">0<br>
                   </td>
@@ -589,8 +499,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             <table cellspacing="2" cellpadding="2" border="3">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">Eqn</span> </td>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">Eqn</span> </td>
                   <td style="font-weight: bold;">a<sub>0</sub></td>
                   <td style="font-weight: bold;">a<sub>2</sub></td>
                   <td style="font-weight: bold;">a<sub>1</sub></td>
@@ -600,8 +509,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">0</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">0</span><br>
                   </td>
                   <td>S<sub>0</sub></td>
                   <td>S<sub>2</sub></td>
@@ -614,8 +522,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>0</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">2</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">2</span><br>
                   </td>
                   <td>S<sub>2</sub></td>
                   <td>S<sub>4</sub> </td>
@@ -628,8 +535,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>2</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">1</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">1</span><br>
                   </td>
                   <td>0<br>
                   </td>
@@ -642,8 +548,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>1</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">3</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">3</span><br>
                   </td>
                   <td style="vertical-align: top;">0<br>
                   </td>
@@ -662,9 +567,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
         </tr>
         <tr>
-          <td colspan="2" rowspan="1" style="vertical-align: top;">The
-            above is "block diagonal", each block is independently
-            solvable<br>
+          <td colspan="2" rowspan="1" style="vertical-align: top;">The above is "block diagonal", each block is independently solvable<br>
           </td>
         </tr>
         <tr>
@@ -674,8 +577,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             <table cellspacing="2" cellpadding="2" border="3">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">Eqn</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">Eqn</span><br>
                   </td>
                   <td style="font-weight: bold;">a<sub>0</sub></td>
                   <td style="font-weight: bold;">a<sub>2</sub></td>
@@ -684,8 +586,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">0</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">0</span><br>
                   </td>
                   <td>S<sub>0</sub></td>
                   <td>S<sub>2</sub></td>
@@ -694,8 +595,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>0</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">2</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">2</span><br>
                   </td>
                   <td>S<sub>2</sub></td>
                   <td>S<sub>4</sub> </td>
@@ -714,8 +614,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
             <table cellspacing="2" cellpadding="2" border="3">
               <tbody>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">Eqn</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">Eqn</span><br>
                   </td>
                   <td style="font-weight: bold;">a<sub>1</sub></td>
                   <td style="vertical-align: top; font-weight: bold;">a<sub>3</sub></td>
@@ -724,8 +623,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td style="font-weight: bold;">y</td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">1</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">1</span><br>
                   </td>
                   <td>S<sub>2</sub> </td>
                   <td style="vertical-align: top;">S<sub>4</sub> </td>
@@ -734,8 +632,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
                   <td>Y<sub>1</sub></td>
                 </tr>
                 <tr>
-                  <td style="vertical-align: top;"><span
-                      style="font-weight: bold;">3</span><br>
+                  <td style="vertical-align: top;"><span style="font-weight: bold;">3</span><br>
                   </td>
                   <td style="vertical-align: top;">S<sub>4</sub> </td>
                   <td style="vertical-align: top;">S<sub>6</sub><br>
@@ -752,13 +649,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <br>
-    This separability gives us the fact that half of the formulas
-    generated for one order are identical for the next order up, and the
-    other half for the next order down.<br>
+    This separability gives us the known fact that half of the formulas generated for one order are identical for the next order up, and the other half for the next order down.<br>
     <hr style="width: 100%; height: 2px;">
     <h4>0th order:</h4>
-    <table style="margin-left: 40px;" cellspacing="2" cellpadding="2"
-      border="3">
+    <table style="margin-left: 40px;" cellspacing="2" cellpadding="2" border="3">
       <tbody>
         <tr>
           <td style="font-weight: bold;">a<sub>0</sub></td>
@@ -775,18 +669,14 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <br>
-    So a<sub>0</sub>*S<sub>0</sub>=Y<sub>0</sub>&nbsp; , a<sub>0</sub>=Y<sub>0</sub>/S<sub>0</sub>
-    = simple definition of average, confirming we haven't made some
-    horrible mistake (at least not yet :).<br>
+    So a<sub>0</sub>*S<sub>0</sub>=Y<sub>0</sub>&nbsp; , a<sub>0</sub>=Y<sub>0</sub>/S<sub>0</sub> = simple definition of average, confirming we haven't made some horrible mistake (at least not yet :).<br>
     <hr style="width: 100%; height: 2px;">
     <h4>1st order: (a.k.a. linear fit)<br>
     </h4>
-    Two equations, one must be the same as the lower order so a<sub>0</sub>=
-    Y<sub>0</sub>/S<sub>0</sub>.<br>
+    Two equations, one must be the same as the lower order so a<sub>0</sub>= Y<sub>0</sub>/S<sub>0</sub>.<br>
     <br>
     The odds block:<br>
-    <table style="margin-left: 40px;" cellspacing="2" cellpadding="2"
-      border="3">
+    <table style="margin-left: 40px;" cellspacing="2" cellpadding="2" border="3">
       <tbody>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
@@ -811,18 +701,12 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
     <br>
     So a1*S<sub>2</sub>=Y<sub>1</sub>, a1=Y<sub>1</sub>/S<sub>2</sub>. <br>
     <br>
-    The intercept of the linear fit is the moving average, the slope is
-    the average of the differences between symmetrically matched pairs
-    of points around the center point.<br>
-    <span style="font-weight: bold;"></span>The denominators S<sub>0</sub>
-    and S<sub>2</sub> depend only on the width of the window and can
-    often be ignored, or applied only to interesting x values.<br>
+    The intercept of the linear fit is the moving average, the slope is the average of the differences between symmetrically matched pairs of points around the center point.<br>
+    <span style="font-weight: bold;"></span>The denominators S<sub>0</sub> and S<sub>2</sub> depend only on the width of the window and can often be ignored, or applied only to interesting x values.<br>
     <hr style="width: 100%; height: 2px;">
     <h4>2nd order: (a.k.a. quadratic fit)<br>
     </h4>
-    <p> The a<sub>1</sub> term is the same as for the first order fit,
-      so when looking for peaks via zero crossings of a<sub>1</sub> one
-      doesn't have to compute a quadratic to get the effect of it! </p>
+    <p> The a<sub>1</sub> term is the same as for the first order fit, so when looking for peaks via zero crossings of a<sub>1</sub> one doesn't have to compute a quadratic to get the effect of it! </p>
     <table style="text-align: left; margin-left: 40px;" cellspacing="2"
       cellpadding="2" border="3">
       <tbody>
@@ -887,15 +771,15 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td style="vertical-align: top;"><span style="font-weight:
               bold;">determinant </span><br>
           </td>
-          <td style="vertical-align: top;">&nbsp;S<sub>0</sub>S<sub>4</sub>-S<sub>2</sub>S<sub>2</sub></td>
-          <td style="vertical-align: top;">Y<sub>0</sub>S<sub>4</sub>-Y<sub>2</sub>S<sub>2</sub></td>
-          <td style="vertical-align: top;">S<sub>0</sub>Y<sub>2</sub>-Y<sub>0</sub>S<sub>2</sub></td>
+          <td style="vertical-align: top;">&nbsp;S<sub>0</sub>S<sub>4</sub> - S<sub>2</sub>S<sub>2</sub></td>
+          <td style="vertical-align: top;">Y<sub>0</sub>S<sub>4</sub> - Y<sub>2</sub>S<sub>2</sub></td>
+          <td style="vertical-align: top;">S<sub>0</sub>Y<sub>2 </sub>- Y<sub>0</sub>S<sub>2</sub></td>
         </tr>
         <tr>
           <td style="vertical-align: top;">S<sub>4</sub>:=S<sub>2</sub>R<sub>2</sub><br>
           </td>
-          <td style="vertical-align: top;">&nbsp;S<sub>2</sub>(S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>)</td>
-          <td style="vertical-align: top;">S<sub>2</sub>(Y<sub>0</sub>R<sub>2</sub>-Y<sub>2</sub>)</td>
+          <td style="vertical-align: top;">&nbsp;S<sub>2</sub>(S<sub>0</sub>R<sub>2</sub> - S<sub>2</sub>)</td>
+          <td style="vertical-align: top;">S<sub>2</sub>(Y<sub>0</sub>R<sub>2 </sub>- Y<sub>2</sub>)</td>
           <td style="vertical-align: top;">ditto<br>
           </td>
         </tr>
@@ -904,56 +788,30 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               bold;">coefficient</span> </td>
           <td style="vertical-align: top;"><br>
           </td>
-          <td style="vertical-align: top;">(Y<sub>0</sub>R<sub>2</sub>-Y<sub>2</sub>)/<br>
-            (S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>)</td>
-          <td style="vertical-align: top;">(S<sub>0</sub>Y<sub>2</sub>-Y<sub>0</sub>S<sub>2</sub>)/
-
-
-
-
-
-
-
-
-
-
-            <br>
-            S<sub>2</sub>(S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>) </td>
+          <td style="vertical-align: top;">(Y<sub>0</sub>R<sub>2 </sub>- Y<sub>2</sub>)/<br>
+            (S<sub>0</sub>R<sub>2 </sub>- S<sub>2</sub>)</td>
+          <td style="vertical-align: top;">(S<sub>0</sub>Y<sub>2 </sub>- Y<sub>0</sub>S<sub>2</sub>)/ <br>
+            S<sub>2</sub>(S<sub>0</sub>R<sub>2 </sub>- S<sub>2</sub>) </td>
         </tr>
       </tbody>
     </table>
     <br>
-    The a<sub>0</sub> term is affected by Y*squares term: the moving
-    average near a peak is less than the actual amplitude as computed
-    via this quadratic fit.<br>
-    The a<sub>2</sub> term is positive when the Y<sub>2</sub> term is
-    bigger than a scaled up version of the moving average. <br>
+    Compared to the lower order fits the a<sub>0</sub> term is affected by the Y*squares term.<br>
+    The a<sub>2</sub> term is positive when the Y<sub>2</sub> term is bigger than a scaled up version of the moving average. <br>
     <br>
-    <div style="margin-left: 40px;"> S<sub>4</sub> =&nbsp;<math><!--sum_[i=-h]^[+ h] i^4--><mstyle
-          displaystyle="true" mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></mstyle></math>
-      =&nbsp;<math><!--2*sum_[i=1]^h i^4--><mstyle displaystyle="true"
-          mathsize="" mathcolor="" fontfamily=""><mn>2</mn><mo>&#8901;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></mstyle></math>
-      = S<sub>2</sub>*(3<span style="font-style: italic;">h</span><sup>2</sup>+3<span
-        style="font-style: italic;">h</span>-1)/5&nbsp; := S<sub>2</sub>*R<sub>2</sub>
-      introducing the symbols R<sub>N</sub>.</div>
+    <div style="margin-left: 40px;"> S<sub>4</sub> =
+      <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></math> =
+      <math><mn>2</mn><mo>&#8901;</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mn>4</mn></msup></math> = S<sub>2</sub>*(3<span
+        style="font-style: italic;">h</span><sup>2</sup>+3<span style="font-style: italic;">h</span>-1)/5&nbsp; := S<sub>2</sub>*R<sub>2</sub> introducing the symbols R<sub>N</sub>.</div>
     <br>
-    This factoring of S<sub>N</sub> into S<sub>2</sub>*R<sub><span
-        style="font-weight: bold;">N-2 </span></sub>is not part of
-    S&amp;G's original paper. One can prove (or look up) that all sums
-    of even powers of integers are a multiple of the sum of the squares.<br>
-    This factoring of S<sub>2</sub> is valuable because both numerators
-    and denominators have such a factor and removing it before computing
-    reduces the range of the number representation required..<br>
+    This factoring of S<sub>N</sub> into S<sub>2</sub>*R<sub><span style="font-weight: bold;">N-2 </span></sub>is not part of S&amp;G's original paper. One can prove (or look up) that all sums of even powers of integers are a multiple of the sum of the squares.<br>
+    This factoring of S<sub>2</sub> is valuable because both numerators and denominators have such a factor and removing it before computing reduces the range of the number representation required.<br>
     <hr style="width: 100%; height: 2px;">
     <h4>The cubic:</h4>
     The a0 and a2 terms are the same as the quadratic.<br>
-    So a cubic fit will yield the same value as a quadratic for an
-    estimate of the amplitude of a peak or the sharpness of it as
-    determined by the distance between the zero crossings of the a2
-    term.<br>
+    So a cubic fit will yield the same value as a quadratic for an estimate of the amplitude of a peak or the sharpness of it as determined by the distance between the zero crossings of the a2 term.<br>
     <br>
-    <table style="text-align: left;" cellspacing="2" cellpadding="2"
-      border="3">
+    <table style="text-align: left;" cellspacing="2" cellpadding="2" border="3">
       <tbody>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
@@ -1032,8 +890,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">factor <a
-              href="#Sums_of_even_powers_of_the_integers">S<sub>2</sub></a><br>
+          <td style="vertical-align: top;">factor <a href="#Sums_of_even_powers_of_the_integers">S<sub>2</sub></a><br>
           </td>
           <td style="vertical-align: top;">S<sub>2</sub><sup>2</sup>(R<sub>4</sub>-R<sub>2</sub><sup>2</sup>)<br>
           </td>
@@ -1054,16 +911,12 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <br>
-    Compared to a quadratic the slope is reduced when the Y<sub>3</sub>
-    term is positive, increased when Y<sub>3</sub> is negative. <br>
-    For a Gaussian peak the Y<sub>3</sub> sum is negative to the lower
-    side of the peak so the slope becomes less steep as you get further
-    from the centroid, ditto for the higher side's slope.<br>
+    Compared to a quadratic the slope is reduced when the Y<sub>3</sub> term is positive, increased when Y<sub>3</sub> is negative. <br>
+    For a Gaussian peak the Y<sub>3</sub> sum is negative to the lower side of the peak so the slope becomes less steep as you get further from the centroid, ditto for the higher side's slope.<br>
     <hr style="width: 100%; height: 2px;">
     <h4>The quartic:</h4>
     a1 and a3 are the same as the cubic.<br>
-    <table style="text-align: left;" cellspacing="2" cellpadding="2"
-      border="3">
+    <table style="text-align: left;" cellspacing="2" cellpadding="2" border="3">
       <tbody>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
@@ -1206,8 +1059,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;">factor <a
-              href="dynamicsvg.html#Sums_of_even_powers_of_the_integers">S<sub>2</sub></a><br>
+          <td style="vertical-align: top;">factor <a href="dynamicsvg.html#Sums_of_even_powers_of_the_integers">S<sub>2</sub></a><br>
             <span style="font-weight: bold;">S<sub>4</sub>:=S<sub>2</sub>R<sub>2</sub></span><br
               style="font-weight: bold;">
             <span style="font-weight: bold;">S<sub>6</sub>:=S<sub>2</sub>R<sub>4</sub></span><br
@@ -1228,13 +1080,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           <td>S<sub>2</sub>*<br>
             (Y<sub>0</sub>S<sub>2</sub>(R<sub>2</sub>R<sub>4</sub>-R<sub>6</sub>)<br>
             +Y<sub>2</sub>(S<sub>0</sub>R<sub>6</sub>-S<sub>2</sub>R<sub>2</sub><sup>2</sup>)<br>
-            +Y<sub>4</sub>(S<sub>2</sub>R<sub>2</sub>-S<sub>0</sub>R<sub>4</sub>))
-
-
-
-
-
-          </td>
+            +Y<sub>4</sub>(S<sub>2</sub>R<sub>2</sub>-S<sub>0</sub>R<sub>4</sub>)) </td>
           <td>S<sub>2</sub>*<br>
             (Y<sub>0</sub>S<sub>2</sub>(R<sub>4</sub>-R<sub>2</sub><sup>2</sup>)<br>
             +Y<sub>2</sub>(S<sub>2</sub>R<sub>2</sub>-S<sub>0</sub>R<sub>4</sub>)<br>
@@ -1246,8 +1092,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
               bold;">coefficient</span></td>
           <td>D<sub>9</sub>:=<br>
             S<sub>0</sub>(R<sub>2</sub>R<sub>6</sub>-R<sub>4</sub><sup>2</sup>)<br>
-            +S<sub>2</sub>(2*R<sub>2</sub>R<sub>4</sub>-R<sub>6</sub>-R<sub>2</sub><sup>3</sup>)
-          </td>
+            +S<sub>2</sub>(2*R<sub>2</sub>R<sub>4</sub>-R<sub>6</sub>-R<sub>2</sub><sup>3</sup>) </td>
           <td>(Y<sub>0</sub>(R<sub>2</sub>R<sub>6</sub>-R<sub>4</sub><sup>2</sup>)<br>
             +Y<sub>2</sub>(R<sub>2</sub>R<sub>4</sub>-R<sub>6</sub>)<br>
             +Y<sub>4</sub>(R<sub>4</sub>-R<sub>2</sub><sup>2</sup>))<br>
@@ -1274,58 +1119,33 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td style="vertical-align: top;">&nbsp;(Y<sub>0</sub>H<sub>9</sub>+Y<sub>2</sub>H<sub>7</sub>+Y<sub>4</sub>H<sub>5</sub>)/H<sub>12</sub><br>
           </td>
-          <td style="vertical-align: top;">(Y<sub>0</sub>H<sub>7</sub>+Y<sub>2</sub>H<sub>5</sub>+Y<sub>4</sub>H<sub>3</sub>)/H<sub>12</sub>&nbsp;
-
-
-
-
-
-
-
-
-
-          </td>
+          <td style="vertical-align: top;">(Y<sub>0</sub>H<sub>7</sub>+Y<sub>2</sub>H<sub>5</sub>+Y<sub>4</sub>H<sub>3</sub>)/H<sub>12</sub>&nbsp; </td>
         </tr>
       </tbody>
     </table>
     <br>
     All of the Hxx expressions are abbreviations for "polynomial in <span
-      style="font-style: italic;">h</span> of degree xx". Each instance
-    of Hxx is a possibly different polynomial of degree xx. <br>
-    The point of these is to help calculate how many bits are needed to
-    avert overflow when computing these values.<br>
+      style="font-style: italic;">h</span> of degree xx". Each instance of Hxx is a possibly different polynomial of degree xx. <br>
+    The point of these is to help calculate how many bits are needed to avert overflow when computing these values.<br>
     <br>
-    Each of the Y and H terms is an integer, but the final expressions
-    for the coefficients are not.<br>
+    Each of the Y and H terms is an integer, but the final expressions for the coefficients are not.<br>
     <hr style="width: 100%; height: 2px;">
     <h3>Summary</h3>
     <ul>
-      <li>The coefficients of polynomial fits of a set of integer data
-        are the ratio of integers where the numerator is a linear
-        combination of sums of each datum times an integer raised to a
-        power and the denominator is a polynomial in the filter width,
-        and can be computed by a single convolution with a set of values
-        which are a function of only the polynomial order and the filter
-        width.</li>
-      <li>Half of the formulas for coefficients generated for one order
-        are identical for the next order up, and the other half for the
-        next order down.</li>
+      <li>The coefficients of polynomial fits of a set of integer data are the ratio of integers where the numerator is a linear combination of sums of each datum times an integer raised to a power and the denominator is a polynomial in the filter width, and can be computed by a single convolution with a set of values which are a function of only the polynomial order and the filter width.</li>
+      <li>Half of the formulas for coefficients generated for one order are identical for the next order up, and the other half for the next order down.</li>
     </ul>
     <hr>
     <h3>Some algebra used in deriving the equations used above</h3>
     <table>
       <tbody>
         <tr>
-          <td><math><!--sum_[i=-h]^h A(i) * i^p--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;<br>
-                    </mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math><br>
+          <td><math><mrow><munderover><mo>&#8721;<br>
+                  </mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mi>A</mi><mrow><mo>(</mo><mi>i</mi><mo>)</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></math><br>
           </td>
           <td>= </td>
           <td>
-            <math><!--sum_[i=-h]^h {sum_[k=0]^r a_k*i^k} * i^p--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>k</mi></msup><mo>}</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math><br>
+            <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>k</mi></msup><mo>}</mo></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></math><br>
           </td>
           <td><br>
           </td>
@@ -1336,23 +1156,18 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td>= </td>
           <td>
-            <math><!--sum_[k=0]^r {a_k*i^k {sum_[i=-h]^h * i^p }}--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><mrow><mo>{</mo><msub><mi>a</mi><mi>k</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>k</mi></msup><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>}</mo></mrow><mo>}</mo></mrow></mstyle></math><br>
+            <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><mrow><mo>{</mo><msub><mi>a</mi><mi>k</mi></msub><mo>&#8901;</mo><msup><mi>i</mi><mi>k</mi></msup><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>}</mo></mrow><mo>}</mo></mrow></math><br>
           </td>
           <td><br>
           </td>
-          <td>can swap order of summations whose indices are independent
-            of each other</td>
+          <td>can swap order of summations whose indices are independent of each other</td>
         </tr>
         <tr>
           <td><br>
           </td>
           <td>= </td>
           <td>
-            <math><!--sum_[k=0]^r a_k {sum_[i=-h]^h i^k * i^p }--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>k</mi></msup><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>}</mo></mrow></mstyle></math><br>
+            <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>k</mi></msup><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup><mo>}</mo></mrow></math><br>
           </td>
           <td><br>
           </td>
@@ -1363,38 +1178,21 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="middle">=</td>
           <td valign="top">
-            <table>
-              <tbody>
-                <tr>
-                  <td><br>
-                  </td>
-                  <td>
-                    <math><mstyle displaystyle="true" mathsize=""
-                        mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>k+p</mi></msup><mo></mo><msup><mi></mi><mi></mi></msup><mo>}</mo></mrow></mstyle></math></td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
+            <math><mrow><munderover><mo>&#8721;</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mi>r</mi></munderover></mrow><msub><mi>a</mi><mi>k</mi></msub><mrow><mo>{</mo><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>k+p</mi></msup><mo></mo><msup><mi></mi><mi></mi></msup><mo>}</mo></mrow></math> </td>
           <td valign="top"><br>
           </td>
           <td valign="top"><br>
           </td>
         </tr>
         <tr>
-          <td><math><!--del/[del a_k] sum A(i)*i^p--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mfrac><mo>&#8706;</mo><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>j</mi></msub></mrow></mfrac><mo>&#8721;</mo><mi>A(i)</mi><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></mstyle></math><br>
+          <td><math><mfrac><mo>&#8706;</mo><mrow><mo>&#8706;</mo><msub><mi>a</mi><mi>j</mi></msub></mrow></mfrac><mo>&#8721;</mo><mi>A(i)</mi><mo>&#8901;</mo><msup><mi>i</mi><mi>p</mi></msup></math><br>
           </td>
           <td>=<br>
           </td>
-          <td><math><mstyle displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>j+p</mi></msup><mo></mo><msup><mi></mi><mi></mi></msup></mstyle></math>
-          </td>
+          <td><math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mi>h</mi></munderover></mrow><msup><mi>i</mi><mi>j+p</mi></msup><mo></mo><msup><mi></mi><mi></mi></msup></math> </td>
           <td><br>
           </td>
-          <td>only the term where k==j has a non-zero derivative, and
-            that term is linear in a<sub>k</sub> and so is equal to what
-            a<sub>k</sub> was multiplied by.&nbsp; </td>
+          <td>only the term where k==j has a non-zero derivative, and that term is linear in a<sub>k</sub> and so is equal to what a<sub>k</sub> was multiplied by.&nbsp; </td>
         </tr>
       </tbody>
     </table>
@@ -1402,76 +1200,39 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
     <h3>Appendix </h3>
     (not in the original paper)<br>
     <h3>Numerical precision during computation</h3>
-    The number of bits needed to perform the computations can be
-    computed via summing the numerical subscripts in the formulae above.<br>
-    For a linear fit's slope we have a<sub>1</sub>=Y<sub>1</sub>/S<sub>2</sub>.
-    The convolution Y<sub>1</sub> is the sum of the y data each
-    multiplied by an integer whose magnitude is &lt;=<span
+    The number of bits needed to perform the computations can be computed via summing the numerical subscripts in the formulae above.<br>
+    For a linear fit's slope we have a<sub>1</sub>=Y<sub>1</sub>/S<sub>2</sub>. The convolution Y<sub>1</sub> is the sum of the y data each multiplied by an integer whose magnitude is &lt;=<span
       style="font-style: italic;">h</span>.<br>
-    The number of bits required is therefore #bits for y (such as 12 for
-    a 12 bit ADC) + the number of bits for a signed h =1+log<sub>2</sub>(<span
+    The number of bits required is therefore #bits for y (such as 12 for a 12 bit ADC) + the number of bits for a signed h =1+log<sub>2</sub>(<span
       style="font-style: italic;">h</span>) rounded up which is 2+log<sub>2</sub>(<span
-      style="font-style: italic;">h</span>) unless h is an exact power
-    of 2, and 1 more for each addition = 2*h (although careful ordering
-    of operations can knock a few off).<br>
-    #bits for a<sub>1</sub> linear fit = #data bits+2+2*<span
-      style="font-style: italic;">h</span>+log<sub>2</sub>(<span
-      style="font-style: italic;">h</span>), for 12 bit data and a 13
-    point average (<span style="font-style: italic;">h</span>=6): 29.
-    Given the sloppiness of this derivation one should use at least 30
-    bits and add one more for the sign.<br>
+      style="font-style: italic;">h</span>) unless h is an exact power of 2, and 1 more for each addition = 2*h (although careful ordering of operations can knock a few off).<br>
+    #bits for a<sub>1</sub> linear fit = #data bits+2+2*<span style="font-style: italic;">h</span>+log<sub>2</sub>(<span
+      style="font-style: italic;">h</span>), for 12 bit data and a 13 point average (<span
+      style="font-style: italic;">h</span>=6): 29. Given the sloppiness of this derivation one should use at least 30 bits and add one more for the sign.<br>
     In the formulation above the #of bits to represent Rx or Hx is log<sub>2</sub>(<span
       style="font-style: italic;">h</span>)*x+x. For Yx it is log<sub>2</sub>(Ymax)+x*log<sub>2</sub>(<span
       style="font-style: italic;">h</span>)<br>
-    This justifies doing the extra algebra to remove the common factors
-    of S<sub>2</sub>, without that we would need 3*log<sub>2</sub>(<span
-      style="font-style: italic;">h</span>) extra bits for our
-    computations.<br>
+    This justifies doing the extra algebra to remove the common factors of S<sub>2</sub>, without that we would need 3*log<sub>2</sub>(<span
+      style="font-style: italic;">h</span>) extra bits for our computations.<br>
     <br>
-    a<sub>2</sub> quadratic = (S<sub>0</sub>Y<sub>2</sub>-Y<sub><sub>0</sub></sub>S<sub>2</sub>)/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    S<sub>2</sub>(S<sub>0</sub>R<sub><sub>2</sub></sub>-S<sub>2</sub>)<br>
+    a<sub>2</sub> quadratic = (S<sub>0</sub>Y<sub>2</sub>-Y<sub><sub>0</sub></sub>S<sub>2</sub>)/ S<sub>2</sub>(S<sub>0</sub>R<sub><sub>2</sub></sub>-S<sub>2</sub>)<br>
     Its numerator requires 3*log<sub>2</sub>(<span style="font-style:
-      italic;">h</span>)+2*log<sub>2</sub>(ymax)+1&nbsp; for 12 bits of
-    y and 13 point average ~37 bits are needed.<br>
+      italic;">h</span>)+2*log<sub>2</sub>(ymax)+1&nbsp; for 12 bits of y and 13 point average ~37 bits are needed.<br>
     <hr style="width: 100%; height: 2px;">
     <h3>Appendix</h3>
     (not in the original paper)<br>
     <h3>Sums of power of the integers </h3>
-    The relevant sums of the powers of the integers are all of the form:
-    <br>
-    <math><!--sum_[i=-h]^[+h] i^[2k] = 0^[2k] + 2 sum_[i=1]^[h] i^[2k]--></math>
-    <div style="margin-left: 40px;"><math><mstyle displaystyle="true"
-          mathsize="" mathcolor="" fontfamily=""><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>=</mo><msup><mn>0</mn><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>+</mo><mn>2</mn><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup></mstyle></math>&nbsp;<br>
+    The relevant sums of the powers of the integers are all of the form: <br>
+    <div style="margin-left: 40px;"><math><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mo>-</mo><mi>h</mi></mrow><mrow><mo>+</mo><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>=</mo><msup><mn>0</mn><mrow><mn>2</mn><mi>k</mi></mrow></msup><mo>+</mo><mn>2</mn><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>h</mi></mrow></munderover></mrow><msup><mi>i</mi><mrow><mn>2</mn><mi>k</mi></mrow></msup></math><br>
       &nbsp; </div>
-    The only time the 0<sup>2*k</sup> term is non zero is when 2*k is 0,
-    in which case the term is equal to 1 and the total expression is
-    1+2*<i>h</i>. <br>
-    For all other powers the relevant expression is 2*sum of integers
-    from 1 to h of i<sup>2k</sup>. <br>
+    The only time the 0<sup>2*k</sup> term is non zero is when 2*k is 0, in which case the term is equal to 1 and the total expression is 1+2*<i>h</i>. <br>
+    For all other powers the relevant expression is 2*sum of integers from 1 to h of i<sup>2k</sup>. <br>
     <br>
-    Each of the Sn terms for n=2k, k&gt;=1 have a common factor which
-    conveniently is S<sub>2</sub>. I introduce the symbol Rn where R<span
+    Each of the Sn terms for n=2k, k&gt;=1 have a common factor which conveniently is S<sub>2</sub>. I introduce the symbol Rn where R<span
       style="font-family: monospace;">n-2</span>*S<sub>2</sub>=Sn. <br>
     <table style="margin-left: 40px;" border="5">
-      <caption><a name="Sums_of_even_powers_of_the_integers"></a>Sums of
-        even powers of the integers </caption> <tbody>
+      <caption><a name="Sums_of_even_powers_of_the_integers"></a>Sums of even powers of the integers </caption>
+      <tbody>
         <tr>
           <th>p</th>
           <th>Sum of i<sup>p</sup>&nbsp;&nbsp; i={1 to <i>h</i>}</th>
@@ -1486,10 +1247,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
         </tr>
         <tr>
           <td>2</td>
-          <td><i>h</i>*(<i>h</i>+1)*(2*<i>h</i>+1)/3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-            <br>
+          <td><i>h</i>*(<i>h</i>+1)*(2*<i>h</i>+1)/3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
           </td>
           <td style="vertical-align: top;">S<sub>2</sub><br>
           </td>
@@ -1515,8 +1273,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
       </tbody>
     </table>
     <br>
-    NOTE: The Sx symbols in this paper are 2* those defined in most
-    documents on the sums of the powers of the integers. <br>
+    NOTE: The Sx symbols in this paper are 2* those defined in most documents on the sums of the powers of the integers. <br>
     <hr width="100%" size="2">
     <h3>Appendix</h3>
     <p>(not in the original paper)<br>
@@ -1531,17 +1288,10 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top">
             <div style="margin-left: 40px;">
-              <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mo>&#8721;</mo><mo
-                          stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>*</mo><msub><mi>y</mi><mi>i</mi></msub><mo
-                          stretchy="false">)</mo><mo>&#8722;</mo><mrow><mo>&#8721;</mo><mi>x</mi><mo>*</mo><mo>&#8721;</mo><mi>y</mi></mrow></mrow></mrow><mrow><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mo
-                            stretchy="false">(</mo><mo>&#8721;</mo><msub><mi>x</mi><mi>i</mi></msub><msup><mo
-                              stretchy="false">)</mo><mn>2</mn></msup></mrow></msqrt><mo>*</mo><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mo
-                            stretchy="false">(</mo><mo>&#8721;</mo><msub><mi>y</mi><mi>i</mi></msub><msup><mo
-                              stretchy="false">)</mo><mn>2</mn></msup></mrow></msqrt></mrow></mfrac><annotation
-                    encoding="TeX"> \frac { n{\sum (x_i* y_i) - { \sumx
-                    * \sum {y} } } } { {\sqrt
-                    {n{\sum{{x_i}^2}}-(\sum{x_i})^2}} * {\sqrt
-                    {n{\sum{{y_i}^2}}-(\sum{y_i})^2}} }</annotation></semantics></math></div>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <semantics>
+                  <mfrac><mrow><mi>n</mi><mrow><mo>&#8721;</mo><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>*</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo><mo>&#8722;</mo><mrow><mo>&#8721;</mo><mi>x</mi><mo>*</mo><mo>&#8721;</mo><mi>y</mi></mrow></mrow> </mrow>
+                    <mrow><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>x</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mo>(</mo><mo>&#8721;</mo><msub><mi>x</mi><mi>i</mi></msub><msup><mo>)</mo><mn>2</mn></msup></mrow></msqrt><mo>*</mo><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mo>(</mo><mo>&#8721;</mo><msub><mi>y</mi><mi>i</mi></msub><msup><mo>)</mo><mn>2</mn></msup></mrow></msqrt></mrow></mfrac> </semantics> </math></div>
           </td>
           <td valign="top"> <br>
           </td>
@@ -1553,11 +1303,7 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top">=<br>
           </td>
-          <td valign="top"><math
-              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><mrow><msqrt><mrow><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow></mrow></msqrt><mo>*</mo><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mrow></mfrac><annotation
-                  encoding="TeX"> \frac { n{Y</annotation></semantics></math><sub>1</sub>
-            } } { {\sqrt {n{S<sub>0</sub>}}} * {\sqrt
-            {n{\sum{{y_i}^2}}-Y0^2}} }<br>
+          <td valign="top"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><mrow><msqrt><mrow><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow></mrow></msqrt><mo>*</mo><msqrt><mrow><mi>n</mi><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mrow></mfrac>&nbsp;</semantics></math> <br>
           </td>
           <td valign="top"><br>
           </td>
@@ -1571,10 +1317,8 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top">=<br>
           </td>
-          <td valign="top"><math
-              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><msqrt><mrow><msup><mi>n</mi><mn>2</mn></msup><mrow><mi>S</mi><mn>2</mn></mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mfrac><annotation
-                  encoding="TeX"> \frac { n{Y</annotation></semantics></math><sub>1</sub>
-            } } { {\sqrt { n^2{S<sub>2</sub>}{\sum{{y_i}^2}}-n{S<sub>2</sub>}Y0^2}}}<br>
+          <td valign="top"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>n</mi><mrow><mi>Y</mi><mn>1</mn></mrow></mrow><msqrt><mrow><msup><mi>n</mi><mn>2</mn></msup><mrow><mi>S</mi><mn>2</mn></mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mi>n</mi><mrow><mi>S</mi><mn>2</mn></mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow></msqrt></mfrac><annotation
+                  encoding="TeX"> \frac { n{Y</annotation></semantics></math><br>
           </td>
           <td valign="top"><br>
           </td>
@@ -1586,11 +1330,8 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
           </td>
           <td valign="top">=<br>
           </td>
-          <td valign="top"><math
-              xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>Y</mi><mn>1</mn></mrow><mrow><msqrt><mrow><mi>S</mi><mn>2</mn></mrow></msqrt><msqrt><mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mfrac><mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow><mi>n</mi></mfrac></mrow></msqrt></mrow></mfrac><annotation
-                  encoding="TeX"> \frac { {Y</annotation></semantics></math><sub>1</sub>
-            } } { {\sqrt{S<sub>2</sub>}}{\sqrt { {\sum{{y_i}^2}}-{\frac
-            {Y0^2} n}}}}<br>
+          <td valign="top"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><mi>Y</mi><mn>1</mn></mrow><mrow><msqrt><mrow><mi>S</mi><mn>2</mn></mrow></msqrt><msqrt><mrow><mrow><mo>&#8721;</mo><msup><msub><mi>y</mi><mi>i</mi></msub><mn>2</mn></msup></mrow><mo>&#8722;</mo><mfrac><mrow><mi>Y<sub>0</sub></mi><msup><mn></mn><mn>2</mn></msup></mrow><mi>n</mi></mfrac></mrow></msqrt></mrow></mfrac><annotation
+                  encoding="TeX"> \frac { {Y</annotation></semantics></math><br>
           </td>
           <td valign="top"><br>
           </td>
@@ -1599,14 +1340,9 @@ href="http://en.wikipedia.org/wiki/Savitzky%E2%80%93Golay_smoothing_filter">SAVI
         </tr>
       </tbody>
     </table>
-    <p>An interesting use of R<sup><sub>2</sub></sup> is to find
-      stretches of a stream that can be approximated well by a line,
-      such that we can do a lossy compression by replacing sets of
-      points with triplets of {count,offset,slope}<br>
-      Given its expense I think that just tracking the quadratic term
-      being close to zero should suffice for such compression.<br>
+    <p>An interesting use of R<sup><sub>2</sub></sup> is to find stretches of a stream that can be approximated well by a line, such that we can do a lossy compression by replacing sets of points with triplets of {count,offset,slope}<br>
+      Given its expense I think that just tracking the quadratic term being close to zero should suffice for such compression.<br>
     </p>
-    <hr style="width: 100%; height: 2px;">©Andy Heilveil 2009,2016,2024
-    (extracted and embellished from work ©Andy Heilveil 2008)
+    <hr style="width: 100%; height: 2px;">©Andy Heilveil 2009,2016,2024 (extracted and embellished from work ©Andy Heilveil 2008)
   </body>
 </html>
