@@ -1,2 +1,3 @@
-*.bak
+*bak
 build-sumsOfPowers-bareMetal-Default/
+githubsite/
