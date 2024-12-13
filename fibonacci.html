@@ -2,18 +2,14 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Fibonacci</title>
     <meta content="Andy Heilveil" name="author">
   </head>
   <body>
-    <h2>Fibonacci via z-transform<br>
-    </h2>
-    This paper derives closed form solution for the Fibonacci series,
-    generalized to any two starting values.<br>
-    All the known properties of that series can be shown via the closed
-    form solution.<br>
+    <h2>Fibonacci via z-transform</h2>
+    <br>
+    This paper derives the closed form solution for the Fibonacci series, generalized to any two starting values.<br>
+    All the known properties of that series can be shown via the closed form solution.<br>
     <hr width="100%" size="2"><br>
     <table border="1">
       <tbody>
@@ -21,8 +17,7 @@
           <td valign="top">1:<br>
           </td>
           <td valign="top">
-            <math><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>2</mn></mrow></msub></math>
-            <br>
+            <math><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>2</mn></mrow></msub></math> <br>
           </td>
           <td valign="top">≡</td>
           <td valign="top">
@@ -46,12 +41,11 @@
         </tr>
         <tr>
           <td>3:</td>
-          <td><math><mstyle displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><msub><mi>C</mi><mn>1</mn></msub><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow></mstyle></math></td>
+          <td><math>
+              <msub><mi>C</mi><mn>1</mn></msub><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow></math></td>
           <td>=</td>
-          <td><math><!--sum_[n=0]^\infty c_[n+1] z^-n --><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>n</mi></mrow></msup></mstyle></math></td>
+          <td><math>
+              <mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>n</mi></mrow></msup></math></td>
           <td>time shifted Z-transform</td>
           <td><br>
           </td>
@@ -62,9 +56,8 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--sum_[m=1]^\infty c_[m] z^-(m-1) --><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mrow><mo>(</mo><mi>m</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mrow></msup></mstyle></math></td>
+          <td><math>
+              <mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mrow><mo>(</mo><mi>m</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mrow></msup></math></td>
           <td>m=n+1, n=m-1</td>
           <td><br>
           </td>
@@ -75,9 +68,7 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--z^1 * sum_[m=1]^\infty c_[m] z^-m--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup></mstyle></math></td>
+          <td><math><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup></math></td>
           <td><br>
           </td>
           <td><br>
@@ -89,9 +80,7 @@
           <td><br>
           </td>
           <td>=</td>
-          <td><math><!--z^1 * [sum_[m=0]^\infty c_[m] z^-m - c_0z^-0]--><mstyle
-                displaystyle="true" mathsize="" mathcolor=""
-                fontfamily=""><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><mo>[</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup><mo>-</mo><msub><mi>c</mi><mn>0</mn></msub><msup><mi>z</mi><mrow><mo>-</mo><mn>0</mn></mrow></msup><mo>]</mo></mrow></mstyle></math></td>
+          <td><math><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><mo>[</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup><mo>-</mo><msub><mi>c</mi><mn>0</mn></msub><msup><mi>z</mi><mrow><mo>-</mo><mn>0</mn></mrow></msup><mo>]</mo></mrow></math></td>
           <td><br>
           </td>
           <td><br>
@@ -106,7 +95,7 @@
           <td><math><mi>z</mi><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
               <mo>-</mo><mi>z</mi><mo>⋅</mo>
               <msub><mi>c</mi><mn>0</mn></msub></math></td>
-          <td>general Z-transform rule<br>
+          <td>which is a general Z-transform rule<br>
           </td>
           <td><br>
           </td>
@@ -125,7 +114,7 @@
               <mo>-</mo><msup><mi>z</mi><mn>2</mn></msup><mo>⋅</mo><msub><mi>c</mi><mn>0</mn></msub>
               <mo>-</mo><mi>z</mi><mo>⋅</mo>
               <msub><mi>c</mi><mn>1</mn></msub></math></td>
-          <td>general Z-transform rule </td>
+          <td>general Z-transform rule done twice</td>
           <td><br>
           </td>
         </tr>
@@ -145,8 +134,7 @@
               <mo>-</mo><mi>z</mi><mo>⋅</mo>
               <msub><mi>c</mi><mn>0<br>
                 </mn></msub>
-              <mo>+</mo><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
-            </math></td>
+              <mo>+</mo><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow> </math></td>
           <td>combine 1,2,3, and 4<br>
           </td>
           <td><br>
@@ -155,11 +143,26 @@
         <tr>
           <td><br>
           </td>
-          <td>{z<sup>2</sup>-z-1} C(z)<br>
+          <td><math><mfenced open="{" close="}" separators="-"><msup><mi>z</mi><mn>2</mn> </msup>
+                <mi>z</mi><mn>1</mn></mfenced><mo>⋅⁢</mo><mrow><mi>C</mi><mfenced><mi>z</mi></mfenced></mrow> </math> <br>
           </td>
           <td>=<br>
           </td>
-          <td>z<sup>2</sup>c<sub>0</sub>+zc<sub>1</sub>-zc<sub>0</sub><br>
+          <td>
+            <math>
+              <mrow>
+                <msup>
+                  <mi>z</mi><mn>2</mn> </msup>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>1</mn></msub>
+                <mo>-</mo>
+                <mi>z</mi>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>0</mn></msub>&nbsp;</mrow></math> <br>
           </td>
           <td>collect C(z) terms on left, z terms on right </td>
           <td><br>
@@ -168,12 +171,28 @@
         <tr>
           <td><br>
           </td>
-          <td>C(z)<br>
+          <td>
+            <math><mi>C</mi><mfenced>z</mfenced></math> <br>
           </td>
           <td>=<br>
           </td>
-          <td>{z<sup>2</sup>c<sub>0</sub>+z(c<sub>1</sub>-c<sub>0</sub>)}<br>
-            <hr width="100%" size="1">{z<sup>2</sup>-z-1} <br>
+          <td>
+            <math>
+              <mfrac>
+                <mfenced open="{" close="}" separators=" ">
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <mo>⋅</mo>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi>
+                  <mo>⋅</mo>
+                  <mfenced open="{" close="}" separators="">
+                    <msub><mi>c</mi><mn>1</mn></msub>
+                    <mo>-</mo>
+                    <msub><mi>c</mi><mn>0</mn></msub> </mfenced> </mfenced>
+                <mfenced open="{" close="}" separators="">
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <mo>-</mo><mi>z</mi><mo>-</mo><mn>1</mn> </mfenced> </mfrac> </math> <br>
           </td>
           <td>isolate C(z) </td>
           <td><br>
@@ -186,8 +205,22 @@
           </td>
           <td>=<br>
           </td>
-          <td>{z<sup>2</sup>c<sub>0</sub>+z(c<sub>1</sub>-c<sub>0</sub>)}<br>
-            <hr width="100%" size="1">(z-phi)(z-phi<sup>-1</sup>)</td>
+          <td>
+            <math>
+              <mfrac>
+                <mfenced open="{" close="}" separators=" ">
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <mo>⋅</mo>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi>
+                  <mo>⋅</mo>
+                  <mfenced open="{" close="}" separators="">
+                    <msub><mi>c</mi><mn>1</mn></msub>
+                    <mo>-</mo>
+                    <msub><mi>c</mi><mn>0</mn></msub> </mfenced> </mfenced>
+                <mfenced separators=""><mi>z</mi><mo>-</mo><mi>φ</mi></mfenced>
+                <mfenced separators=""><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup></mfenced> </mfrac> </math> </td>
           <td>factor denominator,<br>
             phi=golden ratio phi<sup>-1</sup> its inverse<br>
           </td>
@@ -199,7 +232,7 @@
           </td>
           <td><br>
           </td>
-          <td><br>
+          <td>=<br>
           </td>
           <td><br>
           </td>
@@ -238,14 +271,11 @@
         </tr>
       </tbody>
     </table>
-    &nbsp;<br>
-    Which shows the known fact that the Fibonacci series goes to a power
-    of the golden ration as the index increases without bound, usually
-    expressed as "the ratio of successive terms goes to the golden
-    ratio".<br>
     <br>
-    From this derivation we can see that a 3-term Fibonacci series can
-    be expressed as 3 power terms using the roots of a simple cubic. <br>
+    Which shows the known fact that the Fibonacci series goes to a power of the golden ration as the index increases without bound, usually expressed as "the ratio of successive terms goes to the golden ratio".<br>
     <br>
+    From this derivation we can see that a 3-term Fibonacci series can be expressed as 3 power terms using the roots of a simple cubic. <br>
+    <br>
+    
   </body>
 </html>

@@ -6,56 +6,21 @@
     <meta name="author" content="Andy Heilveil">
   </head>
   <body>
-    <p>Banker's Rounding<br>
-      aka Round to Even.</p>
-    Note: if the set of numbers has as many negatives as positives then
-    there is no point in even considering this type of rounding, naive
-    "round away" will give the best estimate of the sum.<br>
-    <br>
-    When rounding numbers not symmetrically distributed around zero some
-    people make a special case for values that are "perfectly between"
-    two integers.
-    <p>Numbers in a computer are in fact never known to be 'perfectly'
-      between two integers as they have a finite number of bits and as
-      such have already been rounded, just to one part in 16 million for
-      32 bit IEEE numbers, one part in 2^52 for double precision IEEE.<br>
-      As such there has already been a bit of truncation and some of
-      those 'perfectly betweens' were really slightly less and some
-      slightly more than 0.5, in the general case.</p>
-    <p>In order to have the <i><b>sum over many such numbers have an
-          average of zero for those dropped bits</b></i> one must
-      randomly with 50/50 distribution round up and down. True
-      randomness may not be available, and complicates testing of
-      software so psuedo-random selection is common. One of those
-      psuedo-random methods is to look at the LSB of the integer and add
-      1 or -1 according to it. This is called "round to even" and is
-      cheaply implemented (once the items needing this consideration
-      have been found) by clearing the lsb of the value used for non
-      perfect halves.</p>
-    <p>For this to actually be random the lsbs of the rounded numbers
-      must be random. But even so it creates a correlation between
-      'rounding noise' and the 'signal' so is unsuited for things like
-      audio processing. The latter only averages across near neighbors
-      and as such the sample size is too small to average out the noise
-      so there is no point in trying.<br>
-      <br>
+    <h2>Banker's Rounding</h2>
+    <h3> aka Round to Even.</h3>
+    When rounding numbers not symmetrically distributed around zero some people make a special case for values that are "perfectly between" two integers.<br>
+    Note: if the set of numbers has as many negatives as positives then there is no point in even considering this type of rounding, naive "round away" will give the best estimate of the sum.
+    <p>Numbers in a computer are in fact never known to be 'perfectly' between two integers as they have a finite number of bits and as such have already been rounded, just to one part in 16 million for 32 bit IEEE numbers, one part in 2^52 for double precision IEEE.<br>
+      As such there has already been a bit of truncation and some of those 'perfectly betweens' were really slightly less and some slightly more than 0.5, in the general case.</p>
+    <p>In order to have the <i><b>sum over many such numbers have an average of zero for those dropped bits</b></i> one must randomly with 50/50 distribution round up and down. True randomness may not be available, and complicates testing of software so psuedo-random selection is common. One of those psuedo-random methods is to look at the LSB of the integer and add 1 or -1 according to it. This is called "round to even" and is cheaply implemented.</p>
+    <p>For this to actually be random the lsbs of the rounded numbers must be random. But even so it creates a correlation between 'rounding noise' and the 'signal' so is unsuited for things like audio processing. The latter only averages across near neighbors and as such the sample size is too small to average out the noise so there is no point in trying.<br>
       <br>
       Summarizing:<br>
-      Finessing the rounding of values ending in 0.5 is done to average
-      out the truncation errors made while summing large amounts data to
-      some finite decimal. <br>
+      Finessing the rounding of values ending in 0.5 is done to average out the truncation errors made while summing large amounts data to some finite decimal. <br>
       <br>
-      It only makes a difference when accumulating a large quantity of
-      rounded numbers, so that there are enough actual samples of
-      randomness to average to zero.</p>
-    <p>If your data is not going to be post processed then simple
-      rounding is perfectly appropriate and will yield equal sized bins
-      in any binning process.</p>
-    <p>If the data fed into the original process isn't randomly
-      distributed then 'round to even' might not yield the added
-      randomness intended for it. For example, a linear sequence with
-      fractional step is at best evenly distributed across possible
-      fractions. If small then it fails the test of random bit loss.<br>
+      It only makes a difference when accumulating a large quantity of rounded numbers, so that there are enough actual samples of randomness to average to zero.</p>
+    <p>If your data is not going to be post processed then simple rounding is perfectly appropriate and will yield equal sized bins in any binning process.</p>
+    <p>If the data fed into the original process isn't randomly distributed then 'round to even' might not yield the added randomness intended for it. For example, a linear sequence with fractional step is at best evenly distributed across possible fractions. If small then it fails the test of random bit loss.<br>
     </p>
     <br>
   </body>
