@@ -141,7 +141,7 @@
           </td>
         </tr>
         <tr>
-          <td><br>
+          <td>6:<br>
           </td>
           <td><math><mfenced open="{" close="}" separators="-"><msup><mi>z</mi><mn>2</mn> </msup>
                 <mi>z</mi><mn>1</mn></mfenced><mo>⋅⁢</mo><mrow><mi>C</mi><mfenced><mi>z</mi></mfenced></mrow> </math> <br>
@@ -169,30 +169,35 @@
           </td>
         </tr>
         <tr>
-          <td><br>
+          <td>7:<br>
           </td>
           <td>
-            <math><mi>C</mi><mfenced>z</mfenced></math> <br>
+            <math><mi>C</mi>
+              <mrow>
+                <mo>(</mo>
+                <mi>z</mi>
+                <mo>)</mo> </mrow> </math> <br>
           </td>
           <td>=<br>
           </td>
           <td>
             <math>
               <mfrac>
-                <mfenced open="{" close="}" separators=" ">
+                <mrow><mo>{</mo>
                   <msup><mi>z</mi><mn>2</mn></msup>
-                  <mo>⋅</mo>
                   <msub><mi>c</mi><mn>0</mn></msub>
                   <mo>+</mo>
                   <mi>z</mi>
-                  <mo>⋅</mo>
-                  <mfenced open="{" close="}" separators="">
+                  <mrow><mo>{</mo>
                     <msub><mi>c</mi><mn>1</mn></msub>
                     <mo>-</mo>
-                    <msub><mi>c</mi><mn>0</mn></msub> </mfenced> </mfenced>
-                <mfenced open="{" close="}" separators="">
+                    <msub><mi>c</mi><mn>0</mn></msub>
+                    <mo>}</mo> </mrow>
+                  <mo>}</mo> </mrow>
+                <mrow><mo>{</mo>
                   <msup><mi>z</mi><mn>2</mn></msup>
-                  <mo>-</mo><mi>z</mi><mo>-</mo><mn>1</mn> </mfenced> </mfrac> </math> <br>
+                  <mo>-</mo><mi>z</mi><mo>-</mo><mn>1</mn>
+                  <mo>}</mo> </mrow> </mfrac> </math> <br>
           </td>
           <td>isolate C(z) </td>
           <td><br>
@@ -208,19 +213,21 @@
           <td>
             <math>
               <mfrac>
-                <mfenced open="{" close="}" separators=" ">
+                <mrow><mo>{</mo>
                   <msup><mi>z</mi><mn>2</mn></msup>
-                  <mo>⋅</mo>
                   <msub><mi>c</mi><mn>0</mn></msub>
                   <mo>+</mo>
                   <mi>z</mi>
-                  <mo>⋅</mo>
-                  <mfenced open="{" close="}" separators="">
+                  <mrow><mo>{</mo>
                     <msub><mi>c</mi><mn>1</mn></msub>
                     <mo>-</mo>
-                    <msub><mi>c</mi><mn>0</mn></msub> </mfenced> </mfenced>
-                <mfenced separators=""><mi>z</mi><mo>-</mo><mi>φ</mi></mfenced>
-                <mfenced separators=""><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup></mfenced> </mfrac> </math> </td>
+                    <msub><mi>c</mi><mn>0</mn></msub>
+                    <mo>}</mo> </mrow>
+                  <mo>}</mo> </mrow>
+                <mrow>
+                  <mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo>
+                  <mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup>
+                  <mo>)</mo> </mrow> </mfrac> </math> </td>
           <td>factor denominator,<br>
             phi=golden ratio phi<sup>-1</sup> its inverse<br>
           </td>
@@ -234,7 +241,61 @@
           </td>
           <td>=<br>
           </td>
+          <td>
+            <math>
+              <mfrac>
+                <mrow>
+                  <msub><mi>q</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi><msub><mi>q</mi><mn>1</mn></msub> </mrow>
+                <mrow><mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo> </mrow></mfrac>
+              <mo>+</mo>
+              <mfrac>
+                <mrow>
+                  <msub><mi>p</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi><msub><mi>p</mi><mn>1</mn></msub> </mrow>
+                <mrow><mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup><mo>)</mo></mrow> </mfrac> </math> </td>
+          <td>introduce p's and q's such that each term is z-transform of an exponential</td>
           <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>8:<br>
+          </td>
+          <td>
+            <math>
+              <mrow>
+                <msup><mi>z</mi><mn>2</mn></msup>
+                <msub><mi>c</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi>
+                <mrow><mo>{</mo>
+                  <msub><mi>c</mi><mn>1</mn></msub>
+                  <mo>-</mo>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>}</mo> </mrow> </mrow> </math> <br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math><mrow><mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup><mo>)</mo></mrow>
+              <mo>*</mo>
+              <mrow>
+                <mo>(</mo>
+                <msub><mi>q</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi><msub><mi>q</mi><mn>1</mn></msub>
+                <mo>)</mo> </mrow>
+              <mo>+</mo>
+              <mrow><mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo> </mrow>
+              <mo>*</mo>
+              <mrow>
+                <mo>(</mo>
+                <msub><mi>p</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi><msub><mi>p</mi><mn>1</mn></msub>
+                <mo>)</mo> </mrow> </math> <br>
           </td>
           <td><br>
           </td>
@@ -246,12 +307,45 @@
           </td>
           <td><br>
           </td>
+          <td>=<br>
+          </td>
+          <td>z^2(q1+p1)<br>
+            +z(q0+p0-p1phi-q1phibar)<br>
+            -(p0phi+q0phibar)<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-2:</td>
+          <td>1</td>
+          <td>=</td>
+          <td>q1+p1</td>
+          <td>9-x is a set of simultaneous equations in 4 variables, leaving us one shy of a solution.<br>
+            something has gone terribly wrong as I know the answer is c0 and c1-c0 in the numerators.</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-1:</td>
+          <td>c1-c0&nbsp; </td>
+          <td>=</td>
+          <td>q0+p0-p1phi-q1phibar</td>
           <td><br>
           </td>
           <td><br>
           </td>
-          <td>each is z-transform of an power<br>
+        </tr>
+        <tr>
+          <td><br>
           </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>q0+p0 - (p1+q1)phi+q1</td>
+          <td>phibar = phi - 1</td>
           <td><br>
           </td>
         </tr>
@@ -262,8 +356,73 @@
           </td>
           <td><br>
           </td>
+          <td>q0+p0+q1-phi</td>
           <td><br>
           </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-0:</td>
+          <td>0</td>
+          <td>=</td>
+          <td>p0phi+q0phibar</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>p0phi+q0(phi-1)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>(p0+q0)phi-q0</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>A:</td>
+          <td>a<sub>n</sub></td>
+          <td>=</td>
+          <td>r<sup>n</sup></td>
+          <td>power series</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>A(z)</td>
+          <td>=</td>
+          <td>sum r<sup>n</sup>z<sup>-n</sup></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>sum (z/r)<sup>-n</sup></td>
           <td><br>
           </td>
           <td><br>
@@ -276,6 +435,5 @@
     <br>
     From this derivation we can see that a 3-term Fibonacci series can be expressed as 3 power terms using the roots of a simple cubic. <br>
     <br>
-    
   </body>
 </html>
