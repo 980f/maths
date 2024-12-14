@@ -253,6 +253,8 @@
         <tr>
           <td><br>
           </td>
+          <td>thing to compute<br>
+          </td>
           <td>line<br>
           </td>
           <td>circle<br>
@@ -261,11 +263,12 @@
           </td>
         </tr>
         <tr>
+          <td>The non-constant part of F(x,y)</td>
           <td>G(x,y)<br>
           </td>
           <td>
             <math>
-              <mi>y</mi><em><mo></mo></em><mrow><mi><em>d</em>x</mi></mrow><mo>-</mo><mrow><mi><em>xd</em>y</mi></mrow><mi></mi></math></td>
+              <mi>y</mi></math><em><mo></mo></em><mrow><mi><em>d</em>x</mi></mrow><mo>-</mo><mrow><mi><em>xd</em>y</mi></mrow><mi></mi></td>
           <td>
             <math>
               <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo></mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math></td>
@@ -274,13 +277,14 @@
           </td>
         </tr>
         <tr>
+          <td>for the starting pixel</td>
           <td>
             <math>
-              <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
+              <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
             <math>
               <mi>y</mi><mo>+</mo></math> ½)
             <math>
-              <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> </td>
+              <mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> </td>
           <td> ½&nbsp;<math><mo></mo><mrow><mo>(</mo><mrow><mi><em>d</em>x</mi></mrow><mo>-</mo><mrow><mi><em>d</em>y</mi></mrow></mrow></math>)</td>
           <td>
             <math>
@@ -288,11 +292,12 @@
           <td>value at top right corner of given point on curve </td>
         </tr>
         <tr>
+          <td>on step x positive</td>
           <td>
             <math>
-              <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
+              <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
             <math>
-              <mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></math> ½,
+              <mi>y</mi><mo>)</mo><mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></math> ½,
             <math>
               <mi>y</mi><mo>)</mo></math> </td>
           <td>
@@ -306,11 +311,12 @@
           </td>
         </tr>
         <tr>
+          <td>on step y positive</td>
           <td>
             <math>
-              <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></math> ½)
+              <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></math> ½)
             <math>
-              <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></math> ½)</td>
+              <mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></math> ½)</td>
           <td>
             <math>
               <mo>+</mo><mrow><mi><em>d</em>x</mi></mrow></math><br>
@@ -323,11 +329,11 @@
           </td>
         </tr>
         <tr>
+          <td>on step y negative</td>
           <td>
+            <math> G<mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></math> ½)
             <math>
-              <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>-</mo></mrow></math> ½)
-            <math>
-              <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></math> ½)</td>
+              <mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>+</mo></mrow></math> ½)</td>
           <td>
             <math>
               <mo>-</mo><mrow><mi><em>d</em>x</mi></mrow></math><br>
@@ -339,11 +345,12 @@
           </td>
         </tr>
         <tr>
+          <td>on step x negative</td>
           <td>
             <math>
-              <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></math> ½,
+              <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>-</mo></mrow></math> ½,
             <math>
-              <mi>y</mi><mo>)</mo><mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
+              <mi>y</mi><mo>)</mo><mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½,
             <math>
               <mi>y</mi><mo>)</mo></math></td>
           <td>
@@ -358,11 +365,10 @@
         </tr>
       </tbody>
     </table>
-    <br>
     <ul>
-      <li> Because these curves have no terms with&nbsp;
+      <li> Because these curves have no terms with
         <math>
-          <mi>x</mi><mo>?</mo><mi>y</mi></math> we get away with the 4 incremental formulae above for all of our in-the-loop computations.</li>
+          <mi>x</mi><mo></mo><mi>y</mi></math> we get away with the 4 incremental formulae above for all of our in-the-loop computations.</li>
       <li>Since F(x,y)=0 then ½*F(x,y)=0 so we can simplify the circle case by dropping the multiply by 2. We will presume that for the rest of this paper.</li>
     </ul>
     <br>
@@ -623,5 +629,6 @@
     <br>
     <hr style="width: 100%; height: 2px;">(C) Andy Heilveil 2009 (this document, not the algorithm)<br>
     <br>
+    
   </body>
 </html>
