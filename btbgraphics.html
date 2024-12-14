@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>Better than Bresenham</title>
     <meta content="simple graphics algorithms" name="description">
   </head>
@@ -47,10 +47,10 @@
                 <mfrac><mrow><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>-</mo><mfrac><mrow><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub></mrow><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub></mrow></mfrac><mo>=</mo><mn>0</mn></math><br>
               or<br>
               <math>
-                <mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>&#8901;</mo><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>-</mo><mrow><mo>(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> </td>
+                <mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>?</mo><mrow><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>-</mo><mrow><mo>(</mo><msub><mi>y</mi><mn>1</mn></msub><mo>-</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> </td>
             <td><math><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>-</mo><mi>G</mi><mrow><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>)</mo></mrow></math><br>
             </td>
-            <td>G<mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow> <mo>=</mo><mi>y</mi><mo>&#8901;</mo><mi>&#8518;x</mi><mo>-</mo><mi>x</mi><mo>&#8901;</mo><mi>&#8518;y</mi> <br>
+            <td>G<mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow> <mo>=</mo><mi>y</mi><mo>?</mo><mi>?x</mi><mo>-</mo><mi>x</mi><mo>?</mo><mi>?y</mi> <br>
               where dx=x<sub><mn>1</mn></sub><mo>-</mo><mi>x</mi><sub>0 </sub>and dy=<msub><mi>y</mi><sub><mn>1</mn></sub></msub><mo>-</mo><mi>y</mi>0<br>
             </td>
           </tr>
@@ -81,7 +81,7 @@
       <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> for points that are not on the curve?".<br>
     For a line as x gets very big in the positive direction the term&nbsp;
     <math>
-      <mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></math> dominates and&nbsp;
+      <mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>?</mo><mi>x</mi></math> dominates and&nbsp;
     <math>
       <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> becomes a large value with the opposite sign of dy. You can analyze this for y becoming very positive, and for each of x and y becoming negative and you get that&nbsp;
     <math>
@@ -120,27 +120,23 @@
           <li>
             <math>
               <msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>-</mo></mrow></msub>
-              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo></mrow></math> ½
-            <math>
-              <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></math> ½) </li>
+              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo><mn>½</mn>
+                <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo><mn>½</mn><mo>)</mo></mrow></math></li>
           <li>
             <math>
               <msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>-</mo></mrow></msub>
-              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo></mrow></math> ½
-            <math>
-              <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo></math> ½)</li>
+              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo><mn>½</mn>
+                <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>-</mo><mn>½</mn><mo>)</mo></mrow></math> </li>
           <li>
             <math>
               <msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub>
-              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo></mrow></math> ½
-            <math>
-              <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></math> ½)</li>
+              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>-</mo><mn>½</mn>
+                <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo><mn>½</mn><mo>)</mo></mrow></math> </li>
           <li>
             <math>
               <msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub>
-              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo></mrow></math> ½
-            <math>
-              <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo></math> ½) </li>
+              <mo>=</mo><mi>F</mi><mrow><mo>(</mo><msub><mi>x</mi><mi></mi></msub><mo>+</mo><mn>½</mn>
+                <mo>,</mo><msub><mi>y</mi><mi></mi></msub><mo>+</mo><mn>½</mn><mo>)</mo></mrow></math></li>
         </ol>
       </li>
       <li>Loop
@@ -269,10 +265,10 @@
           </td>
           <td>
             <math>
-              <mi>y</mi><mo>&#8901;</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow><mo>&#8901;</mo><mi>x</mi></math></td>
+              <mi>y</mi><mo>?</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow><mo>?</mo><mi>x</mi></math></td>
           <td>
             <math>
-              <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math></td>
+              <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>?</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>?</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math></td>
           <td>part that varies with x or y:<br>
             F(point 1)-F(point 2) = G(point 1)-G(point 2)<br>
           </td>
@@ -287,7 +283,7 @@
               <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> </td>
           <td> ½
             <math>
-              <mo>&#8901;</mo><mrow><mo>(</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow></mrow></math>)</td>
+              <mo>?</mo><mrow><mo>(</mo><mrow><mi>dx</mi></mrow><mo>-</mo><mrow><mi>dy</mi></mrow></mrow></math>)</td>
           <td>
             <math>
               <mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></math> ½</td>
@@ -306,7 +302,7 @@
               <mo>-</mo><mrow><mi>dy</mi></mrow></math></td>
           <td>
             <math>
-              <mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math><br>
+              <mn>2</mn><mo>?</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math><br>
           </td>
           <td>compute right given left<br>
           </td>
@@ -323,7 +319,7 @@
           </td>
           <td>
             <math>
-              <mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math><br>
+              <mn>2</mn><mo>?</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math><br>
           </td>
           <td>compute top given bottom<br>
           </td>
@@ -340,7 +336,7 @@
           </td>
           <td>
             <math>
-              <mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math> </td>
+              <mo>-</mo><mn>2</mn><mo>?</mo><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math> </td>
           <td>compute bottom given top<br>
           </td>
         </tr>
@@ -358,7 +354,7 @@
           </td>
           <td>
             <math>
-              <mo>-</mo><mn>2</mn><mo>&#8901;</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math> </td>
+              <mo>-</mo><mn>2</mn><mo>?</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math> </td>
           <td>compute left given right<br>
           </td>
         </tr>
@@ -368,7 +364,7 @@
     <ul>
       <li> Because these curves have no terms with&nbsp;
         <math>
-          <mi>x</mi><mo>&#8901;</mo><mi>y</mi></math> we get away with the 4 incremental formulae above for all of our in-the-loop computations.</li>
+          <mi>x</mi><mo>?</mo><mi>y</mi></math> we get away with the 4 incremental formulae above for all of our in-the-loop computations.</li>
       <li>Since F(x,y)=0 then ½*F(x,y)=0 so we can simplify the circle case by dropping the multiply by 2. We will presume that for the rest of this paper.</li>
     </ul>
     <br>
@@ -380,7 +376,7 @@
         <math>
           <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> then&nbsp;
         <math>
-          <mn>2</mn><mo>&#8901;</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> also equals 0, the dy and dx above can be replaced with 2* their values and the ½ we are worrying over becomes -1,0 or 1 and now you can do a perfect line draw with diagonal steps.<br>
+          <mn>2</mn><mo>?</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> also equals 0, the dy and dx above can be replaced with 2* their values and the ½ we are worrying over becomes -1,0 or 1 and now you can do a perfect line draw with diagonal steps.<br>
         <br>
         For circles there is always a ½ on the initial value as both the y<sup>2</sup> and the x<sup>2</sup> terms generate a +¼ regardless of which corner we compute at. That means that the theoretical circle never perfectly intersects a corner of a pixel. A computed F() that is zero should always be treated as positive. </div>
     </div>
@@ -429,7 +425,7 @@
           </td>
           <td>&nbsp;&nbsp;
             <math>
-              <msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math><br>
+              <msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>?</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>?</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math><br>
           </td>
           <td>=<br>
           </td>
@@ -491,7 +487,7 @@
     Initialization calculation for circle,&nbsp;
     <math>
       <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo>
-      <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math> <br>
+      <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>?</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo>?</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math> <br>
     <table style="margin-left: 40px;" border="0">
       <tbody>
         <tr>
@@ -499,15 +495,15 @@
           <td>=</td>
           <td>
             <math>
-              <mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></math> ½
+              <msup><mrow><mo>(</mo><mi>y</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup>
+              <mo>+</mo>
+              <msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup>
+                <mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow>
+            </math>
             <math>
-              <msup><mo>)</mo><mn>2</mn></msup><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½
+              <mo>?</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½
             <math>
-              <msup><mo>)</mo><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo></mrow></math> ½)
-            <math>
-              <mo>&#8901;</mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½
-            <math>
-              <mo>)</mo><mo>&#8901;</mo><msub><mi>x</mi><mi>c</mi></msub></math> </td>
+              <mo>)</mo><mo>?</mo><msub><mi>x</mi><mi>c</mi></msub></math> </td>
           <td>corner of cell<br>
           </td>
         </tr>
@@ -632,5 +628,6 @@
     <br>
     <hr style="width: 100%; height: 2px;">(C) Andy Heilveil 2009 (this document, not the algorithm)<br>
     <br>
+    
   </body>
 </html>
