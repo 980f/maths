@@ -11,7 +11,7 @@
     J E Bresenham a long time ago (1962 at CalComp) developed a very efficient algorithm for drawing lines, which was later extended for circles. <br>
     His derivation and its implementation defines and then minimizes an error, which error however eventually grows too big to ignore when drawing circles.<br>
     <br>
-    &nbsp; This unrelated derivation generates an almost identical algorithm, but without a growing error.<br>
+    This unrelated derivation generates an almost identical algorithm, but without a growing error.<br>
     <hr style="width: 100%; height: 2px;">Most interesting curves in the 2D plane can be expressed by the form F(x,y)=0.<br>
     <div style="margin-left: 40px;">
       <hr style="width: 100%; height: 2px;">
@@ -58,9 +58,9 @@
             <td>circle:<br>
               radius is constant<br>
             </td>
-            <td>center point&nbsp;
+            <td>center point
               <math>
-                <mrow><mo>(</mo><msub><mi>x</mi><mi>c</mi></msub><mo>,</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math> and point&nbsp;
+                <mrow><mo>(</mo><msub><mi>x</mi><mi>c</mi></msub><mo>,</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow></math> and point
               <math>
                 <mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>,</mo><msub><mi>y</mi><mi>r</mi></msub><mo>)</mo></mrow></math> on perimeter define a circle:<br>
               <math>
@@ -79,28 +79,28 @@
     <hr style="width: 100%; height: 2px;"> So let us now ask "what is the value of
     <math>
       <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> for points that are not on the curve?".<br>
-    For a line as x gets very big in the positive direction the term&nbsp;
+    For a line as x gets very big in the positive direction the term
     <math>
-      <mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>?</mo><mi>x</mi></math> dominates and&nbsp;
+      <mo>-</mo><mrow><mi></mi><mi>dy</mi></mrow><mo>?</mo><mi>x</mi></math> dominates and
     <math>
-      <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> becomes a large value with the opposite sign of dy. You can analyze this for y becoming very positive, and for each of x and y becoming negative and you get that&nbsp;
+      <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> becomes a large value with the opposite sign of dy. You can analyze this for y becoming very positive, and for each of x and y becoming negative and you get that
     <math>
       <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> is positive on one side of the line and negative on the other.<br>
     <hr style="width: 100%; height: 2px; margin-left: 40px;">
-    <div style="margin-left: 40px;">Note: since&nbsp;
+    <div style="margin-left: 40px;">Note: since
       <math>
-        <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> then&nbsp;
+        <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> then
       <math>
-        <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> so there is an arbitrariness in what the sign of&nbsp;
+        <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> so there is an arbitrariness in what the sign of
       <math>
         <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> means. However what isn't arbitrary is that the sign is different on opposite sides of the curve. </div>
-    <div style="margin-left: 40px;">The choice of&nbsp;
+    <div style="margin-left: 40px;">The choice of
       <math>
-        <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> or&nbsp;
+        <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> or
       <math>
         <mo>-</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> for the formula determines the direction in which the algorithm will crawl along the curve, but not the pixels that will be lit up.<br>
     </div>
-    <hr style="width: 100%; height: 2px; margin-left: 40px;"> For a circle the sign of&nbsp;
+    <hr style="width: 100%; height: 2px; margin-left: 40px;"> For a circle the sign of
     <math>
       <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> will be one value inside the circle, the other outside.<br>
     <br>
@@ -175,7 +175,7 @@
                   </li>
                 </ol>
               </li>
-              <li>else if&nbsp;
+              <li>else if
                 <math>
                   <msub><mi>f</mi><mrow><mo>+</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></math>
                 <ol>
@@ -198,7 +198,7 @@
                       <mi>y</mi><mo>+</mo></math> ½)</li>
                 </ol>
               </li>
-              <li>else if&nbsp;
+              <li>else if
                 <math>
                   <msub><mi>f</mi><mrow><mo>-</mo><mo>,</mo><mo>+</mo></mrow></msub><mo>&lt;</mo><mn>0</mn></math>
                 <ol>
@@ -285,7 +285,8 @@
               <mi>y</mi><mo>+</mo></math> ½)
             <math>
               <mo>-</mo><mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> </td>
-          <td> ½&nbsp;<math><mo></mo><mrow><mo>(</mo><mrow><mi><em>d</em>x</mi></mrow><mo>-</mo><mrow><mi><em>d</em>y</mi></mrow></mrow></math>)</td>
+          <td> ½
+            <math><mo></mo><mrow><mo>(</mo><mrow><mi><em>d</em>x</mi></mrow><mo>-</mo><mrow><mi><em>d</em>y</mi></mrow></mrow></math>)</td>
           <td>
             <math>
               <mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></math> ½</td>
@@ -376,9 +377,9 @@
       <div style="margin-left: 40px;"> For lines the initial value's ½ multiplier requires a bit below the 2<sup>0</sup> bit for exact representation. Since we are otherwise doing integer math we drop the fractional bit generating a round-off error that is constant, i.e. the same for all values of F(). If the dropped bit is a 0 then F() values are exact, if not then a computed value of zero really should be
         <math>
           <mo>\B1</mo></math> ½ and therefore is actually either positive or negative. Ignoring it sure is an easy way to deal with it :) <br>
-        Or, since&nbsp;
+        Or, since
         <math>
-          <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> then&nbsp;
+          <mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><mn>0</mn></math> then
         <math>
           <mn>2</mn><mo>?</mo><mi>F</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow></math> also equals 0, the dy and dx above can be replaced with 2* their values and the ½ we are worrying over becomes -1,0 or 1 and now you can do a perfect line draw with diagonal steps.<br>
         <br>
@@ -389,14 +390,14 @@
     <br>
     In the case of the circle one could optimize per quadrant, but then one would have to detect or predict the quadrant crossings to change which corner one guides along.<br>
     <br>
-    There is an important optimization for the circle and that is to maintain separate x,y pairs for drawing a pixel and for computing which way to step. (Some graphics systems have a cursor with increment and decrement operations, which internally maintains the screen x,y value so you don't have to.)&nbsp; <br>
+    There is an important optimization for the circle and that is to maintain separate x,y pairs for drawing a pixel and for computing which way to step. (Some graphics systems have a cursor with increment and decrement operations, which internally maintains the screen x,y value so you don't have to.) <br>
     Let x':=x-xc and y':=y-yc and you remove one addition per loop iteration. The second advantage of this is that x'=0 or y'=0 at a quadrant boundary, making the quadrant optimized algorithm really damn simple, in fact identical to the quadrant optimized line draw except for the value used in the incremental computation of F(). If you want to optimize per octant then you have to compare or predict when the sign of |y'|-|x'| changes to detect the octant boundaries. That compare probably takes the same amount of time as not even optimizing for the quadrant, and the quadrant change detect is only a tiny bit faster than ignoring which quadrant you are in. Only when you can predict how many iterations are required to get to a quadrant or octant bound are you likely to gain a benefit from those operations.<br>
     <br>
     <hr style="width: 100%; height: 2px;">
     <h3>Comparison to Bresenham</h3>
     Bresenham's derivation had no relation to the above, but results in a nearly identical algorithm. <br>
     <br>
-    For the line Bresenham added the optimization of comparing the magnitudes of dy and dx to identify which octant the line lies in. Knowing which octant you are drawing in lets you always step one coordinate and conditionally step the other, occasionally drawing two pixels in one step of the loop. One of the dx or dy from the btb algorithm is replaced by |(|dx|-|dy|)| and then steps are computed with the same number of instructions per iteration as btb. The number of&nbsp; iterations becomes max(|dy|,|dx|) versus |dy|+|dx| for btb.<br>
+    For the line Bresenham added the optimization of comparing the magnitudes of dy and dx to identify which octant the line lies in. Knowing which octant you are drawing in lets you always step one coordinate and conditionally step the other, occasionally drawing two pixels in one step of the loop. One of the dx or dy from the btb algorithm is replaced by |(|dx|-|dy|)| and then steps are computed with the same number of instructions per iteration as btb. The number of iterations becomes max(|dy|,|dx|) versus |dy|+|dx| for btb.<br>
     <br>
     For the circle Bresenham's math generates an artifact of a constant term which by the time you have stepped an octant has accumulated a pixel's worth of error. The btb algorithm takes the same or less computations per step, and doesn't require first figuring out which octant you are in so that you can reset the accumulating error. Number of iterations is identical.<br>
     <br>
@@ -413,12 +414,17 @@
           </td>
           <td>
             <math>
-              <msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></math>&nbsp;</td>
+              <msup><mrow><mo>(</mo><mi>y</mi><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow>
+                <mn>2</mn></msup>
+              <mo>+</mo>
+              <msup><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></math> </td>
           <td>=<br>
           </td>
           <td>
             <math>
-              <msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></math></td>
+              <msup><mrow><mo>(</mo><msub><mi>y</mi><mi>r</mi></msub><mo>-</mo><msub><mi>y</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup>
+              <mo>+</mo>
+              <msup><mrow><mo>(</mo><msub><mi>x</mi><mi>r</mi></msub><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></math></td>
           <td><br>
           </td>
           <td>defining equation<br>
@@ -427,15 +433,23 @@
         <tr>
           <td><br>
           </td>
-          <td>&nbsp;&nbsp;
+          <td>
             <math>
-              <msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>?</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>?</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math><br>
+              <msup><mi>y</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>y</mi><mo>·</mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow>
+              <mo>+</mo>
+              <msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mi>x</mi><mo>·</mo><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math><br>
           </td>
           <td>=<br>
           </td>
           <td>
             <math>
-              <mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>x</mi><mi>r</mi></msub><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math></td>
+              <mrow><msubsup><mi>y</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn><msub><mi>y</mi><mi>r</mi></msub><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mrow><msubsup><mi>y</mi><mi>c</mi><mn>2</mn></msubsup></mrow>
+              <mo>+</mo>
+              <mrow><msubsup><mi>x</mi><mi>r</mi><mn>2</mn></msubsup></mrow><mo>-</mo><mn>2</mn>
+              <msub><mi>x</mi><mi>r</mi></msub>
+              <msub><mi>x</mi><mi>c</mi></msub>
+              <mo>+</mo>
+              <mrow><msubsup><mi>x</mi><mi>c</mi><mn>2</mn></msubsup></mrow></math></td>
           <td><br>
           </td>
           <td>expand the squares<br>
@@ -488,7 +502,7 @@
       </tbody>
     </table>
     <br>
-    Initialization calculation for circle,&nbsp;
+    Initialization calculation for circle,
     <math>
       <mi>G</mi><mrow><mo>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo>
       <msup><mi>y</mi><mn>2</mn></msup><mo>+</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>+</mo><mi>x</mi><mo></mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math> <br>
@@ -502,7 +516,7 @@
               <msup><mrow><mo>(</mo><mi>y</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup>
               <mo>+</mo>
               <msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup>
-              <mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow>&nbsp;</math><math><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½
+              <mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>y</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow> </math><math><mo></mo><msub><mi>y</mi><mi>c</mi></msub><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo></mrow></math> ½
             <math>
               <mo>)</mo><mo></mo><msub><mi>x</mi><mi>c</mi></msub></math> </td>
           <td>corner of cell<br>
@@ -564,7 +578,8 @@
           <td>=</td>
           <td>
             <math>
-              <msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo> </mrow><msub><mi>x</mi><mi>c</mi></msub></math> + y-terms of G(x,y)</td>
+              <msup><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo></mrow><mn>2</mn></msup><mo>-</mo><mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mn>½</mn><mo>)</mo> </mrow><msub><mi>x</mi><mi>c</mi></msub></math> </td>
+          <td>+ y-terms of G(x,y) </td>
           <td><br>
           </td>
         </tr>
@@ -576,7 +591,8 @@
             <math>
               <msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mn></mn><mi>x</mi><mo>+</mo><mn></mn></math>
             <math>
-              <mn>½</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>x</mi></msub><mo>-</mo><mn></mn><msub><mi>x</mi><mi>c</mi></msub></math> + y-terms of G(x,y)</td>
+              <mn>½</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>x</mi></msub><mo>-</mo><mn></mn><msub><mi>x</mi><mn>c</mn></msub></math></td>
+          <td>+ y-terms of G(x,y)</td>
           <td><br>
           </td>
         </tr>
@@ -586,7 +602,8 @@
           <td>=</td>
           <td>
             <math>
-              <mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn></mn></math>½ + x-terms of G(x,y) + y-terms of G(x,y)</td>
+              <mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo><mn></mn></math>½ + x-terms of G(x,y) </td>
+          <td>+ y-terms of G(x,y)</td>
           <td><br>
           </td>
         </tr>
@@ -598,7 +615,8 @@
             <math>
               <msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><mi>x</mi><mo>+</mo><mn></mn></math>
             <math>
-              <mn>½</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>c</mi></msub></math> </td>
+              <mn>½</mn><mo>-</mo><mn>2</mn><mi>x</mi><msub><mi>x</mi><mi>c</mi></msub><mo>+</mo><msub><mi>x</mi><mi>c&nbsp;&nbsp;</mi></msub></math></td>
+          <td>+ y-terms of G(x,y)</td>
           <td><br>
           </td>
         </tr>
@@ -608,16 +626,19 @@
           <td>=</td>
           <td>
             <math>
-              <mo>-</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></math> ½ <mi></mi><mo></mo><msub><mi></mi><mi></mi></msub><mo></mo><mo></mo> + x-terms of G(x,y) + y-terms of G(x,y)</td>
+              <mo>-</mo><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow><mo>+</mo></math> ½ <mi></mi><mo></mo><msub><mi></mi><mi></mi></msub><mo></mo><mo></mo> + x-terms of G(x,y) </td>
+          <td>+ y-terms of G(x,y) </td>
           <td><br>
           </td>
         </tr>
         <tr>
-          <td>G(x +½, y)-G(x-½,y)</td>
+          <td>G(x +½, y) - G(x-½,y)</td>
           <td>=</td>
           <td>
             <math>
               <mn>2</mn><mrow><mo>(</mo><mi>x</mi><mo>-</mo><msub><mi>x</mi><mi>c</mi></msub><mo>)</mo></mrow></math></td>
+          <td><br>
+          </td>
           <td><br>
           </td>
         </tr>
@@ -629,6 +650,5 @@
     <br>
     <hr style="width: 100%; height: 2px;">(C) Andy Heilveil 2009 (this document, not the algorithm)<br>
     <br>
-    
   </body>
 </html>
