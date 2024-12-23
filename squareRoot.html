@@ -19,39 +19,127 @@
     We work from the most significant bit downward, guessing and testing. <br>
     We subtract the square of the guess from the number leaving a remainder.<br>
     <br>
-    Remainder<sub>k</sub> = given number - (guess<sub>k</sub>)<sup>2</sup><br>
+    Remainder<sub>k</sub> = given number - (guess<sub>k</sub>)<sup>2</sup> for k=number of bits in answer downto 0.<br>
     <br>
     From now on I shall write that: <br>
     R<sub>k</sub> = given - G<sub>k</sub><sup>2</sup><br>
     <br>
-    G<sub>k-1</sub> = G<sub>k</sub>+2<sup>k-1</sup>&nbsp;&nbsp; <br>
-    G<sub>k-1</sub><sup>2</sup> = G<sub>k</sub><sup>2</sup>+ 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup> = G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2<br>
-      <br>
-    </sup> R<sub>k-1</sub> = given - G<sub>k-1</sub><sup>2<br>
-    </sup>R<sub>k-1</sub> = given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup> ) <br>
-    R<sub>k-1</sub> = given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup> <br>
-    R<sub>k-1</sub> = R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup><br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>G<sub>k-1</sub></td>
+          <td>=</td>
+          <td> G<sub>k</sub>+2<sup>k-1</sup>&nbsp; </td>
+          <td>guess that the next bit is a 1</td>
+        </tr>
+        <tr>
+          <td>G<sub>k-1</sub>2</td>
+          <td>=</td>
+          <td>G<sub>k</sub><sup>2</sup>+ 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup> </td>
+          <td>square the guess</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup></td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>k-1</sub> </td>
+          <td>=</td>
+          <td>given - G<sub>k-1</sub>2</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>k-1</sub> </td>
+          <td>=</td>
+          <td>given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup> ) </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>k-1</sub> </td>
+          <td>=</td>
+          <td>given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup></td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>k-1</sub> </td>
+          <td>=</td>
+          <td>R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup></td>
+          <td>compute relative to prior step</td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    If that is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub> should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>. <br>
+    <br>
+    If R<sub>k-1</sub> is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub> should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>. <br>
     Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we just computed.<br>
+    <br>
+    <br>
     If we don't have a place to keep the old values (FPGA or trying to stick with minimal number of CPU registers) we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp; </sup>excess removed with subtracting the next test value:<br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)<br>
     <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4<br>
-      <br>
-    </sup><br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub> - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup>) <br>
-    <br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>) + 3*(2<sup>2k-4</sup>) <br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub> + 3*(2<sup>2k-4</sup>) <br>
-    <br>
-    Compare that to what we would have done if we had restored/not updated G<sub>k-1</sub>,R<sub>k-1</sub>:<br>
-    <br>
-    R<sub>k-2</sub> = R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> - 2<sup>2k-4</sup><br>
-    <br>
-    and we see that we are adding the Gk term instead of subtracting it and adding 3 * the "new bit" term instead of subtracting it.<br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>R<sub>k-2</sub></td>
+          <td>=</td>
+          <td>R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4</sup><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td> R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub> - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup>) </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>) + 3*(2<sup>2k-4</sup>) </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td> R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub> + 3*(2<sup>2k-4</sup>) </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"> Compare that to what we would have done if we had restored/not updated G<sub>k-1</sub> and R<sub>k-1</sub>:</td>
+        </tr>
+        <tr>
+          <td>R<sub>k-2</sub> </td>
+          <td>=</td>
+          <td>R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub> - 2<sup>2k-4</sup></td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4"> and we see that we are adding the Gk term instead of subtracting it and adding 3 * the "new bit" term instead of subtracting it.</td>
+        </tr>
+      </tbody>
+    </table>
     <br>
     Using accumulator symbology:<br>
     <br>
@@ -69,11 +157,11 @@
     <br>
     if prior 1<br>
     &nbsp;&nbsp;&nbsp; G|=bit<br>
-    &nbsp;&nbsp;&nbsp; G&gt;&gt;=1<br>
-    bit&gt;&gt;=1<br>
+    &nbsp;&nbsp;&nbsp; G&gt;&gt;=1 (2<sup>k</sup> goes to 2<sup>k-1</sup>)<br>
+    bit&gt;&gt;=1&nbsp;&nbsp;&nbsp; (2<sup>2k-3</sup>)<br>
     if prior 0<br>
-    &nbsp;&nbsp;&nbsp; R-=bit<br>
-    bit &gt;&gt;=1<br>
+    &nbsp;&nbsp;&nbsp; R+=bit&nbsp; (2*2<sup>2k-4</sup> term)<br>
+    bit &gt;&gt;=1&nbsp; (2<sup>2k-4</sup>)<br>
     if bit==0, done. For some processors we can shift into the carry bit and jump out of loop on carry==1<br>
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R+=bit<br>
@@ -130,7 +218,7 @@
     Until we have seen the first 1 bit the loop can be shorter:<br>
     <br>
     init R=given<br>
-    init bit= 1&lt;&lt; number of bits -2<br>
+    init bit= 1&lt;&lt; (number of bits -2)<br>
     <br>
     <br>
     R -= bit<br>
@@ -156,7 +244,41 @@
     bit&gt;&gt;=2<br>
     <br>
     proceed with loop as per prior sections.<br>
-    <hr><br>
+    <hr>(From work done in 1982:)<br>
+    <br>
+    The square root of a floating point number has an exponent half of the given, and the mantissa is the root of the mantissa of the given, with a correction for odd exponents.<br>
+    If the exponent is odd we multiple the mantissa by 2 before taking its root.<br>
+    For base 2 floating point (IEEE754) the mantissa represents a number between 1.0 and just under 2.0. The msb is always a 1 and so is often not allocated any physical presence.<br>
+    <br>
+    When we have an odd given exponent the "times 2" that deals with what would be a 1/2 in the exponent is implemented by shifting the mantissa up one bit.<br>
+    <br>
+    After such a correction the mantissa is then a number between 1.0 and just under 4.0.<br>
+    The root of that is a number between 1.0 and just under 2.0. As such the first bit of the mantissa is always a 1, and all is copacetic with not bothering to allocate a physical presence for it.<br>
+    <br>
+    The remainder is then the first two bits of the given mantissa -1 and might be greater than 2 but is less than 3.<br>
+    3-1 or 2-1 = 2 or 1&nbsp; = 1+msb <br>
+    &nbsp; or&nbsp;&nbsp;&nbsp;&nbsp; 1-1 =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0<br>
+    <br>
+    So if exponent odd&nbsp; remainder = 1+ msb which is picked up by shifting into carry and doing 1+0+carry.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp; if exponent even remainder = 0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br>
+    <br>
+    Each bit guessed uses 2 more bits of the given and 1 more bit of growing root. <br>
+    we subtract (2*previous root + 1)<br>
+    ...<br>
+    <br>
+    <br>
+    If we are taking the root of a sum of squares then it is nice to use twice the bit width of the numbers being squared for the intermediate calculation, else we lose a lot of range.<br>
+    <br>
+    In that case we can run the algorithm quite a bit differently. One thing you may note when watching the values in the loops is that the least significant bits of the remainder don't change until you get near the last iterations. As such they don't need to be in the accumulator.<br>
+    <br>
+    The remainder of each cycle is at most 2*root, if it were 2*root+1 we would have increased the root by one more and the remainder would be 0.<br>
+    Since we are guessing the bits from ms to ls the guess for bit k has only N-K bits potentially nonzero.<br>
+    <br>
+    We shall position the values such that <br>
+    <br>
+    <br>
+    Doing the restoring case first:<br>
+    We position the bit being tested<br>
     <br>
     <br>
   </body>
