@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
     <title>square root</title>
   </head>
   <body>
     <h2>Binary square root, optimal sequential implementation</h2>
-    The integer part of the square root of a given number is the number such that
+    The integer part of the square root of a given number is the number
+    such that
     <math>
       <msqrt>
         <mn>root</mn> </msqrt> </math>*
     <math>
       <msqrt>
         <mn>root</mn> </msqrt> </math> + remainder =given. <br>
-    When the multiply operation is expensive (simple microcontroller or FPGA) one can compute the root one bit at a time with only a few additions and shifts per bit.<br>
-    <br>
-    <br>
-    We work from the most significant bit downward, guessing and testing. <br>
-    We subtract the square of the guess from the number leaving a remainder.<br>
+    When the multiply operation is expensive (simple microcontroller or
+    FPGA) one can compute the root one bit at a time with only a few
+    additions and shifts per bit.<br>
+    <hr width="100%" size="2"><br>
+    We work from the most significant bit downward, guessing and
+    testing. <br>
+    We subtract the square of the guess from the number leaving a
+    remainder.<br>
     <br>
     Remainder<sub>k</sub> = given number - (guess<sub>k</sub>)<sup>2</sup> for k=number of bits in answer downto 0.<br>
     <br>
+<!--  HEAD -->
     From now on I shall write that: <br>
     R<sub>k</sub> = given - G<sub>k</sub><sup>2</sup><br>
     <br>
@@ -72,10 +78,71 @@
           <td>=</td>
           <td>R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup></td>
           <td>compute relative to prior step</td>
+<!-- ======= -->
+    From now on I shall abbreviate that as: <br>
+    R<sub>k</sub> = given - G<sub>k</sub><sup>2<br>
+      <br>
+    </sup>
+    <table cellspacing="2" cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td valign="top">G<sub>k-1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> G<sub>k </sub>+ 2<sup>k-1</sup><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">G<sub>k-1</sub><sup>2</sup> <sup><br>
+            </sup></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">G<sub>k</sub><sup>2</sup> + 2*2<sup>k-1</sup>*G<sub>k</sub>+2<sup>2(k-1)</sup>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">&nbsp;G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">given - G<sub>k-1</sub>2 </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">given - (G<sub>k</sub><sup>2</sup>+ 2<sup>k</sup>*G<sub>k</sub>+2<sup>2k-2</sup>
+            ) </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> given - G<sub>k</sub><sup>2</sup> - 2<sup>k</sup>*G<sub>k</sub>
+            - 2<sup>2k-2</sup> </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k</sub> - (2<sup>k</sup>*G<sub>k</sub>
+            + 2<sup>2k-2</sup> ) </td>
+<!-- >>>>>>> 5b753036ba9e4e808682fec19243690252b6c606 -->
         </tr>
       </tbody>
     </table>
     <br>
+<!-- <<<<<< HEAD -->
     <br>
     If R<sub>k-1</sub> is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub> should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>. <br>
     Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we just computed.<br>
@@ -137,6 +204,100 @@
         </tr>
         <tr>
           <td colspan="4"> and we see that we are adding the Gk term instead of subtracting it and adding 3 * the "new bit" term instead of subtracting it.</td>
+<!-- ======= -->
+    If that is negative then the k-1 bit should be a zero, not a 1, G<sub>k-1</sub>
+    should be G<sub>k</sub>&nbsp; and R<sub>k-1</sub> should be R<sub>k</sub>.
+    <br>
+    Else we keep the R<sub>k-1</sub> value and G<sub>k-1</sub> values we
+    just computed.<br>
+    <hr width="100%" size="2"><br>
+    <table cellspacing="2" cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td rowspan="1" colspan="4" valign="top"> If we don't have a
+            place to keep the old values (FPGA or trying to stick with
+            minimal number of CPU registers) <br>
+            we can combine restoring the 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2&nbsp;
+
+
+            </sup>excess removed with subtracting the next test value:</td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-2</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> + (2<sup>k</sup>*G<sub>k</sub>
+            + 2<sup>2k-2</sup> ) - (2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> - 2<sup>k-1</sup>*G<sub>k</sub>
+            + 2<sup>k</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; -
+            22k-4</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub>
+            - 2*2<sup>k-1</sup>*G<sub>k</sub>) + (4*<sup>2k-4</sup>&nbsp;
+
+
+
+
+            - 2<sup>2k-4</sup>) </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub> - (-2<sup>k-1</sup>*G<sub>k</sub>)
+            + 3*(2<sup>2k-4</sup>) <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> R<sub>k-1</sub>&nbsp; +-2<sup>k-1</sup>*G<sub>k</sub>
+            + 3*(2<sup>2k-4</sup>) <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="4" valign="top">Compare that to what
+            we would have done if we had restored/not updated G<sub>k-1</sub>,R<sub>k-1</sub>:</td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>k-2</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">R<sub>k-1</sub> - (2<sup>k-1</sup>*G<sub>k</sub>
+            + 2<sup>2k-4</sup> )<sup><br>
+            </sup></td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" valign="top"> and we see that we are adding
+            the Gk term instead of subtracting it and adding 3 * the
+            "new bit" term instead of subtracting it.</td>
+<!-- >>>>>>> 5b753036ba9e4e808682fec19243690252b6c606 -->
         </tr>
       </tbody>
     </table>
@@ -145,12 +306,33 @@
     <br>
     if last bit was a one:<br>
     <br>
-    R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4&nbsp;&nbsp; </sup><br>
+    R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4&nbsp;&nbsp;
+
+
+
+
+
+
+    </sup><br>
     <br>
     if last bit was a zero:<br>
     <br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 3*2<sup>2k-4</sup>&nbsp;&nbsp; or<br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp; + 2*2<sup>2k-4</sup>&nbsp;&nbsp; <br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 3*2<sup>2k-4</sup>&nbsp;&nbsp;
+
+
+
+
+
+
+    or<br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>&nbsp;
+
+
+
+
+
+
+    + 2*2<sup>2k-4</sup>&nbsp;&nbsp; <br>
     <br>
     Now if we are writing assembly language the "bit was a one/zero" is the sign bit of the previous add or subtract.<br>
     If we are using a bit in a word for both our bit counter and bit setter then the extra 2*2<sup>2k-4 </sup>term is produced by the first of two shifts that are producing the 2<sup>2k</sup> series and therefore:<br>
@@ -160,9 +342,16 @@
     &nbsp;&nbsp;&nbsp; G&gt;&gt;=1 (2<sup>k</sup> goes to 2<sup>k-1</sup>)<br>
     bit&gt;&gt;=1&nbsp;&nbsp;&nbsp; (2<sup>2k-3</sup>)<br>
     if prior 0<br>
+<!-- <<<<<<< HEAD -->
     &nbsp;&nbsp;&nbsp; R+=bit&nbsp; (2*2<sup>2k-4</sup> term)<br>
     bit &gt;&gt;=1&nbsp; (2<sup>2k-4</sup>)<br>
     if bit==0, done. For some processors we can shift into the carry bit and jump out of loop on carry==1<br>
+<!-- ======= -->
+    &nbsp;&nbsp;&nbsp; R-=bit<br>
+    bit &gt;&gt;=1<br>
+    if bit==0, done. For some processors we can shift into the carry bit
+    and jump out of loop on carry==1<br>
+<!-- >>>>>>> 5b753036ba9e4e808682fec19243690252b6c606 -->
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R+=bit<br>
     &nbsp;&nbsp;&nbsp; R+=G<br>
@@ -175,8 +364,22 @@
     If your processor has a "shift by 2" in one instruction:<br>
     <br>
     The "prior was even" equation can also be written:<br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 4*2<sup>2k-4</sup>&nbsp; - 2<sup>2k-4</sup><br>
-    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp; - 2<sup>2k-4</sup><br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 4*2<sup>2k-4</sup>&nbsp;
+
+
+
+
+
+
+    - 2<sup>2k-4</sup><br>
+    R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>&nbsp;
+
+
+
+
+
+
+    - 2<sup>2k-4</sup><br>
     <br>
     <br>
     if prior 1<br>
@@ -189,14 +392,16 @@
     &nbsp;&nbsp;&nbsp; R-=G<br>
     bit&gt;&gt;=2<br>
     if bit !=0 <br>
-    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior
+    odd"<br>
     &nbsp;&nbsp;&nbsp; repeat<br>
     (rounding or fixing the remainder)<br>
     &nbsp; <br>
     <hr><br>
     Yet another tweak that should work well in an FPGA:<br>
     <br>
-    was 0: R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup> - 2<sup>2k-4</sup><br>
+    was 0: R<sub>k-2</sub> += 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-2</sup>
+    - 2<sup>2k-4</sup><br>
     was 1: R<sub>k-2</sub> -= 2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup><br>
     was 1: R<sub>k-2</sub> += ~(2<sup>k-1</sup>*G<sub>k</sub> + 2<sup>2k-4</sup>)+1<br>
     <br>
@@ -207,10 +412,12 @@
     if prior 0<br>
     &nbsp;&nbsp;&nbsp; R+=G<br>
     else<br>
-    &nbsp;&nbsp;&nbsp; R+=~G+1, where the +1 is a forced carry (carry in = saved sign).<br>
+    &nbsp;&nbsp;&nbsp; R+=~G+1, where the +1 is a forced carry (carry in
+    = saved sign).<br>
     bit&gt;&gt;=2<br>
     if bit !=0 <br>
-    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior odd"<br>
+    &nbsp;&nbsp;&nbsp; R-=bit, &nbsp;&nbsp;&nbsp; record sign as "prior
+    odd"<br>
     &nbsp;&nbsp;&nbsp; repeat<br>
     (rounding or fixing the remainder)<br>
     <hr>Initial bit:<br>
@@ -236,7 +443,8 @@
     <br>
     R += bit<br>
     if no carry<br>
-    &nbsp;&nbsp; bit&gt;&gt;=2 fyi arithemetic shift, not logical. Prior to now it did not matter as the MSB was init to a 0.<br>
+    &nbsp;&nbsp; bit&gt;&gt;=2 fyi arithemetic shift, not logical. Prior
+    to now it did not matter as the MSB was init to a 0.<br>
     &nbsp;&nbsp; if bit==0 done<br>
     &nbsp;&nbsp;&nbsp; loop<br>
     <br>
@@ -244,6 +452,7 @@
     bit&gt;&gt;=2<br>
     <br>
     proceed with loop as per prior sections.<br>
+<!-- <<<<<<< HEAD -->
     <hr>(From work done in 1982:)<br>
     <br>
     The square root of a floating point number has an exponent half of the given, and the mantissa is the root of the mantissa of the given, with a correction for odd exponents.<br>
@@ -279,7 +488,231 @@
     <br>
     Doing the restoring case first:<br>
     We position the bit being tested<br>
+<!-- ======= -->
+    <hr><br>
+    If you look at those powers of 2 in the Rk equations we note that
+    bits below 2k are irrelevant to the decision. That allows us to
+    iteratively expose new bits of the given rather than carrying them
+    around the whole process as the lsbs of the remainder. The goal here
+    is to get rid of the Gk power of 2 shifting replaced with shifting
+    bits into a quotient while shifting the given into our view.<br>
+<!-- >>>>>>> 5b753036ba9e4e808682fec19243690252b6c606 -->
     <br>
+    So what we will do is maintain the 2k position in the lsb of the
+    accumulator, and each cycle shift the radix point of the operands. <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">after having counted
+            leading zeros and shifting Given that the even value less
+            than or the same as that amount <br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">1:<br>
+          </td>
+          <td valign="top"> R<sub>k</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Given<sub>k</sub> - Q<sub>k</sub><sup>2</sup>
+          </td>
+          <td valign="top">definition of terms<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">2:<br>
+          </td>
+          <td valign="top">R<sub>k+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">Given<sub>k+1</sub>- Q<sub>k+1<sup>2</sup><br>
+            </sub></td>
+          <td valign="top">ditto<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*Given<sub>k</sub> - (2*Qk+1)<sup>2</sup> <br>
+          </td>
+          <td valign="top">shift radix point of Q's,presume the new bit
+            is a 1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*Given<sub>k</sub> - 4Q<sub>k</sub><sup>2</sup>-
+            4Q<sub>k</sub> - 1&nbsp; </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>k</sub> +<sub> </sub><i>new bits<sub>k+1<br>
+              </sub></i>- 4Q<sub>k</sub> - 1</td>
+          <td valign="top">Shift in 2 bits from combined R||Given
+            register pair<br>
+            subtract current quotient value &lt;&lt;2 with forced borrow
+            or shift in 01 to lsbs.<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">If Rk+1 is positive
+            (accumulator borrow out ==&nbsp; 0) then we have our new R<sub>k+1</sub>
+            and Q<sub>k+1</sub> values<br>
+            If not then we need to add the&nbsp; (4Q<sub>k+1</sub> + 1
+            )back in to the R<sub>k+1<br>
+            </sub>OR subtract it out from what we are going to subtract
+            on next cycle<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">3:<br>
+          </td>
+          <td valign="top">R<sub>k+2</sub><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>k+1 </sub>+ <i>new bits<sub>k+2</sub></i>
+            - 4Q<sub>k+1</sub> - 1</td>
+          <td valign="top">add one to each index in eq 2's final step<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2</sub></i>
+            <br>
+            - 4Q<sub>k+1</sub> - 1<br>
+            + 4*(4Q<sub>k</sub> + 1)</td>
+          <td valign="top">bolded wrong value of R<sub>k+1</sub>,
+            needing correction<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2</sub></i>
+            <br>
+            - 4(2*Q<sub>k</sub>) - 1<br>
+            + 16Q<sub>k</sub> + 4<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2
+
+                <br>
+              </sub></i>+8Q<i><sub>k</sub></i> +3<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*<b>R</b><sub>k+1</sub> + <i>new bits<sub>k+2
+
+                <br>
+              </sub></i>+4Q<sub><i>k</i></sub><sub>+1</sub> +3</td>
+          <td valign="top">Shift in 2 bits from combined R||Given
+            register pair<br>
+            add current quotient value &lt;&lt;2 shifting in 11 to lsbs.
+            <br>
+            Alternative shift in 01 and force a carry.<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td rowspan="1" colspan="4" valign="top">So, instead of
+            subtracting 4Q<sub>k</sub>-1 we add 4Q<sub>k</sub>+3<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    On the last cycle, if the remainder is negative we need to correct
+    it by adding the 4Q<sub>k</sub>+1 to get the proper remainder.<br>
+    That 4*Q<sub>k</sub> is actual 2*Q<sub>final</sub><br>
     <br>
   </body>
 </html>

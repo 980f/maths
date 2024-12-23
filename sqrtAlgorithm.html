@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>sqrt algorithm</title>
+    <meta content="Andy Heilveil" name="author">
+  </head>
+  <body> (C) 1992 by Andy Heilveil<br>
+    <br>
+    Derivation of best for hardwiring square root algorithm:<br>
+    <br>
+    This is the algebraic derivation of an algorithm for extracting the square root of a fixed point binary number. It is also quite handy for taking the root of the mantissa of a floating point number. It is very similar to, and just a little bit more complex than the NON-RESTORING binary division algorithm.<br>
+    <br>
+    TERMINOLOGY: The number to be rooted will be referred to as the Square. The answer is the Root. If the square is not a perfect square then there is a Remainder: <br>
+    <br>
+    Square= Root²+Remainder, and Remainder &gt;=0.<br>
+    <br>
+    <br>
+    INPUT CONSTRAINTS: <br>
+    The Square is positive. <br>
+    For each two bits of the Square one bit of Root is created, which forces one to provide an even number of bits to the integer side of the radix point. <br>
+    One may prefix a zero to the string to line up the radix point. <br>
+    Also since the bits of the square are processed in pairs the number of bits trailing the radix point must be even. One may add a trailing zero as necessary to make this true. <br>
+    (FYI: log(X²)=2*log(X) and number of bits = log(X) hence the Square has twice as many bits as the Root).<br>
+    <br>
+    OVERFLOW CONDITIONS: <br>
+    The Root is generated as an unsigned number of half of the bits of the Square. If the Root is desired to fit into a 2's complement format one must treat the Square also as signed which means that the two MSB's of the square must be zero else one overflows the Root.<br>
+    <br>
+    The final Remainder may be as large as 2*Root, this is gotten from Max Remainder=(Root+1)² -Root²-1 =(Root²+2*Root+1)-Root²-1= 2*Root. This is one bit more than the Root itself.<br>
+    <br>
+    During the cycling of the algorithm there is a provisional Remainder which is signed and hence takes a bit for that in addition to needing one more than the root. This means that the width of the ALU (arithmetic logic unit) used in the algorithm can constrain the range of the Root and Remainder.<br>
+    <br>
+    TRICKS USED/USEFUL ALGEBRA:<br>
+    <br>
+    -X = ~X+1 or ~X= -X-1<br>
+    <br>
+    where ~X is the one's complement also known as the boolean inverse. In words this says that the negative of a number may be gotten by replacing all the ones with zeroes and vice versa (the inverse) then adding one.<br>
+    <br>
+    * means multiply:<br>
+    4*X= X shifted left two places.<br>
+    2*X= X shifted left one place.<br>
+    (2*X +1)²= (2*X)² +2*(2*X) +1²=4*X² +4*X +1<br>
+    0²=0 and 1²=1 so bit²=bit<br>
+    <br>
+    MOST CONFUSING PART OF ALGORITHM: <br>
+    This is an iterative algorithm. It generates the answer from MSB to LSB, one bit per cycle. <br>
+    To eliminate tracking powers of two throughout the derivation I scale the numbers so that the bit about to be generated is the LSB of the Root at this stage. <br>
+    Each cycle rescales the Square and the Root to keep this true.<br>
+    <br>
+    Let Q<sub>n</sub> mean Root at cycle n. (we need R for the remainder, and this algorithm is a variation of division, where this is the Quotient)<br>
+    We manipulate the data being processed so that Q<sub>n+1</sub>= 2*Q<sub>n</sub>+new LSB. In hardware this is simply shifting new bits into the LSB of the result register. <br>
+    Since the bits for cycles n+2 and beyond are not yet relevant we treat Q<sub>n</sub> as an integer.&nbsp; <br>
+    Likewise I need only consider those bits of Square which can be affected by the new LSB of Root. <br>
+    Hence I define S<sub>n</sub> to be those bits of Square which are relevant at this cycle, scaled by some power of two that correlates to the scaling of Q<sub>n</sub>.<br>
+    <br>
+    If I increase the scale of the Root by 2 then I must increase the scale of the Square by 2² which is 4. This is the same in binary as shifting left two places, expressed arithmetically as:<br>
+    <br>
+    Q<sub>n+1</sub>= 2*Q<sub>n</sub>+bit, where bit is short for 'new LSB'.<br>
+    S<sub>n+1</sub>= 4*S<sub>n</sub>+ sqbits, where sqbits are the two new bits relevant for cycle n+1. sqbits ranges from 0 to 3.<br>
+    R<sub>n</sub> is the remainder, = S<sub>n</sub>-Q<sub>n</sub><sup>2</sup>.<br>
+    <br>
+    THE ALGEBRA BEHIND THE ALGORITHM:<br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">S<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">(2*Q<sub>n</sub> + bit<sub>n+1</sub>)²+R<sub>n+1</sub></td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>n</sub>² +4*R<sub>n</sub>*bit<sub>n+1</sub>+ bit<sub>n+1</sub>² +R<sub>n+1</sub></td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*S<sub>n</sub>+4*Q<sub>n</sub>*bit<sub>n+1</sub> + bit<sub>n+1</sub>² +R<sub>n+1</sub></td>
+        </tr>
+      </tbody>
+    </table>
+    Rearranging the equations and for clarity leaving off the (n+1) index from bit<sub>n+1</sub> and sqbits<sub>n+1</sub> gives:<br>
+    <br>
+    Iterative formula for remainder:<br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top">R<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">S<sub>n+1</sub> - Q<sub>n+1</sub>²</td>
+          <td valign="top">(by definition)</td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">4*S<sub>n</sub> + sqbits - 4*Q<sub>n</sub>² - 4*Q<sub>n</sub>*bit - bit²</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"> 4*S<sub>n</sub> - 4*Q<sub>n</sub>² + sqbits - 4*Q<sub>n</sub>*bit - bit²</td>
+          <td valign="top">rearrange<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"> 4*(S<sub>n</sub>-Q<sub>n</sub>²) + sqbits - 4*Q<sub>n</sub>*bit - bit²</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">4*R<sub>n</sub> - 4*Q<sub>n</sub>*bit + sqbits - bit</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"> 4*(R<sub>n</sub> -Q<sub>n</sub>*bit) + (sqbits -bit)</td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    &nbsp; <br>
+    Notice we have gotten rid of the squaring operation by taking advantage of the previous cycle's results! <br>
+    If we interpret Q<sub>0</sub> as the Root with no bits then S<sub>0</sub> also has no bits hence R<sub>0</sub>=0. <br>
+    With this in hand we see that we never need to square anything during the&nbsp; algorithm. That's nice.<br>
+    <br>
+    Now we must ask: what is the correct value of bit? <br>
+    Being an ignorant slob I shall try puttin' a one into the equation and then see if the
+    remainder that results is negative or not. <br>
+    If it is negative then since R<sub>final</sub> is supposed to be &gt;=0 we are in error and bit is actually 0. <br>
+    <br>
+    Time for more algebra:<br>
+    <br>
+    <table width="100%" border="1">
+      <tbody>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>T<sub>n+1</sub></td>
+          <td>=</td>
+          <td>&nbsp;4*(R<sub>n</sub> - Q<sub>n</sub>) + (sqbits -1)</td>
+          <td> T<sub>n</sub> is R<sub>n</sub> with bit presumed to be 1</td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="4">If T<sub>n+1</sub> is &gt;=0 then</td>
+        </tr>
+        <tr>
+          <td>Q<sub>n+1</sub></td>
+          <td>=</td>
+          <td>&nbsp;2*Q<sub>n</sub> + 1</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>n+1</sub></td>
+          <td>=</td>
+          <td>T<sub>n+1</sub>.</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="4"> else</td>
+        </tr>
+        <tr>
+          <td>Q<sub>n+1</sub></td>
+          <td>=</td>
+          <td>2*Q<sub>n</sub> + 0</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>n+1</sub></td>
+          <td>=</td>
+          <td>&nbsp;4*R<sub>n</sub></td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    We could stop here and write a pretty simple algorithm.<br>
+    It would go like:<br>
+    (Initialize)<br>
+    For the number of bits in root:<br>
+    <div style="margin-left: 40px;">test=rem-answer<br>
+      shift test up two places sucking in bits from the square<br>
+      test=test-1<br>
+      answer=answer shifted up one place with the COMPLEMENT of the sign bit shifted in the LS end.<br>
+      if test&gt;=0 then<br>
+      &nbsp;&nbsp;&nbsp; rem= test. <br>
+      else <br>
+      &nbsp;&nbsp;&nbsp; rem= rem shifted up two places, bringing in bits from square</div>
+    loop for next bits<br>
+    (Finish up)<br>
+    <br>
+    Well that seems pretty good until you get to the "rem=rem shifted...". That would require that we store this last rem value (perhaps already shifted) somewhere and take the time to check and if necessary use it instead of the otherwise useful "test". <br>
+    <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td rowspan="1" colspan="3" valign="top">Time for some more algebra:</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">T<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(R<sub>n</sub> -Q<sub>n</sub>) + sqbits -1</td>
+          <td>definition of T</td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="4" valign="top">if T is&nbsp; negative, bit=0 and</td>
+        </tr>
+        <tr>
+          <td valign="top">R<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*R<sub>n</sub> + sqbits </td>
+          <td>definition</td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">T<sub>n+1</sub> +4*Q<sub>n</sub> + 1 </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">T<sub>n+1</sub> +2*Q<sub>n+1</sub> + 1</td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    This by itself is a minor improvement. Instead of recovering a saved rem and having to shift it etc. we could add in twice the newly created answer, and add one.<br>
+    <br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td rowspan="1" colspan="5" valign="top">Let us summarize the possibilities for Rem(n) in terms of Test(n) and bit(n):</td>
+        </tr>
+        <tr>
+          <td valign="top">bit(n)=1<br>
+          </td>
+          <td valign="top">:<br>
+          </td>
+          <td valign="top">R<sub>n</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">T<sub>n</sub></td>
+        </tr>
+        <tr>
+          <td valign="top">bit(n)=0</td>
+          <td valign="top">:<br>
+          </td>
+          <td valign="top"> R<sub>n</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">T<sub>n</sub> + 2*Q<sub>n</sub>+1</td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="5" valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">Calculate new</td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">T<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top"> 4*(R<sub>n</sub> - Q<sub>n</sub>) + sqbits -1</td>
+        </tr>
+        <tr>
+          <td valign="top">bit(n)=1</td>
+          <td valign="top">:<br>
+          </td>
+          <td valign="top"> T<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> - Q<sub>n</sub>) + sqbits -1</td>
+        </tr>
+        <tr>
+          <td valign="top">bit(n)=0</td>
+          <td valign="top">:<br>
+          </td>
+          <td valign="top">T<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n </sub>+ 2*Q<sub>n</sub> + 1 - Q<sub>n</sub>)&nbsp; + sqbits -1 </td>
+        </tr>
+        <tr>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +1 + Q<sub>n</sub>) + sqbits -1<br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>4*(T<sub>n</sub>+Q<sub>n</sub>) + sqbits + 3</td>
+        </tr>
+      </tbody>
+    </table>
+    Not much difference now. If we let the previous cycle's result bit control this cycle's operation between Test() and Root() then we don't have to keep around a spare copy of something like Rem and we don't have to take time to add 2*something+1, we can defer that to the next cycle. Onward to the finale.<br>
+    <br>
+    NEAT TRICK:<br>
+    <table cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>bit(n)=0:</td>
+          <td valign="top">T<sub>n+1</sub> </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> + Q<sub>n</sub>) + sqbits + 3</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td> bit(n)=1:</td>
+          <td valign="top">T<sub>n+1</sub></td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> - Q<sub>n</sub>) + sqbits -1<br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> - Q<sub>n</sub>-1) + sqbits -1+ 4</td>
+          <td>stuck a-1 inside the 4*() and a compensating + 4 outside</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> - Q<sub>n </sub>- 1) + sqbits + 3</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top">=<br>
+          </td>
+          <td valign="top">4*(T<sub>n</sub> + ~Q<sub>n</sub>) + sqbits + 3</td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    The difference is reduced to conditionally complementing the Root from the previous cycle. <br>
+    The condition is the lsb of the Q<sub>n</sub> tracker, but also likely to be lingering in an ALU status register.<br>
+    All operations are addition which may simplify direct hardware implementation. <br>
+    A useful fact is that if bit(n)=0 then the lsb of the +Root(n) term is zero, if bit(n)=1 then the lsb of the&nbsp; +~Root(n) is zero; <br>
+    i.e. what ever the case the lsb of the root or its complement is always zero which is a dandy place to shove the carry bit of the sqbits+3 operation.<br>
+    <br>
+    For implementing on a typical microprocessor the order of calculations in the loop might be:<br>
+    <br>
+    add 110000..... to the register holding Square (3 positioned in the msbs).<br>
+    if lsb of root is 1 then <br>
+    <div style="margin-left: 40px;">add complement of root from test with carry (sqlbits+3 carry out)<br>
+    </div>
+    else <br>
+    <div style="margin-left: 40px;">add root to test with carry<br>
+    </div>
+    shift up square (the input value), msb goes to carry bit<br>
+    shift up test with carry in<br>
+    if test msb is not the same as the carry then we had a remainder overflow. (note 1)<br>
+    shift up root with carry in<br>
+    shift up square, msb goes to carry bit<br>
+    shift up test with carry in<br>
+    if test msb is not the same as the carry then we had a remainder overflow. (note 2)<br>
+    <br>
+    note 1: this overflow can only occur on the last cycle.<br>
+    note 2: this overflow can only occur in the last two cycles.<br>
+    These two notes might be useful if "unrolling the loop" is used for faster execution.<br>
+    <br>
+    REMAINING INFO: <br>
+    If we desire to have the remainder reported then we must consider that on the final cycle we might have generated a bit of 0. <br>
+    In this case the Test value we maintain in the loop in lieu of the explicit remainder is due for a correction. <br>
+    During the loop we deferred this calculation but now we must add T<sub>last</sub>+2*Q<sub>last</sub>+1=&gt; Remainder.<br>
+    If Test had not yet overflowed the number of bits this last calculation might do it.<br>
+    <br>
+    <hr style="width: 100%; height: 2px;">FLOATING POINT NUMBERS: <br>
+    <br>
+    Floating point numbers in typical computers consist of two fixed point binary numbers. One is the exponent, the other the mantissa. In IEEE-754 formats the mantissa is defined to be between 1 and 2. <br>
+    The input number's value is:<br>
+    <div style="margin-left: 40px;">value= mantissa*2<sup>(exponent-bias)</sup>, wherebias is some fixed number such as 128. I'll ignore the bias from now on to simplify the algebra.<br>
+    </div>
+    &nbsp;<br>
+    &#8730; is the square root symbol.<br>
+    <br>
+    &#8730;value=&#8730;(mantissa*2<sup>exponent</sup>) =&#8730;mantissa*&#8730;2<sup>exponent</sup> =&#8730;mantissa*2<sup>(exponent/2)</sup><br>
+    <br>
+    If exponent is even then our result is gotten by taking the root of the mantissa, which will be between 1 and &#8730;2, ready for packing back into floating point format. Exponent/2 is exponent shifted down once. <br>
+    <br>
+    If the exponent is odd then to make life simple we do the following algebra:<br>
+    <br>
+    &#8730;value=&#8730;(mantissa*2<sup>exponent</sup>) =&#8730;(2*mantissa*2<sup>exponent-1</sup>) =&#8730;(2*mantissa)*&#8730;2<sup>exponent-1</sup> =&#8730;(2*mantissa)*2<sup>(exponent-1)/2</sup><br>
+    <br>
+    (exponent-1)/2 is an integer 'cause exponent is odd.<br>
+    &#8730;(2*mantissa) is between &#8730;(2*1) and &#8730;(2*2) and hence is between &#8730;2 and 2 and therefore we can pack our&nbsp; floating point number with no worry about further exponent adjustments.<br>
+    <br>
+    What this comes out to be is:<br>
+    <br>
+    If exponent is odd then shift the mantissa up once before rooting with the fixed point algorithm to get the final mantissa.<br>
+    Shift the exponent down once to get the final exponent, ignoring the bit shifted out.<br>
+    <hr style="width: 100%; height: 2px;">ACKNOWLEDGEMENTS: <br>
+    No one helped me with this! I read some stuff on "non-restoring" division but it was so poorly written that I all I got out of it was that it could be done. <br>
+    Having mastered division the generation of the square root algorithm was a matter of deciding that it must exist and then doing the math. <br>
+    <br>
+    A HUMOROUS NOTE: When I first coded up a less elegant version of this to run on a minicomputer I gave it the number 25 to take the root of. The answer came back 6 remainder 1. This was a root one too high and a remainder one too high and that was the&nbsp; kind of thing that plagued me while microcoding the division algorithm. After about 30 minutes of seeking the error I thought to square the 6 and add the one. I got 37 and it finally dawned on me that I had entered a hex 25, not a decimal number. Hex 25 = decimal 37 which has a root of 6 and a remainder of 1.<br>
+    <hr width="100%" size="2">(C) 2024 Andy Heilveil (github/980f). <br>
+    The algorithm itself was developed ~1981 as part of the 980F minicomputer development project at Texas Instruments.<br>
+  </body>
+</html>

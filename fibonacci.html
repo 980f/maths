@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Fibonacci</title>
+    <meta content="Andy Heilveil" name="author">
+  </head>
+  <body>
+    <h2>Fibonacci via z-transform</h2>
+    <br>
+    This paper derives the closed form solution for the Fibonacci series, generalized to any two starting values.<br>
+    All the known properties of that series can be shown via the closed form solution.<br>
+    <hr width="100%" size="2"><br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td valign="top">1:<br>
+          </td>
+          <td valign="top">
+            <math><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>2</mn></mrow></msub></math> <br>
+          </td>
+          <td valign="top">≡</td>
+          <td valign="top">
+            <math>
+              <msub><mi>c</mi><mi>n+1</mi></msub>
+              <mo>+</mo>
+              <msub><mi>c</mi><mi>n</mi></msub></math></td>
+          <td valign="top">definition of Fibonacci series<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td>2:</td>
+          <td><math><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow></math></td>
+          <td>≡</td>
+          <td><math><mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mi>n</mi></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>n</mi></mrow></msup></math></td>
+          <td>definition of Z-transform</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>3:</td>
+          <td><math>
+              <msub><mi>C</mi><mn>1</mn></msub><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow></math></td>
+          <td>≡</td>
+          <td><math>
+              <mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>n</mi></mrow></msup></math></td>
+          <td>time shifted Z-transform</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math>
+              <mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mrow><mo>(</mo><mi>m</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow></mrow></msup></math></td>
+          <td>m=n+1, n=m-1</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>1</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup></math></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><msup><mi>z</mi><mn>1</mn></msup><mo>⋅</mo><mrow><mo>[</mo><mrow><munderover><mo>∑</mo><mrow><mi>m</mi><mo>=</mo><mn>0</mn></mrow><mo>∞</mo></munderover></mrow><msub><mi>c</mi><mrow><mi>m</mi></mrow></msub><msup><mi>z</mi><mrow><mo>-</mo><mi>m</mi></mrow></msup><mo>-</mo><msub><mi>c</mi><mn>0</mn></msub><msup><mi>z</mi><mrow><mo>-</mo><mn>0</mn></mrow></msup><mo>]</mo></mrow></math></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td><math><mi>z</mi><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
+              <mo>-</mo><mi>z</mi><mo>⋅</mo>
+              <msub><mi>c</mi><mn>0</mn></msub></math></td>
+          <td>which is a general Z-transform rule<br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>4:<br>
+          </td>
+          <td><math>
+              <msub><mi>C</mi><mn>2</mn></msub>
+              <mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow> </math> </td>
+          <td>=</td>
+          <td><math>
+              <msup><mi>z</mi><mn>2</mn></msup>
+              <mo>⋅</mo><mi>C</mi>
+              <mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
+              <mo>-</mo><msup><mi>z</mi><mn>2</mn></msup><mo>⋅</mo><msub><mi>c</mi><mn>0</mn></msub>
+              <mo>-</mo><mi>z</mi><mo>⋅</mo>
+              <msub><mi>c</mi><mn>1</mn></msub></math></td>
+          <td>general Z-transform rule done twice</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>5:<br>
+          </td>
+          <td><math>
+              <msup><mi>z</mi><mn>2</mn></msup>
+              <mo>⋅</mo><mi>C</mi>
+              <mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
+              <mo>-</mo><msup><mi>z</mi><mn>2</mn></msup><mo>⋅</mo><msub><mi>c</mi><mn>0</mn></msub>
+              <mo>-</mo><mi>z</mi><mo>⋅</mo>
+              <msub><mi>c</mi><mn>1</mn></msub></math></td>
+          <td>=<br>
+          </td>
+          <td><math><mi>z</mi><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow>
+              <mo>-</mo><mi>z</mi><mo>⋅</mo>
+              <msub><mi>c</mi><mn>0<br>
+                </mn></msub>
+              <mo>+</mo><mi>C</mi><mrow><mo>(</mo><mi>z</mi><mo>)</mo></mrow> </math></td>
+          <td>combine 1,2,3, and 4<br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>6:<br>
+          </td>
+          <td><math><mfenced open="{" close="}" separators="-"><msup><mi>z</mi><mn>2</mn> </msup>
+                <mi>z</mi><mn>1</mn></mfenced><mo>⋅⁢</mo><mrow><mi>C</mi><mfenced><mi>z</mi></mfenced></mrow> </math> <br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math>
+              <mrow>
+                <msup>
+                  <mi>z</mi><mn>2</mn> </msup>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>1</mn></msub>
+                <mo>-</mo>
+                <mi>z</mi>
+                <mo>⋅</mo>
+                <msub><mi>c</mi><mn>0</mn></msub>&nbsp;</mrow></math> <br>
+          </td>
+          <td>collect C(z) terms on left, z terms on right </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>7:<br>
+          </td>
+          <td>
+            <math><mi>C</mi>
+              <mrow>
+                <mo>(</mo>
+                <mi>z</mi>
+                <mo>)</mo> </mrow> </math> <br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math>
+              <mfrac>
+                <mrow>
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi>
+                  <mrow><mo>{</mo>
+                    <msub><mi>c</mi><mn>1</mn></msub>
+                    <mo>-</mo>
+                    <msub><mi>c</mi><mn>0</mn></msub>
+                    <mo>}</mo> </mrow> </mrow>
+                <mrow><mo>{</mo>
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <mo>-</mo><mi>z</mi><mo>-</mo><mn>1</mn>
+                  <mo>}</mo> </mrow> </mfrac> </math> <br>
+          </td>
+          <td>isolate C(z) </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math>
+              <mfrac>
+                <mrow>
+                  <msup><mi>z</mi><mn>2</mn></msup>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi>
+                  <mrow><mo>{</mo>
+                    <msub><mi>c</mi><mn>1</mn></msub>
+                    <mo>-</mo>
+                    <msub><mi>c</mi><mn>0</mn></msub>
+                    <mo>}</mo> </mrow></mrow>
+                <mrow>
+                  <mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo>
+                  <mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup>
+                  <mo>)</mo> </mrow> </mfrac> </math> </td>
+          <td>factor denominator,<br>
+            phi=golden ratio phi<sup>-1</sup> its inverse<br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math>
+              <mfrac>
+                <mrow>
+                  <msub><mi>q</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi><msub><mi>q</mi><mn>1</mn></msub> </mrow>
+                <mrow><mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo> </mrow></mfrac>
+              <mo>+</mo>
+              <mfrac>
+                <mrow>
+                  <msub><mi>p</mi><mn>0</mn></msub>
+                  <mo>+</mo>
+                  <mi>z</mi><msub><mi>p</mi><mn>1</mn></msub> </mrow>
+                <mrow><mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup><mo>)</mo></mrow> </mfrac> </math> </td>
+          <td>introduce p's and q's such that each term is z-transform of an exponential</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>8:<br>
+          </td>
+          <td>
+            <math>
+              <mrow>
+                <msup><mi>z</mi><mn>2</mn></msup>
+                <msub><mi>c</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi>
+                <mrow><mo>{</mo>
+                  <msub><mi>c</mi><mn>1</mn></msub>
+                  <mo>-</mo>
+                  <msub><mi>c</mi><mn>0</mn></msub>
+                  <mo>}</mo> </mrow> </mrow> </math> <br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>
+            <math><mrow><mo>(</mo><mi>z</mi><mo>-</mo><msup><mi>φ</mi><mn>-1</mn></msup><mo>)</mo></mrow>
+              <mo>*</mo>
+              <mrow>
+                <mo>(</mo>
+                <msub><mi>q</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi><msub><mi>q</mi><mn>1</mn></msub>
+                <mo>)</mo> </mrow>
+              <mo>+</mo>
+              <mrow><mo>(</mo><mi>z</mi><mo>-</mo><mi>φ</mi><mo>)</mo> </mrow>
+              <mo>*</mo>
+              <mrow>
+                <mo>(</mo>
+                <msub><mi>p</mi><mn>0</mn></msub>
+                <mo>+</mo>
+                <mi>z</mi><msub><mi>p</mi><mn>1</mn></msub>
+                <mo>)</mo> </mrow> </math> <br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=<br>
+          </td>
+          <td>z^2(q1+p1)<br>
+            +z(q0+p0-p1phi-q1phibar)<br>
+            -(p0phi+q0phibar)<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-2:</td>
+          <td>1</td>
+          <td>=</td>
+          <td>q1+p1</td>
+          <td>9-x is a set of simultaneous equations in 4 variables, leaving us one shy of a solution.<br>
+            something has gone terribly wrong as I know the answer is c0 and c1-c0 in the numerators.</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-1:</td>
+          <td>c1-c0&nbsp; </td>
+          <td>=</td>
+          <td>q0+p0-p1phi-q1phibar</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>q0+p0 - (p1+q1)phi+q1</td>
+          <td>phibar = phi - 1</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>q0+p0+q1-phi</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>9-0:</td>
+          <td>0</td>
+          <td>=</td>
+          <td>p0phi+q0phibar</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>p0phi+q0(phi-1)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>(p0+q0)phi-q0</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>q0</td>
+          <td>=</td>
+          <td>(p0+q0)phi</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>q0/phi</td>
+          <td>=</td>
+          <td>(p0+q0)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>c1-c0</td>
+          <td>=</td>
+          <td>q0/phi + q1 + phi</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>A:</td>
+          <td>a<sub>n</sub></td>
+          <td>=</td>
+          <td>r<sup>n</sup></td>
+          <td>power series</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>A(z)</td>
+          <td>=</td>
+          <td>sum r<sup>n</sup>z<sup>-n</sup></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>sum (z/r)<sup>-n</sup></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Which shows the known fact that the Fibonacci series goes to a power of the golden ration as the index increases without bound, usually expressed as "the ratio of successive terms goes to the golden ratio".<br>
+    <br>
+    From this derivation we can see that a 3-term Fibonacci series can be expressed as 3 power terms using the roots of a simple cubic. <br>
+    <br>
+  </body>
+</html>
