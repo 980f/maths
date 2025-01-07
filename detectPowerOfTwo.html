@@ -1,376 +1,243 @@
 <html>
-    <head>
-        <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-        <title>detectPowerOfTwo</title>
-        <meta content="histrionics" name="author">
-    </head>
-    <body>
-        <h3>
-            determination that a binary integer is an exact power of 2
-<br>
-            <br>
-            If (x^-x)==2*x then x is a power of 2.
-        </h3>
-        <table cellpadding="2" cellspacing="2" style="text-align:left;">
-            <tbody>
-                <tr>
-                    <td style="vertical-align:top;font-weight:bold;">Observations</td>
-                    <td style="vertical-align:top;">
-                        2
-<sup>5</sup>
-                        is
-                    </td>
-                    <td style="vertical-align:top;">
-                        2
-<sup>6</sup>
-                        +2
-                        <sup>5</sup>
-                        is not
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">A power of two has a single 1 bit</td>
-                    <td style="vertical-align:top;">
-                        00100000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        01100000
-<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        The number of zero lsb's of the
-            negative of a number are the same as the number itself. The least
-            significant 1 bit is also the ls one of the negative.
-<br>
-                        The proof is that to take a negative you invert all the bits and
-            then add 1. For a power of two upon inversion only the given bit is
-            a zero all others are 1.
-                        <br>
-                        Add 1 to that and for each bit the sum is 2 which is a zero in the
-            given bit and add a one to the next higher one.
-                        <br>
-                        The original bit position is a zero so the carry in to it results in
-            setting the negative to a 1 and not carrying out to the higher bits
-            which therefore are all ones.
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        11100000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        10100000
-<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        2
-<sup>B</sup>
-                        xor ( - 2
-                        <sup>B+1</sup>
-                        )&nbsp;
-=
-            - 2
-                        <sup>B+1</sup>
-                        <br>
-                        Xor yields a 1 where the operands differ, 0 where they are the same.
-            Our two inputs do not differ in the bit B and lesser bits, differ in
-            all the higher bits.
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        11000000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        11000000
-<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        Add the xor + 2*original, 2* original
-            = 2* 2
-<sup>B</sup>
-                        = 2
-                        <sup>B+1</sup>
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        00000000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">10000000</td>
-                </tr>
-                <tr>
-                    <td colspan="3" rowspan="1" style="vertical-align:top;">
-                        So a
-            negation, an xor, a shift and an add yields zero if and only if the
-            number is a power of two.
-<br>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        Our examples are just two cases. Let us examine all cases.
-        <br>
-        Let B be the index of the least significant 1, Let X be the bits above bit
-    B. Neither B or X exist when the number is zero.
-        <br>
-        <table cellpadding="2" cellspacing="2" style="text-align:left;">
-            <tbody>
-                <tr>
-                    <td style="vertical-align:top;font-weight:bold;">case</td>
-                    <td style="vertical-align:top;">
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;font-weight:bold;">
-                        zero
-<br>
-                    </td>
-                    <td style="vertical-align:top;font-weight:bold;">
-                        msb only
-<br>
-                    </td>
-                    <td style="vertical-align:top;font-weight:bold;">
-                        power of 2 (X==0)
-<br>
-                    </td>
-                    <td style="vertical-align:top;font-weight:bold;">
-                        2
-<sup>B</sup>
-                        + X
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;font-weight:bold;">
-                        X!=0
-<br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        the number
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        00000000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        10000000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        bit B=1 others are 0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">msb=1, B is 1</td>
-                    <td style="vertical-align:top;">
-                        X+2
-<sup>B</sup>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">
-                        negative
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">00000000</td>
-                    <td style="vertical-align:top;">10000000</td>
-                    <td style="vertical-align:top;">bits B and above = 1 others are 0</td>
-                    <td style="vertical-align:top;">
-                        bits above B are complements of
-            original value, B is a 1
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        -X-2
-<sup>B</sup>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">negative xor original</td>
-                    <td style="vertical-align:top;">
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">00000000</td>
-                    <td style="vertical-align:top;">
-                        00000000
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        bits B+1 and above =1 others are 0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        &nbsp;-2
-<sup>B+1</sup>
-                        as all bits
-            above B were paired by the xor with their complement
-                    </td>
-                    <td style="vertical-align:top;">
-                        -2
-<sup>B+1</sup>
-                        <br>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="vertical-align:top;">xor+2*original</td>
-                    <td style="vertical-align:top;">
-                        <br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        0
-<br>
-                    </td>
-                    <td style="vertical-align:top;">
-                        2
-<span style="text-decoration:underline;">X</span>
-                        <br>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <br>
-        <hr style="width:100%;height:2px;">
-        <span style="font-weight:bold;">In
-      psuedo machine code:</span>
-        <br>
-        <ul>
-            <li>
-                load number
-<br>
-            </li>
-            <li>
-                if zero return false or true depending upon your opinion of whether 0
-        is a power of 2, I say false.
-<br>
-            </li>
-            <li>negate</li>
-            <li>
-                xor with original
-<br>
-            </li>
-            <li>add original</li>
-            <li>
-                add original (note: some processors can add 2*original as one step )
-<br>
-            </li>
-            <li>return zero? true :&nbsp; false</li>
-        </ul>
-        That is faster than setting up a loop that generates 2
-        <sup>x</sup>
-        and
-    compares that against the given number.
-        <br>
-        It doesn't however tell you which power of two is present. However, given
-    the fact that only one bit is a 1 you can then count the number of leading
-    (or if you prefer trailing) zeroes by shifting the value until it is zero
-    counting the number of shifts.
-        <br>
-        <ul>
-            <li>clear count</li>
-            <li>shift number</li>
-            <li>if zero return count</li>
-            <li>increment count</li>
-            <li>
-                jump to the shift.
-<br>
-            </li>
-        </ul>
-        <hr style="width:100%;height:2px;">
-        <h3>Totally different method for processors with a quick "count leading
-      zeroes" function.</h3>
-        Define N as the number of bits in the datum (8 for our examples above).
-        <br>
-        The number of leading zeroes for 0 is N.
-        <br>
-        The number of leading zeroes for -1/all ones is 0.
-        <br>
-        The number of leading zeroes for 2
-        <sup>B</sup>
-        is N-B-1.
-        <br>
-        The number of leading zeroes for 2
-        <sup>B</sup>
-        -1 is N-B = number of leading
-    zeroes for 2
-        <sup>B-1</sup>
-        .
-        <br>
-        The number of leading zeroes for X+2
-        <sup>B</sup>
-        where B and X are per the
-    exposition above is &lt;(N-B-1) (X is not all zeroes).
-        <br>
-        The number of leading zeroes for X+2
-        <sup>B</sup>
-        -1 is the same as for X+2
-        <sup>B</sup>
-        since bit 2
-        <sup>B</sup>
-        will keep the decrement from borrowing from the X
-    bits.
-        <br>
-        So:
-        <br>
-        if clz(number)+1=clz(number-1) then number is a power of two.
-        <br>
-        In psuedo-machine code:
-        <br>
-        <ul>
-            <li>load number</li>
-            <li>clz (answer is in another register)</li>
-            <li>
-                add one to this clz result (is N-B if number is 2
-<sup>B</sup>
-                )
-                <br>
-            </li>
-            <li>
-                decrement number
-<br>
-            </li>
-            <li>clz (into a third register)</li>
-            <li>compare the two clz's</li>
-            <li>
-                if equal then return the first (adjusted) clz value (or N-that if you
-        prefer).
-<br>
-            </li>
-            <li>else return zero</li>
-        </ul>
-        The above combines returning the fact of the number being a power of two
-    along with what the power is.
-        <hr style="width:100%;height:2px;">
-        �Andy Heilveil 2008,2009.
-        <br>
-        <br>
-    </body>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf8">
+    <title>detectPowerOfTwo</title>
+    <meta content="histrionics" name="author">
+  </head>
+  <body>
+    <h3> determination that a binary integer is an exact power of 2 <br>
+    </h3>
+    Here we present two techniques for determining whether a value is a power of 2.<br>
+    They disagree on whether 0 is a power of 2, testing for zero is cheap so we will ignore that.<br>
+    The algebraic test requires inspecting the carry out of the final addition if the number is considered to be unsigned, ignoring that treats the number as signed and we get that -8 and the like are a power of two.<br>
+    <h3><br>
+    </h3>
+    <h3><br>
+      If (x^-x)+2*x ==0 then x is a power of 2. </h3>
+    <table style="text-align:left;" cellspacing="2" cellpadding="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align:top;font-weight:bold;">Observations</td>
+          <td style="vertical-align:top;"> 2 <sup>5</sup> is </td>
+          <td style="vertical-align:top;"> 2 <sup>6</sup> +2 <sup>5</sup> is not <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">A power of two has a single 1 bit</td>
+          <td style="vertical-align:top;"> 00100000 <br>
+          </td>
+          <td style="vertical-align:top;"> 01100000 <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;"> The number of zero lsb's of the negative of a number are the same as the number itself. The least significant 1 bit is also the ls one of the negative. <br>
+            The proof is that to take a negative you invert all the bits and then add 1. For a power of two upon inversion only the given bit is a zero all others are 1. <br>
+            Add 1 to that and for each bit the sum is 2 which is a zero in the given bit and add a one to the next higher one. <br>
+            The original bit position is a zero so the carry in to it results in setting the negative to a 1 and not carrying out to the higher bits which therefore are all ones. <br>
+          </td>
+          <td style="vertical-align:top;"> 11100000 <br>
+          </td>
+          <td style="vertical-align:top;"> 10100000 <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;"> 2 <sup>B</sup> xor (- 2 <sup>B</sup>)&nbsp; = - 2 <sup>B+1</sup> <br>
+            Xor yields a 1 where the operands differ, 0 where they are the same. Our two inputs do not differ in the bit B and lesser bits, differ in all the higher bits. <br>
+          </td>
+          <td style="vertical-align:top;"> 11000000 <br>
+          </td>
+          <td style="vertical-align:top;"> 11000000 <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;"> Add the xor + 2*original, 2* original = 2* 2 <sup>B</sup> = 2 <sup>B+1</sup> <br>
+          </td>
+          <td style="vertical-align:top;"> 00000000 <br>
+          </td>
+          <td style="vertical-align:top;">10000000</td>
+        </tr>
+        <tr>
+          <td colspan="3" rowspan="1" style="vertical-align:top;"> So a negation, an xor, a shift and an add yields zero if and only if the number is a power of two. <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Our examples are just two cases. Let us examine all cases. <br>
+    Let B be the index of the least significant 1, Let X be the bits above bit B. Neither B or X exist when the number is zero. <br>
+    <table style="text-align:left;" cellspacing="2" cellpadding="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align:top;font-weight:bold;">case</td>
+          <td style="vertical-align:top;"> <br>
+          </td>
+          <td style="vertical-align:top;font-weight:bold;"> zero <br>
+          </td>
+          <td style="vertical-align:top;font-weight:bold;"> msb only <br>
+          </td>
+          <td style="vertical-align:top;font-weight:bold;"> power of 2 (X==0) <br>
+          </td>
+          <td><strong>&lt;-</strong></td>
+          <td style="vertical-align:top;font-weight:bold;"> 2 <sup>B</sup> + X , 0&lt;X&lt;2<sup>B</sup><br>
+          </td>
+          <td style="vertical-align:top;font-weight:bold;">&lt;- <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;"> the number <br>
+          </td>
+          <td style="vertical-align:top;"> <br>
+          </td>
+          <td style="vertical-align:top;"> 00000000 <br>
+          </td>
+          <td style="vertical-align:top;"> 10000000 <br>
+          </td>
+          <td style="vertical-align:top;"> bit B=1 others are 0 <br>
+          </td>
+          <td>2<sup>B</sup></td>
+          <td style="vertical-align:top;">B is 1, some other lower bits are 1</td>
+          <td style="vertical-align:top;"> X+2 <sup>B</sup> <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;"> negative <br>
+          </td>
+          <td style="vertical-align:top;"> <br>
+          </td>
+          <td style="vertical-align:top;">00000000</td>
+          <td style="vertical-align:top;">10000000</td>
+          <td style="vertical-align:top;">bits B and above = 1 others are 0</td>
+          <td>-2<sup>B</sup></td>
+          <td style="vertical-align:top;"> bits above B are 1, B is 0, lower bits have at least one 1<br>
+          </td>
+          <td style="vertical-align:top;"> -X-2 <sup>B</sup> <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">negative xor original</td>
+          <td style="vertical-align:top;"> <br>
+          </td>
+          <td style="vertical-align:top;">00000000</td>
+          <td style="vertical-align:top;"> 00000000 <br>
+          </td>
+          <td style="vertical-align:top;"> bits B+1 and above =1 others are 0 <br>
+          </td>
+          <td>-2<sup>B+1</sup></td>
+          <td style="vertical-align:top;">bits B and above are 1, lower bits are anything</td>
+          <td style="vertical-align:top;"> -2 <sup>B </sup>+ -X in B bits <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align:top;">xor+2*original</td>
+          <td style="vertical-align:top;"> <br>
+          </td>
+          <td style="vertical-align:top;"> 0 <br>
+          </td>
+          <td style="vertical-align:top;"> 0 <br>
+          </td>
+          <td style="vertical-align:top;"> 0 <br>
+          </td>
+          <td>-2<sup>B+1</sup>+ 2<sup>B+1</sup></td>
+          <td style="vertical-align:top;">2<sup>B+1</sup>-2<sup>B</sup>+ 2X - X = 2<sup>B</sup>+ Y where Y is nonzero and msb is at most B<br>
+          </td>
+          <td style="vertical-align:top;"><span style="text-decoration:underline;"></span> <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <hr style="width:100%;height:2px;"> <span style="font-weight:bold;">In psuedo machine code:</span> <br>
+    <ul>
+      <li> load number <br>
+      </li>
+      <li> if zero return false or true depending upon your opinion of whether 0 is a power of 2, I say false. <br>
+      </li>
+      <li>negate</li>
+      <li> xor with original <br>
+      </li>
+      <li>add original</li>
+      <li> add original (note: some processors can add 2*original as one step ) <br>
+      </li>
+      <li>return zero? true :&nbsp; false</li>
+    </ul>
+    That is faster than setting up a loop that generates 2 <sup>x</sup> and compares that against the given number. <br>
+    It doesn't however tell you which power of two is present. However, given the fact that only one bit is a 1 you can then count the number of leading (or if you prefer trailing) zeroes by shifting the value until it is zero counting the number of shifts. <br>
+    <ul>
+      <li>clear count</li>
+      <li>shift number</li>
+      <li>if zero return count</li>
+      <li>increment count</li>
+      <li> jump to the shift. <br>
+      </li>
+    </ul>
+    <hr style="width:100%;height:2px;">
+    <h3>Totally different method for processors with a quick "count leading zeroes" function.</h3>
+    Define N as the number of bits in the datum (8 for our examples above). <br>
+    The number of leading zeroes for 0 is N. <br>
+    The number of leading zeroes for -1/all ones is 0. <br>
+    The number of leading zeroes for 2<sup>B</sup> is N-B-1. <br>
+    The number of leading zeroes for 2<sup>B</sup> + X where 0&lt;X&lt;2<sup>B</sup> is also (N-B-1).<br>
+    The number of leading zeroes for 2<sup>B</sup> - 1 is N-B.<br>
+    The number of leading zeroes for 2<sup>B</sup> + X -1 is the same as for 2<sup>B</sup> + X since X-1 &gt;=0 so there will be no borrow from bit B.<br>
+    So: <br>
+    if clz(number) != clz(number-1) then number is a power of two, the decrement had to borrow the bit.<br>
+    One can also convert the clz value into a number of bits to shift and compare the original to 1 &lt;&lt; (number of bits in data type + ~ clz value).<br>
+    <br>
+    In psuedo-machine code: <br>
+    <ul>
+      <li>load number</li>
+      <li>clz (answer is in another register, don't replace number)</li>
+      <li> decrement number <br>
+      </li>
+      <li>clz into a third register</li>
+      <li>compare the two clz's</li>
+      <li> if equal then is a power of two and&nbsp; N + ~ clz is the actual bit number, the log base 2 of the power of 2.<br>
+      </li>
+    </ul>
+    <br>
+    <hr>
+    <h3> C++20 demo program</h3>
+    <h3> </h3>
+    <pre>#include &lt;iostream&gt;
+#include &lt;bit&gt;    //for count leading zeroes
+#include &lt;limits&gt; //for number of bits in type, needed for count leading zeroes.
+
+template&lt;typename Unsigned&gt; auto floorlog2(Unsigned x) {
+  return std::numeric_limits&lt;decltype(x)&gt;::digits + ~std::countl_zero(x);
+}
+
+int main(int argc, char *argv[]) {
+  unsigned bit = argc &gt; 1 ? atoi(argv[1]) : 8;
+  unsigned limit = 1 &lt;&lt; bit;
+  unsigned mask = limit - 1;
+
+  for (unsigned i = 0; i &lt; limit; i++) {
+    std::cout &lt;&lt; std::hex;
+    std::cout &lt;&lt; i &lt;&lt; '\t';
+    unsigned accum = (-i ^ i);
+    std::cout &lt;&lt; accum &lt;&lt; '\t';
+    accum += i &lt;&lt; 1;
+    std::cout &lt;&lt; accum &lt;&lt; '\t';
+    bool byXOR = 0 == accum;
+    std::cout &lt;&lt; byXOR &lt;&lt; '\t';
+    std::cout &lt;&lt; (0==(mask&amp;((i^-i)+(i&lt;&lt;1)))) &lt;&lt; '\t'; //differs from unmasked version, if carry out is ignored then the input is seen as a signed value and -16 and the like are negatives of powers of 2.
+    auto clz1 = floorlog2(i);
+    auto clz2 = floorlog2(i - 1);
+    bool byCLZ = clz1 != clz2;
+    std::cout &lt;&lt; byCLZ &lt;&lt; '\t';
+    bool byCLZ2 i == (1 &lt;&lt; clz1)
+    std::cout &lt;&lt; byCLZ2 &lt;&lt; '\t';
+    if (byXOR != byCLZ) {
+      std::cout &lt;&lt; std::dec &lt;&lt; int(-i) &lt;&lt; '\t';
+    }
+    std::cout &lt;&lt; std::endl;
+  }
+  return 0;
+}
+
+    </pre>
+    <hr style="width:100%;height:2px;"> (C) Andy Heilveil 2008,2009. <br>
+    <br>
+  </body>
 </html>
