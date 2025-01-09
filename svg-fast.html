@@ -1376,7 +1376,7 @@
                 <msup>
                   <mi>h</mi>
                   <mi>r</mi></msup>
-                <mrow><mtext>y</mtext><mo>[</mo><mtext>old</mtext><mo>]</mo></mrow>
+                <mrow><mtext>y</mtext><mo>[</mo><mtext>new</mtext><mo>]</mo></mrow>
                 <mo>+</mo>
                 <mi>Y</mi>
                 <mrow>
@@ -2115,8 +2115,8 @@
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup>
-            <span style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup> <span
+              style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             <math>
               <mrow>
                 <munderover>
@@ -2151,7 +2151,7 @@
           <td>= <br>
           </td>
           <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) + <br>
-            <math><!--sum_[u=1]^[(r-1)/2]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2165,7 +2165,7 @@
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math> {C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup><span
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math> {C<sub>r,u</sub>(-1)<sup>r-u</sup>(Y(u,x)-(-1)<sup>u</sup> <span
               style="font-style: italic;">h</span><sup>u</sup>y[old])}+ <br>
             <math>
               <mrow>
@@ -2193,8 +2193,8 @@
                       <mi>r</mi>
                       <mo>-</mo>
                       <mn>1</mn>
-                      <mo>)</mo></mrow></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup> (<math><!--Y(r-v,x) - (-1)^(r-v) h^(r-v)-->
-              <mi>&nbsp; Y</mi>
+                      <mo>)</mo></mrow></mrow></munderover></mrow></math>{C<sub>r,r-v</sub>(-1)<sup>v</sup> (<math>
+              <mi>Y</mi>
               <mrow>
                 <mo>(</mo>
                 <mi>r</mi>
@@ -2363,12 +2363,11 @@
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{ C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup><span
-              style="font-style: italic;">h</span><sup>u</sup>y[old]) + (-1)<sup>u</sup> (Y(r-u,x)-(-1)<sup>r-u</sup><span
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math> { C<sub>r,u</sub>&nbsp; [(-1)<sup>r-u</sup> (Y(u,x)-(-1)<sup>u</sup> <span
+              style="font-style: italic;">h</span><sup>u</sup>y[old]) + (-1)<sup>u</sup> (Y(r-u,x)-(-1)<sup>r-u</sup> <span
               style="font-style: italic;">h</span><sup>r-u</sup>y[old])] } </td>
-          <td><span>C<sub>r,u =</sub></span> <span>C<sub>r,r-u</sub></span>, symmetry of combinatorial, <br>
-            merge sums over identical range<span><sub><br>
-              </sub></span></td>
+          <td>C<sub>r,u =</sub> <span>C<sub>r,r-u</sub></span>, symmetry of combinatorial, <br>
+            merge sums over identical range </td>
         </tr>
         <tr>
           <td><br>
@@ -2378,7 +2377,7 @@
           <td>= <br>
           </td>
           <td> (-1)<sup>r</sup>(Y(0,x)-y[old]) + <span style="font-style: italic;">h</span><sup>r</sup>(y[new]- (-1)<sup>r</sup>y[old]) +<br>
-            <math><!--sum_[u:1]^[(r-1)/2]-->
+            <math>
               <mrow>
                 <munderover>
                   <mo>∑</mo>
@@ -2392,8 +2391,9 @@
                         <mi>r</mi>
                         <mo>-</mo>
                         <mn>1</mn></mrow>
-                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,u</sub> [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup><span
-              style="font-style: italic;">(h</span><sup>u</sup>+<span style="font-style: italic;">h</span><sup>r-u</sup>)y[old]] } </td>
+                      <mn>2</mn></mfrac></mrow></munderover></mrow></math>{C<sub>r,u</sub> [(-1)<sup>r-u</sup>Y(u,x)+(-1)<sup>u</sup>Y(r-u,x)-(-1)<sup>r</sup> <span
+              style="font-style: italic;">(h</span><sup>u</sup>+ <span
+              style="font-style: italic;">h</span><sup>r-u</sup>)y[old]] } </td>
           <td>r/2 combinatorial coefficients <br>
             cost: 4A,1M,P <br>
             other cost: (r-1)/2 * [2M,3A,2P] <br>
