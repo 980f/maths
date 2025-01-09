@@ -99,7 +99,7 @@
         <tr>
           <td valign="top"><br>
           </td>
-          <td valign="top"><br>
+          <td valign="top">=<br>
           </td>
           <td valign="top">4*S<sub>n</sub> + sqbits - 4*Q<sub>n</sub>² - 4*Q<sub>n</sub>*bit - bit²</td>
           <td valign="top"><br>
@@ -108,7 +108,7 @@
         <tr>
           <td valign="top"><br>
           </td>
-          <td valign="top"><br>
+          <td valign="top">=<br>
           </td>
           <td valign="top"> 4*S<sub>n</sub> - 4*Q<sub>n</sub>² + sqbits - 4*Q<sub>n</sub>*bit - bit²</td>
           <td valign="top">rearrange<br>
@@ -117,7 +117,7 @@
         <tr>
           <td valign="top"><br>
           </td>
-          <td valign="top"><br>
+          <td valign="top">=<br>
           </td>
           <td valign="top"> 4*(S<sub>n</sub>-Q<sub>n</sub>²) + sqbits - 4*Q<sub>n</sub>*bit - bit²</td>
           <td valign="top"><br>
@@ -126,7 +126,7 @@
         <tr>
           <td valign="top"><br>
           </td>
-          <td valign="top"><br>
+          <td valign="top">=<br>
           </td>
           <td valign="top">4*R<sub>n</sub> - 4*Q<sub>n</sub>*bit + sqbits - bit</td>
           <td valign="top"><br>
@@ -135,7 +135,7 @@
         <tr>
           <td valign="top"><br>
           </td>
-          <td valign="top"><br>
+          <td valign="top">=<br>
           </td>
           <td valign="top"> 4*(R<sub>n</sub> -Q<sub>n</sub>*bit) + (sqbits -bit)</td>
           <td valign="top"><br>
@@ -149,13 +149,12 @@
     With this in hand we see that we never need to square anything during the&nbsp; algorithm. That's nice.<br>
     <br>
     Now we must ask: what is the correct value of bit? <br>
-    Being an ignorant slob I shall try puttin' a one into the equation and then see if the
-    remainder that results is negative or not. <br>
+    Being an ignorant slob I shall try puttin' a one into the equation and then see if the remainder that results is negative or not. <br>
     If it is negative then since R<sub>final</sub> is supposed to be &gt;=0 we are in error and bit is actually 0. <br>
     <br>
     Time for more algebra:<br>
     <br>
-    <table width="100%" border="1">
+    <table border="1">
       <tbody>
         <tr>
           <td><br>
@@ -214,7 +213,7 @@
     It would go like:<br>
     (Initialize)<br>
     For the number of bits in root:<br>
-    <div style="margin-left: 40px;">test=rem-answer<br>
+    <div style="margin-left: 40px;">test=rem - answer<br>
       shift test up two places sucking in bits from the square<br>
       test=test-1<br>
       answer=answer shifted up one place with the COMPLEMENT of the sign bit shifted in the LS end.<br>
@@ -358,18 +357,6 @@
     <table cellspacing="2" cellpadding="2" border="1">
       <tbody>
         <tr>
-          <td><br>
-          </td>
-          <td valign="top"><br>
-          </td>
-          <td valign="top"><br>
-          </td>
-          <td valign="top"><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
           <td>bit(n)=0:</td>
           <td valign="top">T<sub>n+1</sub> </td>
           <td valign="top">=<br>
@@ -422,7 +409,8 @@
         </tr>
       </tbody>
     </table>
-    The difference is reduced to conditionally complementing the Root from the previous cycle. <br>
+    <strong><br>
+      The difference is reduced to conditionally complementing the Root from the previous cycle. </strong><br>
     The condition is the lsb of the Q<sub>n</sub> tracker, but also likely to be lingering in an ALU status register.<br>
     All operations are addition which may simplify direct hardware implementation. <br>
     A useful fact is that if bit(n)=0 then the lsb of the +Root(n) term is zero, if bit(n)=1 then the lsb of the&nbsp; +~Root(n) is zero; <br>
@@ -432,7 +420,7 @@
     <br>
     add 110000..... to the register holding Square (3 positioned in the msbs).<br>
     if lsb of root is 1 then <br>
-    <div style="margin-left: 40px;">add complement of root from test with carry (sqlbits+3 carry out)<br>
+    <div style="margin-left: 40px;">add complement of root from test with carry (the carry out from sqlbits+3)<br>
     </div>
     else <br>
     <div style="margin-left: 40px;">add root to test with carry<br>
@@ -455,11 +443,12 @@
     During the loop we deferred this calculation but now we must add T<sub>last</sub>+2*Q<sub>last</sub>+1=&gt; Remainder.<br>
     If Test had not yet overflowed the number of bits this last calculation might do it.<br>
     <br>
-    <hr style="width: 100%; height: 2px;">FLOATING POINT NUMBERS: <br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>FLOATING POINT NUMBERS: </h3>
     <br>
     Floating point numbers in typical computers consist of two fixed point binary numbers. One is the exponent, the other the mantissa. In IEEE-754 formats the mantissa is defined to be between 1 and 2. <br>
     The input number's value is:<br>
-    <div style="margin-left: 40px;">value= mantissa*2<sup>(exponent-bias)</sup>, wherebias is some fixed number such as 128. I'll ignore the bias from now on to simplify the algebra.<br>
+    <div style="margin-left: 40px;">value= mantissa*2<sup>(exponent-bias)</sup>, where bias is some fixed number such as 128. I'll ignore the bias from now on to simplify the algebra.<br>
     </div>
     &nbsp;<br>
     &#8730; is the square root symbol.<br>
@@ -483,7 +472,7 @@
     No one helped me with this! I read some stuff on "non-restoring" division but it was so poorly written that I all I got out of it was that it could be done. <br>
     Having mastered division the generation of the square root algorithm was a matter of deciding that it must exist and then doing the math. <br>
     <br>
-    A HUMOROUS NOTE: When I first coded up a less elegant version of this to run on a minicomputer I gave it the number 25 to take the root of. The answer came back 6 remainder 1. This was a root one too high and a remainder one too high and that was the&nbsp; kind of thing that plagued me while microcoding the division algorithm. After about 30 minutes of seeking the error I thought to square the 6 and add the one. I got 37 and it finally dawned on me that I had entered a hex 25, not a decimal number. Hex 25 = decimal 37 which has a root of 6 and a remainder of 1.<br>
+    A HUMOROUS NOTE: When I first coded up a less elegant version of this to run on a minicomputer I gave it the number 25 to take the root of. The answer came back 6 remainder 1. This was a root one too high and a remainder one too high and that was the kind of thing that plagued me while microcoding the division algorithm. After about 30 minutes of seeking the error I thought to square the 6 and add the one. I got 37 and it finally dawned on me that I had entered a hex 25, not a decimal number. Hex 25 = decimal 37 which has a root of 6 and a remainder of 1.<br>
     <hr width="100%" size="2">(C) 2024 Andy Heilveil (github/980f). <br>
     The algorithm itself was developed ~1981 as part of the 980F minicomputer development project at Texas Instruments.<br>
   </body>

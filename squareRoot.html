@@ -75,7 +75,7 @@
           <td>=</td>
           <td>R<sub>k</sub> - 2<sup>k</sup>*G<sub>k</sub> - 2<sup>2k-2</sup></td>
           <td>compute relative to prior step</td>
-          <!-- ======= --> </tr>
+          </tr>
       </tbody>
     </table>
     <br>
@@ -298,7 +298,7 @@
     <br>
     Doing the restoring case first:<br>
     We position the bit being tested<br>
-    <!-- ======= -->
+    
     <hr><br>
     If you look at those powers of 2 in the R<sub>k</sub> equations we note that bits below 2k are irrelevant to the decision. That allows us to iteratively expose new bits of the given rather than carrying them around the whole process as the lsbs of the remainder. The goal here is to get rid of the G<sub>k</sub> power of 2 shifting replaced with shifting bits into a quotient while shifting the given into our view.<br>
     <br>
