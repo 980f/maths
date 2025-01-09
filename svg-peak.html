@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>peakFinding</title>
+  </head>
+  <body>
+    <p>Extracting peak amplitude and width from a stream of pulses</p>
+    <p>using a polyomial fit to a quadratic </p>
+    <hr>Given a stream of digitized values of an analog signal the task is to produce a stream of peak values, and a secondary task of their width.<br>
+    <br>
+    The width is estimated from the 2nd derivative being zero on the rise to the same on the fall.<br>
+    The amplitude is the value of the quadratic polynomial where the first derivative is zero.<br>
+    <br>
+    Let C<sub>0</sub> C<sub>1 </sub>C<sub>2</sub> be the coefficients of the quadratic.<br>
+    The location of the peak is determined by C1==0. Since we are sampling a stream we are unlikely to ever see an exact value of 0 so what we record is the location where the sign went from positive to negative, and with that the values before and after so that we might interpolate, before/(before-after) is where in the prior sample the zero was. It happens that we compute before-after as part of computing the new value so we actually save off {location, after, after-before} and compute inferred coordinate as location-(after/(after-before)).<br>
+    <br>
+    The width coordinates are treated the same way, we record location and the discriminant and its delta from the cell where we see a change in sign of the discriminant.<br>
+    <br>
+    From svg-main we have the equations:<br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>component</td>
+          <td><br>
+          </td>
+          <td>formula</td>
+          <td>cost</td>
+        </tr>
+        <tr>
+          <td>Y<sub>0</sub></td>
+          <td>+=</td>
+          <td>ylead - ylag</td>
+          <td>2 adds</td>
+        </tr>
+        <tr>
+          <td>Y<sub>1</sub></td>
+          <td>+=</td>
+          <td><em>h</em>(ylead-ylag)<br>
+            +(Y<sub>0</sub>-ylag)</td>
+          <td>add<br>
+            mpy-add<br>
+            add</td>
+        </tr>
+        <tr>
+          <td>Y<sub>2</sub></td>
+          <td>+=</td>
+          <td>h<sup>2</sup>(ylead-ylag)<br>
+            +(Y0-ylag)<br>
+            +2(Y1-<em>h</em>*ylag)</td>
+          <td>shift-add<br>
+            add<br>
+            mpy-add<br>
+            add</td>
+        </tr>
+        <tr>
+          <td>C<sub>0</sub></td>
+          <td>=</td>
+          <td>(Y<sub>0</sub>R<sub>2</sub>-S<sub>2</sub>)/D</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>C<sub>1</sub></td>
+          <td>=</td>
+          <td> Y<sub>1</sub>/S<sub>2</sub></td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>C<sub>2</sub></td>
+          <td>=</td>
+          <td>(S<sub>0</sub>Y<sub>2</sub>-S<sub>2</sub>Y<sub>0</sub>)/S<sub>2</sub>D</td>
+          <td>Y0 cost+<br>
+            Y2 cost+<br>
+            mpy-add</td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td>(Y<sub>2</sub>-S<sub>1</sub>Y<sub>0</sub>)/S<sub>0</sub>S<sub>2</sub>D</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>S<sub>0</sub></td>
+          <td>=</td>
+          <td>2*<em>h</em>+1</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>S<sub>1</sub></td>
+          <td>=</td>
+          <td><em>h</em>(<em>h+</em>1)</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>S<sub>2</sub></td>
+          <td>=</td>
+          <td><i>h</i>*(<i>h</i>+1)*(2*<i>h</i>+1)/3</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>S<sub>0</sub>S<sub>1</sub>/3</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>R<sub>2</sub></td>
+          <td>=</td>
+          <td>(3S<sub>1</sub>-1)/5</td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td>D</td>
+          <td>=</td>
+          <td>S<sub>0</sub>R<sub>2</sub>-S<sub>2</sub></td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td><br>
+          </td>
+          <td>=</td>
+          <td>S<sub>0</sub>*(4<em>S<sub>1</sub></em><em></em>-3)/15</td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    We detect inflection points by C<sub>2</sub> sign change, peak by C<sub>1</sub> sign change.<br>
+    The signs are unaffected by the denominators so we can defer applying those to the users of the actual values. Since they are constants they will often either fold into a denominator or be ratioed into irrelevancy.<br>
+    For detecting the peak we just have to compute the Y<sub>1 </sub>which entails an add of a temp from Y<sub>0</sub> computation, an add-multiply, and then an add with detection of sign change.Note: detecting a perfect zero adds a tiny bit to precision.<br>
+    For detecting inflection points we have to test a linear combination of Y0 and Y2: S<sub>0</sub>Y<sub>2</sub>-S<sub>2</sub>Y0. S2 has a factor of S<sub>0</sub> in it so our discriminant is Y<sub>2</sub>-S<sub>1</sub>Y<sub>0 </sub>. Computing that takes quite a bit more than for the Y<sub>1</sub> in that we have to compute Y<sub>0</sub> and Y<sub>2</sub> and then a multiply-add on top of that. <br>
+    Two of the components for Y2 are temporary values in the computation of Y0 and Y1 so we don't count them again here. <br>
+    <br>
+    To get the interpolated value at the peak we use the slope's delta and value to get the value that we then put into C<sub>0</sub>+C<sub>1</sub>x+C<sub>2</sub>x<sup>2</sup>. We don't have to save off the 3 C<sub>i</sub> values, the slope value gets us C<sub>1</sub>, the inflection test value gets us C<sub>2</sub> and we only need to add Y<sub>0</sub>, the moving average, to our record to get what we need to compute the quadratic.<br>
+    That is 4 integers total for the peak's attributes, plus perhaps 1..3 locations for width and symmetry detection.The number of bits for location is up to the data stream, zeroing it for the leading inflection point limits the need to the maximum width of a peak. <br>
+    The moving average is of 2<em>h</em>+1 points, each of ADC bits amplitude. For up to 31 points (<em>h</em>=15) that is an additional 5 bits, 16 bits total for an 11 bit ADC. <br>
+    The slope value is always small near where it crosses zero, and the sign bit is known from the algorithm, for physical signals of interest this will be fewer bits than the ADC.<br>
+    The curvature value is also small near its zero crossings, but is on the order of <em>h</em><sup>2</sup>+<em>h</em> times moving average. For our example of 31 points that comes to about 8 bits, although that is the size of each of the terms whose difference is what is the curvature, so this is likely to be a gross overestimate.<br>
+    <br>
+    <br>
+    <hr>Algorithm in C-like psuedo-code for a load-store type of processor such as an ARM cortexM0+<br>
+    <br>
+    For maximal efficiency we could have 4 copies of the computation of Y0, Y1, Y2, and C2 recording in essence the prior sign <br>
+    <br>
+    <ol>
+      <li>y[...] is a circular buffer of 2h+1+1 words, with the second +1 so that we don't need tight coordination between reading and writing. Rounding that up to a power of 2 is likely to be worth the extra ram used.</li>
+      <li>ylag=y[looping_counter] </li>
+      <li>ylead=y[looping_counter+offset] </li>
+      <li>Y0-=ylag</li>
+      <li>Y2-=Y0</li>
+      <li>temp=h*ylag</li>
+      <li>Y1-=temp</li>
+      <li>Y2-=2*Y1</li>
+      <li>Y2-=Y0</li>
+      <li>Y2-=h*temp</li>
+      <li>Y0+=ylead</li>
+      <li>Y1+=h*ylead</li>
+      <li>Y2+=h*h*ylead //which is h*temp</li>
+      <li>C2=Y2</li>
+      <li>C2-=S1*Y0</li>
+      <li>++loopcounter</li>
+      <li>if(loopcounter&gt;end) loopcounter=start.&nbsp; //if we can afford a power of 2 sized allocation on the same power of 2 alignment then this is an &amp;= operation, anding with 2<sup>x</sup>-1.</li>
+    </ol>
+    <br>
+    States and changes:<br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <th style="background-color: white; text-align: left;">States, in order</th>
+          <th style="background-color: white; text-align: left;">next state when</th>
+        </tr>
+        <tr>
+          <td>before rising inflection,</td>
+          <td>curvature goes positive</td>
+        </tr>
+        <tr>
+          <td>before peak,</td>
+          <td>slope goes negative</td>
+        </tr>
+        <tr>
+          <td>after peak,</td>
+          <td>curvature goes positive</td>
+        </tr>
+        <tr>
+          <td>after falling inflection</td>
+          <td>slope goes positive</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Register usage:<br>
+    active[8]: ylag,ylead,loopcounter,,temp,Y0,Y1,Y2,C2,<br>
+    constant[4]:h,S1,start,end<br>
+    <br>
+    &nbsp;7 active, 4 constants. <br>
+    <p><br>
+    </p>
+  </body>
+</html>
